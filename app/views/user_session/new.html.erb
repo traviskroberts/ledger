@@ -1,0 +1,18 @@
+<section class="span5 offset2">
+  <%= form_for @user_session, :url => login_path do |f| %>
+    <h1>Log In</h1>
+
+    <fieldset>
+      <%= f.label :email, 'Email', :class => 'required' %>
+      <%= f.text_field :email, :class => 'span4 required', :tabindex => '1' %>
+
+      <%= f.label :password, 'Password', :class => 'required' %>
+      <%= f.password_field :password, :class => 'span4 required clearfix', :tabindex => '2' %>
+    </fieldset>
+
+    <footer>
+      <%= f.submit 'Log in', :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', root_path, :class => 'btn' %>
+    </footer>
+  <%- end -%>
+</section>

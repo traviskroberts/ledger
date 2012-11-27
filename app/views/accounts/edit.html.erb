@@ -1,0 +1,14 @@
+<h1>Update Account</h1>
+
+<%= form_for @account, :html => {:class => 'form-horizontal'} do |f| %>
+  <fieldset>
+    <%= render 'form', :f => f %>
+
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit 'Update', :class => 'btn btn-primary' %>
+        <%= link_to 'Cancel', accounts_path, :class => 'btn' %>
+      </div>
+    </div>
+  </fieldset>
+<%- end -%>

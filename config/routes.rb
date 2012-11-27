@@ -6,4 +6,7 @@ Ledger::Application.routes.draw do
   match '/logout',    :to => 'user_session#destroy',  :as => :logout,   :via => :delete
   match '/register',  :to => 'users#new',             :as => :register, :via => :get
   match '/register',  :to => 'users#create',          :as => :register, :via => :post
+
+  resources :accounts
+  resources :users
 end

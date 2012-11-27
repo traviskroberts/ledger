@@ -1,0 +1,51 @@
+class AccountsController < ApplicationController
+  before_filter :require_user
+
+  def index
+    @accounts = current_user.accounts
+  end
+
+  def new
+    @account = current_user.accounts.new
+  end
+
+  def create
+    @account = current_user.accounts.new(params[:account])
+
+    if @account.save
+      flash[:notice] = 'Account added.'
+      redirect_to accounts_url
+    else
+      flash.now[:error] = 'There was a problem adding the account.'
+      render :new
+    end
+  end
+
+  def edit
+    @account = current_user.accounts.find(params[:id])
+  end
+
+  def update
+    @account = current_user.accounts.find(params[:id])
+
+    if @account.update_attributes(params[:account])
+      flash[:notice] = 'The account was updated.'
+      redirect_to accounts_url
+    else
+      flash.now[:error] = 'There was a problem updating the account.'
+      render :edit
+    end
+  end
+
+  def destroy
+    @account = current_user.accounts.find(params[:id])
+
+    if @account.destroy
+      flash[:notice] = 'The account was deleted.'
+    else
+      flash[:error] = 'There was a problem deleting the account.'
+    end
+
+    redirect_to accounts_url
+  end
+end

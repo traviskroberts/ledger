@@ -1,0 +1,28 @@
+<%= link_to 'New Account', new_account_path, :class => 'btn btn-primary btn-large pull-right' %>
+<h1>Accounts</h1>
+
+<%- if @accounts.present? -%>
+  <table class="table table-condensed table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Account Name</th>
+        <th>Current Balance</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- @accounts.each do |account| -%>
+        <tr>
+          <td><%= account.name %></td>
+          <td><%= number_to_currency(account.dollar_balance) %></td>
+          <td>
+            <%= link_to 'Edit', edit_account_path(account), :class => 'btn btn-primary btn-mini' %>
+            <%= link_to 'Delete', account_path(account), :method => :delete, :class => 'btn btn-danger btn-mini', :confirm => 'Are you sure you want to delete this account?' %>
+          </td>
+        </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+<%- else -%>
+  <p>You don't have any accounts yet! Why not <%= link_to 'add one', new_account_path %> now?</p>
+<%- end -%>

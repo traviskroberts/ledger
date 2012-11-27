@@ -1,0 +1,23 @@
+<section class="span5 offset2">
+  <%= form_for @user do |f| %>
+    <h1>Register</h1>
+
+    <%= render 'shared/form_errors', :object => @user %>
+
+    <fieldset>
+      <%= f.label :email, 'Email', :class => 'required' %>
+      <%= f.email_field :email, :class => 'span4 required', :tabindex => '1' %>
+
+      <%= f.label :password, 'Password', :class => 'required' %>
+      <%= f.password_field :password, :class => 'span4 required clearfix', :tabindex => '2' %>
+
+      <%= f.label :password_confirmation, 'Password (again)', :class => 'required' %>
+      <%= f.password_field :password_confirmation, :class => 'span4 required clearfix', :tabindex => '2' %>
+    </fieldset>
+
+    <footer>
+      <%= f.submit 'Log in', :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', root_path, :class => 'btn' %>
+    </footer>
+  <%- end -%>
+</section>
