@@ -1,0 +1,17 @@
+development:
+  adapter: postgresql
+  database: ledger_development
+  username:
+  password:
+
+test:
+  adapter: postgresql
+  database: ledger_test
+  username:
+  password:
+
+production:
+  adapter: postgresql
+  database: ledger_production
+  username:
+  password:

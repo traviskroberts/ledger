@@ -13,4 +13,16 @@ capybara-*.html
 /spec/tmp/*
 **.orig
 rerun.txt
-pickle-email-*.html
+pickle-email-*.html.rvmrc
+config/database.yml
+coverage
+.DS_Store
+*.swp
+erd.pdf
+.powrc
+public/assets
+config/aws_s3.yml
+config/sunspot.yml
+solr/data
+*.pid
+dump.rdb
