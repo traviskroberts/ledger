@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 gem 'rails', '3.2.9'
-gem 'pg'
+gem 'mysql2'
 gem 'whiskey_disk'
 gem 'jquery-rails'
 gem 'authlogic'
 
 group :assets do
-  gem 'less-rails'
+  gem 'sass-rails'
   gem 'therubyracer'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
@@ -27,7 +27,6 @@ group :development, :test do
   gem 'pry-nav'
   gem 'awesome_print'
   gem 'quiet_assets'
-  gem 'heroku'
   gem 'rspec-rails'
 end
 
