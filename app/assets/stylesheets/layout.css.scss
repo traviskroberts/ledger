@@ -1,7 +1,15 @@
+$iconSpritePath: "/assets/glyphicons-halflings.png";
+$iconWhiteSpritePath: "/assets/glyphicons-halflings-white.png";
+
 @import "bootstrap";
+@import "responsive";
 
 body {
   margin-top: 60px;
+}
+
+.main {
+  margin-bottom: 100px;
 }
 
 li.navbar-text {
@@ -11,4 +19,70 @@ li.navbar-text {
 
 .field_with_errors input {
   border: 1px solid #900;
+}
+
+.balance-big {
+  font-size: 46px;
+  line-height: 150%;
+  text-align: right;
+}
+
+.account-header {
+  margin-bottom: 25px;
+}
+
+.balance {
+  @include border-radius(6px);
+  background-color: #eee;
+  font-size: 46px;
+  line-height: 125%;
+  padding: 0 15px;
+}
+
+.radio.inline {
+  padding-top: 0;
+}
+
+.entry-list {
+  border: 1px solid #eee;
+
+  li {
+    font-size: 16px;
+    padding: 5px 10px 5px 0;
+
+    &:nth-child(odd) {
+      background-color: #eee;
+    }
+
+    .delete-entry {
+      display: block;
+      padding: 1px 5px 0 5px;
+      visibility: hidden;
+    }
+
+    &:hover .delete-entry {
+      visibility: visible;
+    }
+
+    .debit {
+      color: #900;
+    }
+  }
+}
+
+.pagination-info {
+  line-height: 30px;
+  margin: 10px 0;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  body {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    margin-top: 0;
+  }
 }

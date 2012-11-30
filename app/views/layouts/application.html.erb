@@ -2,11 +2,11 @@
 <html>
 <head>
   <title>Ledger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -36,7 +36,7 @@
           <ul class="nav">
             <li class="<%= current_page?(root_path) ? 'active' : '' %>"><%= link_to 'Home', root_path %></li>
             <%- if current_user -%>
-              <li class="<%= controller.controller_name == 'accounts' ? 'active' : '' %>"><%= link_to 'Manage Accounts', accounts_path %></li>
+              <li class="<%= controller.controller_name == 'accounts' ? 'active' : '' %>"><%= link_to 'Accounts', accounts_path %></li>
             <%- end -%>
           </ul>
         </div> <!--/nav-collapse -->
@@ -44,10 +44,18 @@
     </div> <!-- /navbar-inner -->
   </div> <!-- /navbar -->
 
-  <div class="container">
+  <div class="container main clearfix">
     <%= render 'shared/flash' %>
     <%= yield %>
   </div> <!-- /container -->
+
+  <footer>
+    <div class="container">
+      <ul class="nav">
+        <li><%= link_to 'Home', root_path %></li>
+      </ul>
+    </div>
+  </footer>
 
   <%= javascript_include_tag 'application' %>
 </body>

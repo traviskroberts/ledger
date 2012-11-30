@@ -5,6 +5,10 @@ class AccountsController < ApplicationController
     @accounts = current_user.accounts
   end
 
+  def show
+    @account = current_user.accounts.find_by_url(params[:id])
+  end
+
   def new
     @account = current_user.accounts.new
   end
@@ -22,11 +26,11 @@ class AccountsController < ApplicationController
   end
 
   def edit
-    @account = current_user.accounts.find(params[:id])
+    @account = current_user.accounts.find_by_url(params[:id])
   end
 
   def update
-    @account = current_user.accounts.find(params[:id])
+    @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.update_attributes(params[:account])
       flash[:notice] = 'The account was updated.'
@@ -38,7 +42,7 @@ class AccountsController < ApplicationController
   end
 
   def destroy
-    @account = current_user.accounts.find(params[:id])
+    @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.destroy
       flash[:notice] = 'The account was deleted.'
