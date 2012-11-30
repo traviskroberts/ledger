@@ -1,13 +1,13 @@
 class Account < ActiveRecord::Base
-  belongs_to :user
+  has_and_belongs_to_many :users
   has_many :entries, :dependent => :destroy, :order => 'created_at DESC'
 
-  acts_as_url :name, :sync_url => true, :allow_duplicates => false, :scope => :user_id
+  acts_as_url :name, :sync_url => true
 
   attr_accessible :name, :initial_balance
   attr_accessor :initial_balance
 
-  validates :name, :presence => true, :uniqueness => {:sope => :user_id}
+  validates :name, :presence => true
   validates :balance, :numericality => true
 
   after_create :populate_balance
