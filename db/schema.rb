@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130044113) do
+ActiveRecord::Schema.define(:version => 20121201032702) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -47,8 +47,9 @@ ActiveRecord::Schema.define(:version => 20121130044113) do
     t.integer  "login_count"
     t.string   "last_login_ip"
     t.string   "current_login_ip"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.boolean  "super_admin",       :default => false
   end
 
 end

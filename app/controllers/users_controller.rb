@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :require_no_user
+  before_filter :require_no_user, :only => [:new, :create]
+  before_filter :require_user, :only => [:edit, :update]
 
   def new
     @user = User.new
@@ -14,6 +15,16 @@ class UsersController < ApplicationController
     else
       flash.now[:error] = 'There was an error creting your account.'
       render :new
+    end
+  end
+
+  def update
+    if current_user.update_attributes(params[:user])
+      flash[:notice] = "Your account has been updated."
+      redirect_to login_url
+    else
+      flash.now[:error] = 'There was an error updating your account.'
+      render :edit
     end
   end
 end

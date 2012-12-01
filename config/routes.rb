@@ -10,5 +10,5 @@ Ledger::Application.routes.draw do
   resources :accounts do
     resources :entries, :only => [:index, :create, :destroy]
   end
-  resources :users
+  resource :users
 end

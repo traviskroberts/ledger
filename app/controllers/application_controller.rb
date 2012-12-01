@@ -31,6 +31,14 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def require_admin
+      unless current_user && current_user.super_admin?
+        store_location
+        flash[:notice] = "You don't have permission to access that page."
+        redirect_to root_url and return false
+      end
+    end
+
     def require_no_user
       if current_user
         flash[:notice] = 'You must be logged out to access that page.'

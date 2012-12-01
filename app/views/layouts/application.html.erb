@@ -22,7 +22,7 @@
           <div class="nav-collapse collapse">
             <%- if current_user -%>
               <ul class="nav pull-right">
-                <li class="navbar-text">Logged in as <%= current_user.email %></li>
+                <li><%= link_to "Logged in as #{current_user.email}", edit_users_path %></li>
                 <li class="divider-vertical"></li>
                 <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
               </ul>
@@ -55,9 +55,7 @@
 
   <footer>
     <div class="container">
-      <ul class="nav">
-        <li><%= link_to 'Home', root_path %></li>
-      </ul>
+      <!-- Footer? -->
     </div>
   </footer>
 
