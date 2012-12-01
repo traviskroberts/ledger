@@ -14,9 +14,10 @@ class AccountsController < ApplicationController
   end
 
   def create
-    @account = current_user.accounts.new(params[:account])
+    @account = Account.new(params[:account])
 
     if @account.save
+      current_user.accounts << @account
       flash[:notice] = 'Account added.'
       redirect_to accounts_url
     else

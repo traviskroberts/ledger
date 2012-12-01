@@ -1,7 +1,7 @@
 $ ->
   Entries.load()
 
-Entries =
+@Entries =
   load: ->
     container = $('#entry-container')
     container.spin('large')
@@ -30,7 +30,33 @@ Entries =
         container.spin(false)
         container.find('ul').css('opacity', '1')
 
+  deleteEntry: (link_element) ->
+    $.ajax
+      url: link_element.href
+      type: 'post'
+      dataType: 'json'
+      data:
+        _method: 'delete'
+      success: (data) ->
+        $(link_element).parents('li').fadeOut(200)
+        $('#current-balance').html(data.balance)
+      error: ->
+        Entries.showOverlayMessage('There was an error deleting the entry.')
+
   bindLinks: ->
     $('.pagination').on 'click', 'a', (event) ->
       event.preventDefault()
       Entries.loadPage(this)
+
+    $('#entries').on 'click', '.delete-entry', (event) ->
+      event.preventDefault()
+      Entries.deleteEntry(this)
+
+  showOverlayMessage: (msg) ->
+    overlay = '<div class="overlay-message"><div class="interior">' + msg + '</div></div>'
+    $('body').append(overlay)
+    $('.overlay-message').fadeIn(500)
+    autoFade = setTimeout("$('.overlay-message').fadeOut(500)", 3000)
+    $('.overlay-message').click ->
+      clearTimeout(autoFade)
+      $('.overlay-message').fadeOut(500)

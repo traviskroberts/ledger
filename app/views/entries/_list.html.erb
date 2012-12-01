@@ -2,7 +2,7 @@
   <ul id="entries" class="entry-list unstyled">
     <%- entries.each do |entry| -%>
       <li>
-        <span class="pull-left delete-entry"><i class="icon-ban-circle"></i></span>
+        <a href="<%= account_entry_path(account, entry) %>" class="pull-left delete-entry"><i class="icon-remove"></i></a>
         <span class="pull-right <%= entry.classification %>"><%= formatted_amount(entry.dollar_amount, entry.classification) %></span>
         <%= entry.description %>
       </li>

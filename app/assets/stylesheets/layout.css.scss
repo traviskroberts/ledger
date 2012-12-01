@@ -4,12 +4,29 @@ $iconWhiteSpritePath: "/assets/glyphicons-halflings-white.png";
 @import "bootstrap";
 @import "responsive";
 
+html,
 body {
-  margin-top: 60px;
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+.body-wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+.footer-push,
+footer {
+  height: 60px;
 }
 
 .main {
-  margin-bottom: 100px;
+  padding-top: 60px;
 }
 
 li.navbar-text {
@@ -73,6 +90,28 @@ li.navbar-text {
 .pagination-info {
   line-height: 30px;
   margin: 10px 0;
+}
+
+.overlay-message {
+  color: #fff;
+  display: none;
+  font-size: 16px;
+  position: fixed;
+  text-align: center;
+  text-shadow: 1px 1px 1px fade-out(#000, .85);
+  bottom: 0;
+  width: 100%;
+  z-index: 2000;
+  @include box-shadow(0 0 0 fade-out(#000, .75));
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  > .interior {
+    background: fade-out(#a95246, .05);
+    padding: 23px 15px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 979px) {

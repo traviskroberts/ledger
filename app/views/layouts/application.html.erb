@@ -7,47 +7,51 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
+  <div class="body-wrap">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
 
-        <%= link_to 'Ledger', root_path, :class => 'brand' %>
+          <%= link_to 'Ledger', root_path, :class => 'brand' %>
 
-        <div class="nav-collapse collapse">
-          <%- if current_user -%>
-            <ul class="nav pull-right">
-              <li class="navbar-text">Logged in as <%= current_user.email %></li>
-              <li class="divider-vertical"></li>
-              <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
-            </ul>
-          <%- else -%>
-            <ul class="nav pull-right">
-              <li><%= link_to 'Login', login_path %></li>
-              <li class="divider-vertical"></li>
-              <li><%= link_to 'Register', register_path %></li>
-            </ul>
-          <%- end -%>
-
-          <ul class="nav">
-            <li class="<%= current_page?(root_path) ? 'active' : '' %>"><%= link_to 'Home', root_path %></li>
+          <div class="nav-collapse collapse">
             <%- if current_user -%>
-              <li class="<%= controller.controller_name == 'accounts' ? 'active' : '' %>"><%= link_to 'Accounts', accounts_path %></li>
+              <ul class="nav pull-right">
+                <li class="navbar-text">Logged in as <%= current_user.email %></li>
+                <li class="divider-vertical"></li>
+                <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
+              </ul>
+            <%- else -%>
+              <ul class="nav pull-right">
+                <li><%= link_to 'Login', login_path %></li>
+                <li class="divider-vertical"></li>
+                <li><%= link_to 'Register', register_path %></li>
+              </ul>
             <%- end -%>
-          </ul>
-        </div> <!--/nav-collapse -->
-      </div> <!-- /container -->
-    </div> <!-- /navbar-inner -->
-  </div> <!-- /navbar -->
 
-  <div class="container main clearfix">
-    <%= render 'shared/flash' %>
-    <%= yield %>
-  </div> <!-- /container -->
+            <ul class="nav">
+              <li class="<%= current_page?(root_path) ? 'active' : '' %>"><%= link_to 'Home', root_path %></li>
+              <%- if current_user -%>
+                <li class="<%= controller.controller_name == 'accounts' ? 'active' : '' %>"><%= link_to 'Accounts', accounts_path %></li>
+              <%- end -%>
+            </ul>
+          </div> <!--/nav-collapse -->
+        </div> <!-- /container -->
+      </div> <!-- /navbar-inner -->
+    </div> <!-- /navbar -->
+
+    <div class="container main clearfix">
+      <%= render 'shared/flash' %>
+      <%= yield %>
+    </div> <!-- /container -->
+
+    <div class="footer-push"></div>
+  </div> <!-- /body-wrap -->
 
   <footer>
     <div class="container">

@@ -8,7 +8,7 @@ Ledger::Application.routes.draw do
   match '/register',  :to => 'users#create',          :as => :register, :via => :post
 
   resources :accounts do
-    resources :entries
+    resources :entries, :only => [:index, :create, :destroy]
   end
   resources :users
 end

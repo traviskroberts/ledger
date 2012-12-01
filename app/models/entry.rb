@@ -17,6 +17,7 @@ class Entry < ActiveRecord::Base
   end
 
   after_save :update_account_balance
+  after_destroy :undo_entry
 
   def dollar_amount
     amount.to_f / 100
@@ -36,6 +37,17 @@ class Entry < ActiveRecord::Base
         new_balance = account.balance + self.amount
       else
         new_balance = account.balance - self.amount
+      end
+
+      account.balance = new_balance
+      account.save
+    end
+
+    def undo_entry
+      if credit?
+        new_balance = account.balance - self.amount
+      else
+        new_balance = account.balance + self.amount
       end
 
       account.balance = new_balance

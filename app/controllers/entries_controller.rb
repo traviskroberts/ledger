@@ -6,7 +6,7 @@ class EntriesController < ApplicationController
   def index
     @entries = @account.entries.paginate(:page => params[:page], :per_page => 25)
 
-    render :partial => 'list', :locals => {:entries => @entries}
+    render :partial => 'list', :locals => {:account => @account, :entries => @entries}
   end
 
   def create
@@ -17,6 +17,16 @@ class EntriesController < ApplicationController
     end
 
     redirect_to account_url(@account)
+  end
+
+  def destroy
+    entry = @account.entries.find(params[:id])
+
+    if entry.destroy
+      render :json => {:balance => view_context.number_to_currency(@account.reload.dollar_balance)}
+    else
+      render :json => {:message => 'Error'}, :status => 403
+    end
   end
 
   private
