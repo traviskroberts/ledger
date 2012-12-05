@@ -1,6 +1,7 @@
 class Account < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :entries, :dependent => :destroy, :order => 'created_at DESC'
+  has_many :invitations
 
   acts_as_url :name, :sync_url => true
 

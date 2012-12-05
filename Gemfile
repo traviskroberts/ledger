@@ -6,6 +6,11 @@ gem 'jquery-rails'
 gem 'authlogic'
 gem 'stringex'
 gem 'will_paginate'
+gem 'sidekiq'
+
+# for sidekiq webmin
+gem 'slim'
+gem 'sinatra', :require => nil
 
 group :assets do
   gem 'sass-rails'

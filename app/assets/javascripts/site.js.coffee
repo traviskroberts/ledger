@@ -1,6 +1,10 @@
 $ ->
   Entries.load()
 
+  if $('.alert').length
+    setTimeout("$('.alert').slideUp(500)", 5000)
+
+
 @Entries =
   load: ->
     container = $('#entry-container')

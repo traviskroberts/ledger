@@ -1,5 +1,5 @@
 <section class="span5 offset2">
-  <%= form_for current_user, :url => edit_users_path do |f| %>
+  <%= form_for current_user, :url => update_account_path do |f| %>
     <h1>Update Account</h1>
 
     <%= render 'shared/form_errors', :object => current_user %>

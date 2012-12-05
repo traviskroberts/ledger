@@ -25,8 +25,8 @@ class UsersController < ApplicationController
 
   def update
     if current_user.update_attributes(params[:user])
-      flash[:notice] = "Your account has been updated."
-      redirect_to login_url
+      flash[:success] = "Account updated."
+      redirect_to my_account_url
     else
       flash.now[:error] = 'There was an error updating your account.'
       render :edit

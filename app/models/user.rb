@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_and_belongs_to_many :accounts
+  has_many :invitations
 
   attr_accessible :name, :email, :password, :password_confirmation
 

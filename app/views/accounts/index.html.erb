@@ -10,6 +10,7 @@
             <h2><%= link_to account.name, account_path(account) %></h2>
             <p class="balance-big"><%= number_to_currency(account.dollar_balance) %></p>
             <%= link_to 'Edit', edit_account_path(account), :class => 'btn btn-primary btn-mini' %>
+            <%= link_to 'Sharing', sharing_account_path(account), :class => 'btn btn-mini' %>
             <%= link_to 'Delete', account_path(account), :method => :delete, :class => 'btn btn-danger btn-mini', :confirm => 'Are you sure you want to delete this account?' %>
           </div>
         </div>
