@@ -1,0 +1,24 @@
+<h1>Users</h1>
+
+<table class="table table-condensed table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email Address</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- @users.each do |user| -%>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to 'Delete', user_path(user), :method => 'delete', :class => 'btn btn-danger btn-mini' %>
+        </td>
+      </tr>
+    <%- end -%>
+  </tbody>
+</table>
+
+<%= will_paginate @users %>

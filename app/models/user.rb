@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_and_belongs_to_many :accounts
 
-  attr_accessible :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation
 
   acts_as_authentic do |c|
     # because RSpec has problems with Authlogic's session maintenance

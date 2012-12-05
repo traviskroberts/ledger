@@ -1,10 +1,13 @@
 <section class="span5 offset2">
-  <%= form_for current_user do |f| %>
+  <%= form_for current_user, :url => edit_users_path do |f| %>
     <h1>Update Account</h1>
 
     <%= render 'shared/form_errors', :object => current_user %>
 
     <fieldset>
+      <%= f.label :name, 'Name' %>
+      <%= f.text_field :name, :class => 'span4' %>
+
       <%= f.label :email, 'Email', :class => 'required' %>
       <%= f.email_field :email, :class => 'span4 required' %>
 
