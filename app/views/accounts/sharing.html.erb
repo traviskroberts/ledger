@@ -1,14 +1,22 @@
 <h1><%= @account.name %> - Sharing Settings</h1>
 
-<%= form_tag invite_account_path(@account), :class => 'form-inline' do %>
+<%= form_tag account_invitations_path(@account), :class => 'form-inline' do %>
   <label for="email">Invite a collaborator</label>
   <%= text_field_tag :email, params[:email], :placeholder => 'Email Address' %>
   <%= submit_tag 'Send Invitation', :class => 'btn btn-primary' %>
 <%- end -%>
 
+<%- if @invites.present? -%>
+  <h2>Pending Invitations</h2>
+  <%- @invites.each do |invite| -%>
+    <p><%= invite.email %></p>
+  <%- end -%>
+<%- end -%>
+
+<h2>Users With Access to This Account</h2>
 <%- if @users.present? -%>
   <%- @users.each do |user| -%>
-    <%= user.name %> - <%= user.email %>
+    <p><%= user.name %> - <%= user.email %></p>
   <%- end -%>
 <%- else -%>
   <p>No other users have access to this account.</p>

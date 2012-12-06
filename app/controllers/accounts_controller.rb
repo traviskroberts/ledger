@@ -57,25 +57,6 @@ class AccountsController < ApplicationController
   def sharing
     @account = current_user.accounts.find_by_url(params[:id])
     @users = @account.users.reject { |user| user == current_user }
-  end
-
-  def invite
-    @account = current_user.accounts.find_by_url(params[:id])
-    @invite = Invitation.new({
-      :account => @account,
-      :user => current_user,
-      :email => params[:email],
-      :token => SecureRandom.urlsafe_base64
-    })
-
-    if @invite.save
-      SiteMailer.delay.invitation(@invite)
-      flash[:success] = 'Invitation sent.'
-      redirect_to sharing_account_path(@account)
-    else
-      flash.now[:error] = 'There was an error sending the invitation.'
-      render :sharing
-    end
-
+    @invites = @account.invitations
   end
 end

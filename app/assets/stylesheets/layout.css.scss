@@ -1,8 +1,4 @@
-$iconSpritePath: "/assets/glyphicons-halflings.png";
-$iconWhiteSpritePath: "/assets/glyphicons-halflings-white.png";
-
-@import "bootstrap";
-@import "responsive";
+@import "mixins";
 
 html,
 body {

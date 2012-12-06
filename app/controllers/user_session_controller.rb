@@ -1,6 +1,6 @@
 class UserSessionController < ApplicationController
   before_filter :require_user, :only => [:destroy]
-  before_filter :require_no_user, :except => :destroy
+  before_filter :require_no_user, :except => [:destroy]
 
   def new
     @user_session = UserSession.new
@@ -10,7 +10,7 @@ class UserSessionController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
 
     if @user_session.save
-      redirect_to root_url
+      redirect_back_or_home
     else
       flash.now[:error] = 'Username or password are incorrect.'
       render :action => :new

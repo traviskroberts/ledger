@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     def require_user
       unless current_user
         store_location
-        flash[:notice] = 'You must be logged in.'
+        flash[:notice] = 'You need to register or login first.'
         redirect_to login_url and return false
       end
     end

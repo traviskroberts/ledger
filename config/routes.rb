@@ -10,10 +10,12 @@ Ledger::Application.routes.draw do
   match 'my-account', :to => 'users#edit',            :as => :my_account,     :via => :get
   match 'my-account', :to => 'users#update',          :as => :update_account, :via => :put
 
+  match 'accept-invite/:token', :to => 'invitations#show', :as => :accept_invite
+
   resources :accounts do
     get :sharing, :on => :member
-    post :invite, :on => :member
     resources :entries, :only => [:index, :create, :destroy]
+    resources :invitations, :only => [:create, :destroy]
   end
   resources :users, :except => [:edit]
 
