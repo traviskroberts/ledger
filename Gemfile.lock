@@ -53,6 +53,7 @@ GEM
       timers (>= 1.0.0)
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
+    chronic (0.8.0)
     coderay (1.0.8)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -211,6 +212,9 @@ GEM
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     websocket (1.0.4)
+    whenever (0.8.0)
+      activesupport (>= 2.3.4)
+      chronic (>= 0.6.3)
     whiskey_disk (0.6.24)
       rake
     will_paginate (3.0.3)
@@ -246,5 +250,6 @@ DEPENDENCIES
   therubyracer
   thin
   uglifier (>= 1.0.3)
+  whenever
   whiskey_disk
   will_paginate

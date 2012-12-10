@@ -8,6 +8,7 @@ gem 'stringex'
 gem 'will_paginate'
 gem 'sidekiq'
 gem 'lograge'
+gem 'whenever', :require => false
 
 # for sidekiq webmin
 gem 'slim'
