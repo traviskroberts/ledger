@@ -1,6 +1,9 @@
 Ledger::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  # Lograge
+  config.lograge.enabled = true
+
   # Code is not reloaded between requests
   config.cache_classes = true
 

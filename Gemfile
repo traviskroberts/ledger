@@ -7,6 +7,7 @@ gem 'authlogic'
 gem 'stringex'
 gem 'will_paginate'
 gem 'sidekiq'
+gem 'lograge'
 
 # for sidekiq webmin
 gem 'slim'
@@ -21,6 +22,7 @@ end
 
 group :development do
   gem 'thin'
+  gem 'better_errors'
 end
 
 group :development, :test do
