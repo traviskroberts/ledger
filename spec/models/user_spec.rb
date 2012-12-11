@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it { should have_and_belong_to_many(:accounts) }
+    it { should have_many(:invitations) }
+  end
 end

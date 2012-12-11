@@ -1,9 +1,8 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :entry do
-    description "MyString"
-    classification "MyString"
-    amount 1
+  factory :account do
+    name 'Test Account'
+    initial_balance "$47.35"
   end
 end

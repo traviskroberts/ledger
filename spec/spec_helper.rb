@@ -14,10 +14,6 @@ Spork.prefork do
 
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
-
-  
-  
-
   require 'authlogic/test_case'
   include Authlogic::TestCase
 
@@ -49,7 +45,6 @@ Spork.prefork do
       end
     end
   end
-  
 end
 
 Spork.each_run do

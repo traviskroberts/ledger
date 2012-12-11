@@ -24,6 +24,8 @@ end
 group :development do
   gem 'thin'
   gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'zeus'
 end
 
 group :development, :test do
@@ -35,6 +37,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'spork'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'capybara-webkit'
