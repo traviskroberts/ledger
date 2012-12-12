@@ -7,7 +7,7 @@ describe ApplicationHelper do
     end
 
     it 'should return a dollar amount if it is a credit' do
-      helper.formatted_amount(123.45, 'credit').should == '$123.45'
+      helper.formatted_amount(1234567.89, 'credit').should == '$1,234,567.89'
     end
   end
 end
