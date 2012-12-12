@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
   end
 
   def new
-    @account = current_user.accounts.new
+    @account = Account.new
   end
 
   def create
@@ -18,7 +18,7 @@ class AccountsController < ApplicationController
 
     if @account.save
       current_user.accounts << @account
-      flash[:notice] = 'Account added.'
+      flash[:success] = 'Account added.'
       redirect_to accounts_url
     else
       flash.now[:error] = 'There was a problem adding the account.'
@@ -34,7 +34,7 @@ class AccountsController < ApplicationController
     @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.update_attributes(params[:account])
-      flash[:notice] = 'The account was updated.'
+      flash[:success] = 'The account was updated.'
       redirect_to accounts_url
     else
       flash.now[:error] = 'There was a problem updating the account.'
