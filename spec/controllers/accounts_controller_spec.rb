@@ -27,7 +27,7 @@ describe AccountsController do
   end
 
   describe 'GET #show' do
-    it 'should retrieve the account' do
+    it 'should retrieve the specified account' do
       account = FactoryGirl.create(:account)
       user.accounts << account
 
@@ -76,7 +76,7 @@ describe AccountsController do
   end
 
   describe 'GET #edit' do
-    it 'should retrieve the account' do
+    it 'should retrieve the specified account' do
       account = FactoryGirl.create(:account)
       user.accounts << account
 
@@ -179,6 +179,35 @@ describe AccountsController do
 
       delete :destroy, :id => account
       expect(response).to redirect_to(accounts_url)
+    end
+  end
+
+  describe 'GET #sharing' do
+    it 'should retrieve the specified account' do
+      account = FactoryGirl.create(:account)
+      user.accounts << account
+
+      get :sharing, :id => account
+      expect(assigns(:account)).to eq(account)
+    end
+
+    it 'should get all of the users who have access to the account, excluding the current user' do
+      account = FactoryGirl.create(:account)
+      account.users << user
+      other_user = FactoryGirl.create(:user)
+      account.users << other_user
+
+      get :sharing, :id => account
+      expect(assigns(:users)).to match_array([other_user])
+    end
+
+    it 'should get all of the current pending invitations' do
+      account = FactoryGirl.create(:account)
+      account.users << user
+      invitation = FactoryGirl.create(:invitation, :account => account, :user => user)
+
+      get :sharing, :id => account
+      expect(assigns[:invites]).to match_array([invitation])
     end
   end
 end

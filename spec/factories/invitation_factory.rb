@@ -2,8 +2,9 @@
 
 FactoryGirl.define do
   factory :invitation do
-    account_id 1
-    user_id 1
-    email "MyString"
+    account
+    user
+    sequence(:email) { |n| "person_#{n}@email.com" }
+    sequence(:token) { |n| "xk39skj84x#{n}" }
   end
 end
