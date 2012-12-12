@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
-  before_filter :redirect_users
+  before_filter :redirect_users, :only => [:index]
 
   private
     def redirect_users
