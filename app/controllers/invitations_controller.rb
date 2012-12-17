@@ -3,9 +3,15 @@ class InvitationsController < ApplicationController
 
   def show
     invitation = Invitation.find_by_token(params[:token])
-    invitation.account.users << current_user unless invitation.account.users.include?(current_user)
-    invitation.destroy
-    flash[:success] = "Invitation accepted!"
+
+    if invitation.present?
+      invitation.account.users << current_user unless invitation.account.users.include?(current_user)
+      invitation.destroy
+      flash[:success] = "Invitation accepted!"
+    else
+      flash[:error] = 'The invitation was not found. It might not be valid anymore.'
+    end
+
     redirect_to accounts_url
   end
 
