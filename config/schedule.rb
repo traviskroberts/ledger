@@ -7,4 +7,8 @@ every :sunday, :at => '4am' do
   rake "log:clear"
 end
 
+every :day, :at => '2am' do
+  rake "schedules:run"
+end
+
 # Learn more: http://github.com/javan/whenever
