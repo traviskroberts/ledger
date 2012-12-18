@@ -3561,7 +3561,7 @@ input[type="submit"].btn.btn-mini {
 }
 .navbar .divider-vertical {
   height: 50px;
-  margin: 0 9px;
+  margin: 0;
   border-left: 1px solid #2fa4e7;
   border-right: 1px solid #54b4eb;
 }
