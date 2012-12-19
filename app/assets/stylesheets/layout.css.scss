@@ -1,11 +1,13 @@
 @import "mixins";
 
+// HTML ELEMENTS
 html,
 body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
 
+// PAGE ELEMENTS
 /* Wrapper for page content to push down footer */
 .body-wrap {
   min-height: 100%;
@@ -25,62 +27,19 @@ footer {
   padding-top: 100px;
 }
 
+// HEADER
 li.navbar-text {
   padding-left: 15px;
   padding-right: 15px;
 }
 
+// GENERIC CLASSES
 .field_with_errors input {
   border: 1px solid #900;
 }
 
-.balance-big {
-  font-size: 46px;
-  line-height: 150%;
-  text-align: right;
-}
-
-.account-header {
-  margin-bottom: 25px;
-}
-
-.balance {
-  @include border-radius(6px);
-  background-color: #eee;
-  font-size: 46px;
-  line-height: 125%;
-  padding: 0 15px;
-}
-
 .radio.inline {
   padding-top: 0;
-}
-
-.entry-list {
-  border: 1px solid #eee;
-
-  li {
-    font-size: 16px;
-    padding: 5px 10px 5px 0;
-
-    &:nth-child(odd) {
-      background-color: #eee;
-    }
-
-    .delete-entry {
-      display: block;
-      padding: 1px 5px 0 5px;
-      visibility: hidden;
-    }
-
-    &:hover .delete-entry {
-      visibility: visible;
-    }
-
-    .debit {
-      color: #900;
-    }
-  }
 }
 
 .pagination-info {
@@ -110,6 +69,69 @@ li.navbar-text {
   }
 }
 
+// ACCOUNT PAGES
+.balance-big {
+  font-size: 46px;
+  line-height: 150%;
+  text-align: right;
+}
+
+.account-header {
+  margin-bottom: 25px;
+}
+
+.balance {
+  @include border-radius(6px);
+  background-color: #eee;
+  font-size: 46px;
+  line-height: 125%;
+  padding: 0 15px;
+}
+
+// ENTRY PAGES
+.entry-list {
+  border: 1px solid #eee;
+
+  li {
+    font-size: 16px;
+    padding: 5px 10px 5px 0;
+
+    &:nth-child(odd) {
+      background-color: #eee;
+    }
+
+    .delete-entry {
+      display: block;
+      padding: 1px 5px 0 5px;
+      visibility: hidden;
+    }
+
+    &:hover .delete-entry {
+      visibility: visible;
+    }
+
+    .debit {
+      color: #900;
+    }
+  }
+}
+
+// RECURRING TRANSACTION PAGES
+.table {
+  .day {
+    width: 120px;
+  }
+
+  .amount {
+    width: 150px;
+  }
+
+  .debit {
+    color: #900;
+  }
+}
+
+// MEDIA QUERIES
 @media (min-width: 1200px) {
   .alert {
     border-top: none;

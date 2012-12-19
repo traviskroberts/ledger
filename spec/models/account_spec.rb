@@ -7,7 +7,7 @@ describe Account do
     it { should have_and_belong_to_many(:users) }
     it { should have_many(:entries) }
     it { should have_many(:invitations) }
-    it { should have_many(:scheduled_transactions) }
+    it { should have_many(:recurring_transactions) }
   end
 
   describe 'validations' do

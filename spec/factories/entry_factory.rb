@@ -3,8 +3,7 @@
 FactoryGirl.define do
   factory :entry do
     account
-    description "Test Entry"
-    classification "credit"
-    float_amount "19.37"
+    description 'Test Entry'
+    float_amount '19.37'
   end
 end

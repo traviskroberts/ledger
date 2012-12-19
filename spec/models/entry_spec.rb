@@ -22,7 +22,7 @@ describe Entry do
         expect(entry.classification).to eq('credit')
       end
 
-      it 'should set the classification to debid if amount is negative' do
+      it 'should set the classification to debit if amount is negative' do
         entry = FactoryGirl.create(:entry, :float_amount => '-12.34')
         expect(entry.classification).to eq('debit')
       end

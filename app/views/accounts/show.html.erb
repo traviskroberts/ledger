@@ -8,6 +8,8 @@
   </div> <!-- /span4 -->
 </div> <!-- /row -->
 
+<p class="pull-right"><%= link_to 'Recurring Transactions', account_recurring_transactions_path(@account) %></p>
+
 <%= form_for :entry, :url => account_entries_path(@account), :html => {:class => 'form-inline'} do |f| %>
   <div class="input-prepend">
     <span class="add-on">$</span>

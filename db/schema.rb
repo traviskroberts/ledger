@@ -44,12 +44,14 @@ ActiveRecord::Schema.define(:version => 20121218032612) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "scheduled_transactions", :force => true do |t|
+  create_table "recurring_transactions", :force => true do |t|
     t.integer  "account_id"
     t.integer  "day"
     t.integer  "amount"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "classification"
+    t.string   "description"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|
