@@ -43,4 +43,5 @@ group :test do
   gem 'capybara-webkit'
   gem 'launchy'
   gem 'fuubar'
+  gem 'timecop'
 end
