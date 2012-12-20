@@ -26,6 +26,8 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'zeus'
+  gem 'capistrano'
+  gem 'capistrano_colors'
 end
 
 group :development, :test do

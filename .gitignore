@@ -9,7 +9,7 @@
 .sass-cache
 capybara-*.html
 config/database.yml
-config/deploy.yml
+config/deploy.rb
 coverage
 db/*.sqlite3
 dump.rdb
