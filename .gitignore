@@ -6,6 +6,7 @@
 .bundle
 .DS_Store
 .rspec
+.rvmrc
 .sass-cache
 capybara-*.html
 config/database.yml
