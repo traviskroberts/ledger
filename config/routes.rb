@@ -21,7 +21,7 @@ Ledger::Application.routes.draw do
   resources :users, :except => [:edit]
 
   # sidekiq webmin
-  require 'sidekiq/web'
-  require "admin_constraint"
-  mount Sidekiq::Web => '/sidekiq', :constraints => AdminConstraint.new
+  # require 'sidekiq/web'
+  # require "admin_constraint"
+  # mount Sidekiq::Web => '/sidekiq', :constraints => AdminConstraint.new
 end

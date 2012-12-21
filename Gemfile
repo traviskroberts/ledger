@@ -6,8 +6,6 @@ gem 'jquery-rails'
 gem 'authlogic'
 gem 'stringex'
 gem 'will_paginate'
-gem 'sidekiq'
-gem 'sidekiq_mailer'
 gem 'lograge'
 gem 'whenever', :require => false
 
