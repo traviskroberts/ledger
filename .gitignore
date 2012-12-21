@@ -11,6 +11,7 @@
 capybara-*.html
 config/database.yml
 config/deploy.rb
+config/initializers/email.rb
 coverage
 db/*.sqlite3
 dump.rdb
