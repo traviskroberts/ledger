@@ -1,5 +1,4 @@
 class SiteMailer < ActionMailer::Base
-  include Sidekiq::Mailer
 
   def invitation(invite)
     @user = invite.user
