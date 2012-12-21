@@ -1,5 +1,15 @@
 @import "mixins";
 
+#screen-info {
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 5px 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
 // HTML ELEMENTS
 html,
 body {
@@ -166,8 +176,65 @@ li.navbar-text {
   }
 }
 
-@media (max-width: 767px) {
+@media (min-width: 481px) and (max-width: 767px) {
   .main {
     padding-top: 0;
+  }
+
+  .balance {
+    float: left;
+  }
+
+  .new-entry {
+    width: 100%;
+
+    .entry-description {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding-top: 0;
+  }
+
+  .balance {
+    float: none;
+    text-align: right;
+  }
+
+  .new-entry {
+    margin: 0;
+    width: 100%;
+
+    .input-prepend {
+      width: 100%;
+
+      .add-on {
+        display: none;
+      }
+
+      input {
+        width: 100%;
+        @include border-radius(4px);
+      }
+    }
+
+    input {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .entry-description {
+      width: 100%;
+    }
+  }
+
+  .recurring-link {
+    margin-bottom: 10px;
+    text-align: left;
   }
 }

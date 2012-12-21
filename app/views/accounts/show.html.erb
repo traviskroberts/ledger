@@ -8,17 +8,23 @@
   </div> <!-- /span4 -->
 </div> <!-- /row -->
 
-<p class="pull-right"><%= link_to 'Recurring Transactions', account_recurring_transactions_path(@account) %></p>
+<div class="row">
+  <div class="span9">
+    <%= form_for :entry, :url => account_entries_path(@account), :html => {:class => 'form-inline new-entry'} do |f| %>
+      <div class="input-prepend">
+        <span class="add-on">$</span>
+        <%= f.text_field :float_amount, :class => 'span2', :placeholder => 'Amount', :autofocus => 'autofocus' %>
+      </div>
 
-<%= form_for :entry, :url => account_entries_path(@account), :html => {:class => 'form-inline'} do |f| %>
-  <div class="input-prepend">
-    <span class="add-on">$</span>
-    <%= f.text_field :float_amount, :class => 'span2', :placeholder => 'Amount', :autofocus => 'autofocus' %>
+      <%= f.text_field :description, :class => 'span5 entry-description', :placeholder => 'Description' %>
+
+      <%= f.submit 'Add', :class => 'btn btn-primary' %>
+    <%- end -%>
   </div>
 
-  <%= f.text_field :description, :class => 'span5', :placeholder => 'Description' %>
-
-  <%= f.submit 'Add', :class => 'btn btn-primary' %>
-<%- end -%>
+  <div class="recurring-link span3">
+    <%= link_to 'Recurring Transactions', account_recurring_transactions_path(@account) %>
+  </div>
+</div>
 
 <div id="entry-container" data-url="<%= account_entries_path(@account) %>"></div>

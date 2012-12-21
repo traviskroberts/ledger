@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Ledger</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <%= stylesheet_link_tag 'application', :media => 'all' %>
   <%= csrf_meta_tags %>
 </head>
@@ -22,24 +22,23 @@
           <div class="nav-collapse collapse">
             <%- if current_user -%>
               <ul class="nav pull-right">
-                <li><%= link_to "Logged in as #{current_user.email}", my_account_path %></li>
+                <li class="<%= current_page?(my_account_path) ? 'active' : '' %>"><%= link_to "Logged in as #{current_user.email}", my_account_path %></li>
                 <li class="divider-vertical"></li>
                 <%- if current_user.super_admin? -%>
-                  <li><%= link_to 'Users', users_path %></li>
+                  <li class="<%= controller.controller_name == 'users' ? 'active' : '' %>"><%= link_to 'Users', users_path %></li>
                   <li class="divider-vertical"></li>
                 <%- end -%>
                 <li><%= link_to 'Logout', logout_path, :method => :delete %></li>
               </ul>
             <%- else -%>
               <ul class="nav pull-right">
-                <li><%= link_to 'Login', login_path %></li>
+                <li class="<%= current_page?(login_path) ? 'active' : '' %>"><%= link_to 'Login', login_path %></li>
                 <li class="divider-vertical"></li>
-                <li><%= link_to 'Register', register_path %></li>
+                <li class="<%= current_page?(register_path) ? 'active' : '' %>"><%= link_to 'Register', register_path %></li>
               </ul>
             <%- end -%>
 
             <ul class="nav">
-              <li class="<%= current_page?(root_path) ? 'active' : '' %>"><%= link_to 'Home', root_path %></li>
               <%- if current_user -%>
                 <li class="<%= controller.controller_name == 'accounts' ? 'active' : '' %>"><%= link_to 'Accounts', accounts_path %></li>
               <%- end -%>
@@ -62,6 +61,8 @@
       <!-- Footer? -->
     </div>
   </footer>
+
+  <!-- <p id="screen-info"></p> -->
 
   <%= javascript_include_tag 'application' %>
 </body>

@@ -1,6 +1,13 @@
 $ ->
   Entries.load()
 
+  if $("#screen-info").length
+    win_size = $(window).width()
+    $("#screen-info").html(win_size + 'px')
+    $(window).resize ->
+      win_size = $(window).width()
+      $("#screen-info").html(win_size + 'px')
+
   if $('.alert').length
     setTimeout("$('.alert').slideUp(500)", 5000)
 
