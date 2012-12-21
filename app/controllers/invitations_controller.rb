@@ -24,7 +24,7 @@ class InvitationsController < ApplicationController
     })
 
     if @invite.save
-      SiteMailer.delay.invitation(@invite)
+      SiteMailer.invitation(@invite).deliver
       flash[:success] = 'Invitation sent.'
     else
       flash[:error] = 'There was an error sending the invitation.'
