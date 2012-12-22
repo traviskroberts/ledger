@@ -19,7 +19,7 @@ describe UserSessionController do
 
     it 'should redirect to the root url' do
       post :create, :user_session => {:email => user.email, :password => 'test1234'}
-      expect(response).to redirect_to(root_url)
+      expect(response).to redirect_to(accounts_url)
     end
 
     it 'should set a flash message on failure' do

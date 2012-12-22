@@ -38,9 +38,9 @@ class InvitationsController < ApplicationController
     @invitation = @account.invitations.find(params[:id])
 
     if @invitation.destroy
-      flash[:notice] = "Invitation removed."
+      flash[:notice] = "Invitation revoked."
     else
-      flash[:error] = "There was an error removing the invitation."
+      flash[:error] = "There was an error revoking the invitation."
     end
 
     redirect_to sharing_account_url(@account)

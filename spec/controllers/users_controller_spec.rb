@@ -45,9 +45,14 @@ describe UsersController do
       expect(flash[:success]).to be_present
     end
 
-    it 'should redirect to the login url on success' do
+    it 'should log the user in on success' do
       post :create, :user => {:email => 'testuser@email.com', :password => 'test1234', :password_confirmation => 'test1234'}
-      expect(response).to redirect_to(login_url)
+      expect(UserSession.find).to be_present
+    end
+
+    it 'should redirect to the accounts url on success' do
+      post :create, :user => {:email => 'testuser@email.com', :password => 'test1234', :password_confirmation => 'test1234'}
+      expect(response).to redirect_to(accounts_url)
     end
 
     it 'should set a flash message on failure' do

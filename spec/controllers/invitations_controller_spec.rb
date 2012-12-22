@@ -94,7 +94,7 @@ describe InvitationsController do
       expect(assigns(:invitation)).to eq(invite)
     end
 
-    it 'should destroy the specified account' do
+    it 'should destroy the specified invitation' do
       delete :destroy, :account_id => account, :id => invite
       expect(Invitation.count).to eq(0)
     end
