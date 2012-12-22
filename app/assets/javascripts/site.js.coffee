@@ -1,5 +1,6 @@
 $ ->
-  Entries.load()
+  if $('#entry-container').length
+    Entries.load()
 
   if $("#screen-info").length
     win_size = $(window).width()
