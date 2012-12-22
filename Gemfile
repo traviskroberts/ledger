@@ -6,6 +6,7 @@ gem 'authlogic'
 gem 'stringex'
 gem 'will_paginate'
 gem 'delayed_job_active_record'
+gem 'daemons'
 gem 'hashie'
 gem 'lograge'
 gem 'whenever', :require => false

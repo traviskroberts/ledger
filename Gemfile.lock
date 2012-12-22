@@ -234,6 +234,7 @@ DEPENDENCIES
   capistrano_colors
   capybara-webkit
   coffee-rails (~> 3.2.1)
+  daemons
   database_cleaner
   delayed_job_active_record
   factory_girl_rails
