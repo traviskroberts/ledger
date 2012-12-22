@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 gem 'rails', '3.2.9'
 gem 'mysql2'
-gem 'whiskey_disk'
 gem 'jquery-rails'
 gem 'authlogic'
 gem 'stringex'
@@ -10,10 +9,6 @@ gem 'delayed_job_active_record'
 gem 'hashie'
 gem 'lograge'
 gem 'whenever', :require => false
-
-# for sidekiq webmin
-gem 'slim'
-gem 'sinatra', :require => nil
 
 group :assets do
   gem 'sass-rails'
@@ -25,7 +20,6 @@ group :development do
   gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'zeus'
   gem 'capistrano'
   gem 'capistrano_colors'
 end
