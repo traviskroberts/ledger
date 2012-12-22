@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     def redirect_back_or_home
       return_path = session[:return_to]
       session[:return_to] = nil
-      redirect_to(return_path || root_url)
+      redirect_to(return_path || accounts_url)
     end
 
     def require_user
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
 
     def require_no_user
       if current_user
-        flash[:notice] = 'You must be logged out to access that page.'
+        flash[:notice] = 'You have to be logged out to access that page.'
         redirect_to root_url and return false
       end
     end

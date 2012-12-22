@@ -16,7 +16,8 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:success] = "Your account has been created."
-      redirect_to login_url
+      UserSession.create(@user, true)
+      redirect_to accounts_url
     else
       flash.now[:error] = 'There was an error creting your account.'
       render :new
