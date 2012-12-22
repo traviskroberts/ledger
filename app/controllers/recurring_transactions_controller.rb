@@ -13,7 +13,7 @@ class RecurringTransactionsController < ApplicationController
     @recurring_transaction = @account.recurring_transactions.new(params[:recurring_transaction])
 
     if @recurring_transaction.save
-      flash[:success] = 'Recurring transaction recurring.'
+      flash[:success] = 'Recurring transaction scheduled.'
       redirect_to account_recurring_transactions_url(@account)
     else
       flash.now[:error] = 'There was a problem scheduling the recurring transaction.'
