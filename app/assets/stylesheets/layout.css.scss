@@ -99,6 +99,10 @@ li.navbar-text {
   margin-bottom: 25px;
 }
 
+.recurring-link {
+  text-align: right;
+}
+
 .balance {
   @include border-radius(6px);
   background-color: #eee;
