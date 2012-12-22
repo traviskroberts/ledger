@@ -4,7 +4,7 @@ class SiteMailer < ActionMailer::Base
     @user = invite.user
     @account = invite.account
     @invitation = invite
-    mail(:to => invite.email, :from => @user.email, :subject => 'Invitatation to collaborate on [sitename].')
+    mail(:to => invite.email, :from => @user.email, :subject => 'Invitatation to collaborate.')
   end
 
 end

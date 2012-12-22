@@ -48,6 +48,10 @@ li.navbar-text {
   border: 1px solid #900;
 }
 
+.alert-heading {
+  color: #000;
+}
+
 .radio.inline {
   padding-top: 0;
 }
@@ -143,20 +147,20 @@ li.navbar-text {
 
 // MEDIA QUERIES
 @media (min-width: 1200px) {
-  .alert {
+  .alert-fixed {
     border-top: none;
     position: absolute;
     top: 51px;
-    width: 891px;
+    width: 1119px;
     @include border-radius(0 0 6px 6px);
   }
 }
 
 @media (min-width: 980px) and (max-width: 1199px) {
-  .alert {
+  .alert-fixed {
     border-top: none;
     position: absolute;
-    top: 41px;
+    top: 51px;
     width: 889px;
     @include border-radius(0 0 6px 6px);
   }
@@ -165,14 +169,6 @@ li.navbar-text {
 @media (min-width: 768px) and (max-width: 979px) {
   .main {
     padding-top: 40px;
-  }
-
-  .alert {
-    border-top: none;
-    position: absolute;
-    top: 51px;
-    width: 673px;
-    @include border-radius(0 0 6px 6px);
   }
 }
 

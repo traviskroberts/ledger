@@ -1,0 +1,9 @@
+development: &defaults
+  domain: lvh.me:3000
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  domain: ledger.mogosites.com
