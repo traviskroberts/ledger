@@ -6,4 +6,4 @@ test:
 
 production:
   <<: *defaults
-  domain: ledger.mogosites.com
+  domain: ledger.travisroberts.net
