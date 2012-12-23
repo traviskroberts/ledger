@@ -179,6 +179,10 @@ li.navbar-text {
   .main {
     padding-top: 40px;
   }
+
+  .entry-list li .delete-entry {
+    visibility: visible;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
@@ -197,6 +201,10 @@ li.navbar-text {
       display: inline-block;
       width: auto;
     }
+  }
+
+  .entry-list li .delete-entry {
+    visibility: visible;
   }
 }
 
@@ -236,6 +244,10 @@ li.navbar-text {
     .entry-description {
       width: 100%;
     }
+  }
+
+  .entry-list li .delete-entry {
+    visibility: visible;
   }
 
   .recurring-link {
