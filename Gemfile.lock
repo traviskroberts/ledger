@@ -34,6 +34,7 @@ GEM
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     awesome_print (1.1.0)
+    backbone-support (0.3.0)
     better_errors (0.3.2)
       coderay (>= 1.0.0)
       erubis (>= 2.7.0)
@@ -92,6 +93,10 @@ GEM
       rspec (~> 2.0)
       rspec-instafail (~> 0.2.0)
       ruby-progressbar (~> 1.0.0)
+    handlebars_assets (0.8.1)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hashie (1.2.0)
     highline (1.6.15)
     hike (1.2.1)
@@ -234,6 +239,7 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   awesome_print
+  backbone-support
   better_errors
   binding_of_caller
   capistrano
@@ -245,6 +251,7 @@ DEPENDENCIES
   delayed_job_active_record
   factory_girl_rails
   fuubar
+  handlebars_assets
   hashie
   jquery-rails
   launchy

@@ -19,6 +19,7 @@
 //= require bootstrap-transition
 //= require spin
 //= require site
+//= require backbone/ledger
 
 /*
 You can now create a spinner using any of the variants below:

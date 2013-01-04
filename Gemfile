@@ -11,6 +11,8 @@ gem 'hashie'
 gem 'lograge'
 gem 'whenever', :require => false
 gem 'rails-backbone'
+gem 'backbone-support'
+gem 'handlebars_assets'
 
 group :assets do
   gem 'sass-rails'
