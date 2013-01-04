@@ -10,6 +10,7 @@ gem 'daemons'
 gem 'hashie'
 gem 'lograge'
 gem 'whenever', :require => false
+gem 'rails-backbone'
 
 group :assets do
   gem 'sass-rails'
