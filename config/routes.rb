@@ -19,4 +19,7 @@ Ledger::Application.routes.draw do
     resources :recurring_transactions, :except => [:show]
   end
   resources :users, :except => [:edit]
+
+  match 'backbone/accounts'     => 'accounts#backbone'
+  match 'backbone/accounts/:id' => 'accounts#backbone_show'
 end

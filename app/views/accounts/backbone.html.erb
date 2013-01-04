@@ -1,0 +1,11 @@
+<div id="backbone-container"></div>
+
+<script>
+  $(document).ready(function() {
+    var data = {
+      accounts: <%=raw @accounts.to_json %>
+    };
+
+    Ledger.initialize(data);
+  });
+</script>

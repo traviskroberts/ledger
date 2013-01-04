@@ -19,7 +19,22 @@ class Account < ActiveRecord::Base
   end
 
   def dollar_balance
-    balance.to_f / 100
+    ActionController::Base.helpers.number_to_currency(balance.to_f / 100)
+  end
+
+  def as_json(options={})
+    opts = {
+      :only => [:id, :url, :name],
+      :methods => [:dollar_balance],
+      :include => {
+        :entries => {
+          :only => [:id, :classification, :description],
+          :methods => [:formatted_amount]
+        }
+      }
+    }
+
+    super(options.merge(opts))
   end
 
   private

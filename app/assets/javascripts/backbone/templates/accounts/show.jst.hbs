@@ -1,0 +1,28 @@
+<div class="row account-header">
+  <div class="span8">
+    <h1>{{account.name}}</h1>
+  </div> <!-- /span8 -->
+
+  <div class="span4">
+    <div id="current-balance" class="balance pull-right">{{account.dollar_balance}}</div>
+  </div> <!-- /span4 -->
+</div> <!-- /row -->
+
+<div class="row">
+  <div class="span9">
+    <form method="post" action="#" class="form-inline new-entry">
+      <div class="input-prepend">
+        <span class="add-on">$</span>
+        <input type="text" name="entry[float_amount]" class="span2" placeholder="Amount" autofocus="autofocus" />
+      </div>
+      <input type="text" name="entry[description]" class="span5 entry-description" placeholder="Description" />
+      <input type="submit" value="Add" class="btn btn-primary" />
+    </form>
+  </div>
+
+  <div class="recurring-link span3">
+    <a href="#">Recurring Transactions</a>
+  </div>
+</div>
+
+<ul id="entries" class="entry-list unstyled"></ul>

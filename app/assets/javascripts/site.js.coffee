@@ -12,6 +12,11 @@ $ ->
   if $('.alert').length
     setTimeout("$('.alert').slideUp(500)", 5000)
 
+  # handle backbone links
+  $('#backbone-container').on 'click', '.backbone-link', (event) ->
+    event.preventDefault()
+    Backbone.history.navigate $(this).attr('href'), true;
+
 
 @Entries =
   load: ->

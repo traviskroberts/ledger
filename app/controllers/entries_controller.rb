@@ -23,7 +23,7 @@ class EntriesController < ApplicationController
     entry = @account.entries.find(params[:id])
 
     if entry.destroy
-      render :json => {:balance => view_context.number_to_currency(@account.reload.dollar_balance)}
+      render :json => {:balance => @account.reload.dollar_balance}
     else
       render :json => {:message => 'Error'}, :status => 403
     end

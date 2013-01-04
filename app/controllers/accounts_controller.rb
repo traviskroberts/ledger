@@ -5,6 +5,10 @@ class AccountsController < ApplicationController
     @accounts = current_user.accounts
   end
 
+  def backbone
+    @accounts = current_user.accounts.includes(:entries)
+  end
+
   def show
     @account = current_user.accounts.find_by_url(params[:id])
   end

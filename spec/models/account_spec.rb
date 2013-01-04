@@ -38,18 +38,14 @@ describe Account do
   end
 
   describe '#dollar_balance' do
-    it 'should return a float' do
-      expect(account.dollar_balance.class).to eq(Float)
-    end
-
     it 'should convert the integer to a correct dollar value' do
       account = FactoryGirl.create(:account, :balance => 4735)
-      expect(account.dollar_balance).to eq(47.35)
+      expect(account.dollar_balance).to eq("$47.35")
     end
 
     it 'should convert a complex integer to a correct dollar balance' do
       account = FactoryGirl.create(:account, :balance => 123456789)
-      expect(account.dollar_balance).to eq(1234567.89)
+      expect(account.dollar_balance).to eq("$1,234,567.89")
     end
   end
 end

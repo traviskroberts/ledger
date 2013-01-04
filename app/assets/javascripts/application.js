@@ -17,9 +17,14 @@
 //= require bootstrap-collapse
 //= require bootstrap-modal
 //= require bootstrap-transition
+//= require handlebars.runtime
+//= require underscore
+//= require backbone
+//= require backbone-support
+//= require backbone-relational
+//= require backbone/ledger
 //= require spin
 //= require site
-//= require backbone/ledger
 
 /*
 You can now create a spinner using any of the variants below:

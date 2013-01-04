@@ -26,6 +26,10 @@ class Entry < ActiveRecord::Base
     amount.to_f / 100
   end
 
+  def formatted_amount
+    (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
+  end
+
   def credit?
     classification == 'credit'
   end
