@@ -22,7 +22,7 @@ window.Ledger =
 
 $ ->
   # make sure to route links to backbone
-  $('#backbone-container').on 'click', 'a', (e) ->
+  $('body').on 'click', 'a', (e) ->
     unless $(this).hasClass('static')
       Backbone.history.navigate($(this).attr('href'), true)
       e.preventDefault()
