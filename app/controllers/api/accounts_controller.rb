@@ -18,7 +18,7 @@ class Api::AccountsController < ApplicationController
 
     if @account.save
       current_user.accounts << @account
-      respond_with(@account)
+      respond_with(@account.reload)
     else
       render :json => {:message => 'Error'}, :status => 400
     end

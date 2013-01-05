@@ -17,6 +17,7 @@ Ledger::Application.routes.draw do
 
   # bogus routes to make sure the app is bootstrapped correctly
   match 'accounts'          => 'accounts#backbone'
+  match 'accounts/new'      => 'accounts#backbone'
   match 'accounts/:id'      => 'accounts#backbone'
   match 'accounts/:id/edit' => 'accounts#backbone'
 
