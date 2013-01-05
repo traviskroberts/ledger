@@ -3,8 +3,9 @@ class Ledger.Views.AccountsIndex extends Support.CompositeView
 
   initialize: ->
     _.bindAll this, 'render', 'renderTemplate', 'renderAccounts'
-    # this.collection.bind 'reset', this.render
-    # this.collection.bind 'remove', this.render
+    this.collection.bind 'all', (event) ->
+      console.log 'Event fired for collection', event
+    this.collection.bind 'remove', this.render
 
   render: ->
     this.renderTemplate()
