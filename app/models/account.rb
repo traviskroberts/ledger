@@ -1,6 +1,6 @@
 class Account < ActiveRecord::Base
   has_and_belongs_to_many :users
-  has_many :entries, :dependent => :destroy, :order => 'created_at DESC'
+  has_many :entries, :dependent => :destroy, :order => 'id DESC'
   has_many :invitations
   has_many :recurring_transactions, :order => 'day'
 

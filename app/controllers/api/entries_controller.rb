@@ -13,7 +13,7 @@ class Api::EntriesController < ApplicationController
     @entry = Entry.new(params[:entry])
 
     if @entry.save
-      respond_with(@entry)
+      render :json => {:entry => @entry, :account_balance => @entry.account.dollar_balance}
     else
       render :json => {:message => 'Error'}, :status => 400
     end

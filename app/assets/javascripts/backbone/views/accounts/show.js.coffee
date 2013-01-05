@@ -3,8 +3,9 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     'click #add-entry' : 'addEntry'
 
   initialize: ->
-    _.bindAll this, 'render', 'renderNewEntry', 'entryAdded'
-    this.model.bind('add:entries', this.renderNewEntry);
+    _.bindAll this, 'render', 'entryAdded'
+    this.entry = new Ledger.Models.Entry
+    this.model.bind('add:entries', this.render);
 
   render: ->
     this.$el.html(JST['backbone/templates/accounts/show']({account: this.model.toJSON()}))
@@ -17,11 +18,6 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       this.renderChild(row)
       this.$('#entries').append(row.el)
 
-  renderNewEntry: (entry) ->
-    row = new Ledger.Views.EntryItem({model: entry})
-    this.renderChild(row)
-    this.$('#entries').prepend(row.el)
-
   addEntry: ->
     this.entry = new Ledger.Models.Entry
       float_amount: $('#entry_float_amount').val()
@@ -33,9 +29,11 @@ class Ledger.Views.AccountShow extends Support.CompositeView
   entryAdded: (model, resp, options) ->
     $('#entry_float_amount').val('')
     $('#entry_description').val('')
-    this.entry.set(resp)
+    this.model.set
+      dollar_balance: resp.account_balance
+    this.entry.set(resp.entry)
     this.entry.set
       account: this.model
 
   onError: ->
-    alert 'There was an error.'
+    alert 'There was an error adding the entry.'

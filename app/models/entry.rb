@@ -25,7 +25,7 @@ class Entry < ActiveRecord::Base
   def as_json(options={})
     opts = {
       :only => [:id, :classification, :description],
-      :methods => [:formatted_amount]
+      :methods => [:formatted_amount, :timestamp]
     }
 
     super(options.merge(opts))
@@ -35,16 +35,20 @@ class Entry < ActiveRecord::Base
     amount.to_f / 100
   end
 
-  def formatted_amount
-    (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
-  end
-
   def credit?
     classification == 'credit'
   end
 
   def debit?
     classification == 'debit'
+  end
+
+  def formatted_amount
+    (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
+  end
+
+  def timestamp
+    created_at.to_i
   end
 
   private
