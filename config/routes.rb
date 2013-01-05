@@ -16,8 +16,9 @@ Ledger::Application.routes.draw do
   match 'accept-invite/:token', :to => 'invitations#show', :as => :accept_invite
 
   # bogus routes to make sure the app is bootstrapped correctly
-  match 'accounts'      => 'accounts#backbone'
-  match 'accounts/:id'  => 'accounts#backbone'
+  match 'accounts'          => 'accounts#backbone'
+  match 'accounts/:id'      => 'accounts#backbone'
+  match 'accounts/:id/edit' => 'accounts#backbone'
 
   namespace :api do
     resources :accounts

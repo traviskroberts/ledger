@@ -1,8 +1,8 @@
 class Ledger.Views.AccountItem extends Support.CompositeView
-  className: "span4"
+  className: 'span4'
 
   events:
-    'click .delete': 'deleteAccount'
+    'click .delete' : 'deleteAccount'
 
   initialize: ->
     _.bindAll this, 'render'

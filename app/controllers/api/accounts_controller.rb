@@ -28,7 +28,7 @@ class Api::AccountsController < ApplicationController
     @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.update_attributes(params[:account])
-      respond_with(@account)
+      render :json => @account # respond_with is being a lil' bitch
     else
       render :json => {:message => 'Error'}, :status => 400
     end

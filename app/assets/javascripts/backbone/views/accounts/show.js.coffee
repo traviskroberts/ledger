@@ -1,14 +1,16 @@
 class Ledger.Views.AccountShow extends Support.CompositeView
-  events:
-    'click #add-entry' : 'addEntry'
 
   initialize: ->
     _.bindAll this, 'render', 'entryAdded'
     this.entry = new Ledger.Models.Entry
     this.model.bind('add:entries', this.render);
 
+  events:
+    'click #add-entry' : 'addEntry'
+
   render: ->
-    this.$el.html(JST['backbone/templates/accounts/show']({account: this.model.toJSON()}))
+    template = JST['backbone/templates/accounts/show']({account: this.model.toJSON()})
+    this.$el.html(template)
     this.renderEntries()
     this
 
