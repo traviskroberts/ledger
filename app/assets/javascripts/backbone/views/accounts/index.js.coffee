@@ -1,4 +1,6 @@
 class Ledger.Views.AccountsIndex extends Support.CompositeView
+  tagName: 'span'
+
   initialize: ->
     _.bindAll this, 'render', 'renderTemplate', 'renderAccounts'
     # this.collection.bind 'reset', this.render

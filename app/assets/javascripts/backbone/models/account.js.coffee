@@ -1,5 +1,5 @@
 Ledger.Models.Account = Backbone.RelationalModel.extend
-  urlRoot : '/accounts'
+  urlRoot : '/api/accounts'
   idAttribute: 'url'
 
   relations: [
@@ -14,4 +14,4 @@ Ledger.Models.Account = Backbone.RelationalModel.extend
 
 class Ledger.Collections.Accounts extends Backbone.Collection
   model: Ledger.Models.Account
-  url: '/accounts'
+  url: '/api/accounts'

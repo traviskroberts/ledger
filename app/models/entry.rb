@@ -1,7 +1,7 @@
 class Entry < ActiveRecord::Base
   belongs_to :account
 
-  attr_accessible :description, :float_amount
+  attr_accessible :account_id, :description, :float_amount
   attr_accessor :float_amount
 
   validates :account, :presence => true
@@ -21,6 +21,15 @@ class Entry < ActiveRecord::Base
 
   after_save :update_account_balance
   after_destroy :undo_entry
+
+  def as_json(options={})
+    opts = {
+      :only => [:id, :classification, :description],
+      :methods => [:formatted_amount]
+    }
+
+    super(options.merge(opts))
+  end
 
   def dollar_amount
     amount.to_f / 100

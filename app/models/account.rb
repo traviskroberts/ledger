@@ -14,14 +14,6 @@ class Account < ActiveRecord::Base
 
   after_create :populate_balance
 
-  def to_param
-    url
-  end
-
-  def dollar_balance
-    ActionController::Base.helpers.number_to_currency(balance.to_f / 100)
-  end
-
   def as_json(options={})
     opts = {
       :only => [:id, :url, :name],
@@ -35,6 +27,14 @@ class Account < ActiveRecord::Base
     }
 
     super(options.merge(opts))
+  end
+
+  def to_param
+    url
+  end
+
+  def dollar_balance
+    ActionController::Base.helpers.number_to_currency(balance.to_f / 100)
   end
 
   private

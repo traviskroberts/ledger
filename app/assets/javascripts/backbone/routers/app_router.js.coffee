@@ -4,8 +4,8 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     this.accounts = options.accounts
 
   routes:
-    'backbone/accounts'      : 'listAccounts'
-    'backbone/accounts/:id'  : 'viewAccount'
+    'accounts'      : 'listAccounts'
+    'accounts/:id'  : 'viewAccount'
 
   listAccounts: ->
     view = new Ledger.Views.AccountsIndex({collection: this.accounts})
