@@ -21,12 +21,14 @@ Ledger::Application.routes.draw do
   match 'accounts/:id'          => 'accounts#backbone'
   match 'accounts/:id/edit'     => 'accounts#backbone'
   match 'accounts/:id/sharing'  => 'accounts#backbone'
+  match 'users'                 => 'accounts#backbone', :via => :get
 
   namespace :api do
     resources :accounts do
       resources :entries, :only => [:index, :create, :destroy]
       resources :invitations, :only => [:index, :create, :destroy]
     end
+    resources :users, :only => [:index]
   end
 
   resources :accounts do

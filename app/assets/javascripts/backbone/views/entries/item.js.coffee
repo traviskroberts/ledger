@@ -1,5 +1,5 @@
 class Ledger.Views.EntryItem extends Support.CompositeView
-  tagName: "li"
+  tagName: 'li'
 
   # events:
   #   'click .delete-entry': 'delete_entry'
