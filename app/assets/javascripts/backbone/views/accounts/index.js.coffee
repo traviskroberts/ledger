@@ -2,17 +2,14 @@ class Ledger.Views.AccountsIndex extends Support.CompositeView
   tagName: 'span'
 
   initialize: ->
-    _.bindAll this, 'render', 'renderTemplate', 'renderAccounts'
+    _.bindAll this, 'render', 'renderAccounts'
     this.collection.bind 'change', this.render
     this.collection.bind 'remove', this.render
 
   render: ->
-    this.renderTemplate()
+    this.$el.html(JST['backbone/templates/accounts/index'])
     this.renderAccounts()
     this
-
-  renderTemplate: ->
-    this.$el.html(JST['backbone/templates/accounts/index'])
 
   renderAccounts: ->
     this.collection.each (account) =>

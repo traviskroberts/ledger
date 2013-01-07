@@ -2,7 +2,7 @@ class Invitation < ActiveRecord::Base
   belongs_to :account
   belongs_to :user
 
-  attr_accessible :account, :email, :token, :user
+  attr_accessible :email, :token
 
   validates :account, :presence => true
   validates :user, :presence => true

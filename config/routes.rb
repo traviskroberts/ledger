@@ -16,14 +16,17 @@ Ledger::Application.routes.draw do
   match 'accept-invite/:token', :to => 'invitations#show', :as => :accept_invite
 
   # bogus routes to make sure the app is bootstrapped correctly
-  match 'accounts'          => 'accounts#backbone'
-  match 'accounts/new'      => 'accounts#backbone'
-  match 'accounts/:id'      => 'accounts#backbone'
-  match 'accounts/:id/edit' => 'accounts#backbone'
+  match 'accounts'              => 'accounts#backbone'
+  match 'accounts/new'          => 'accounts#backbone'
+  match 'accounts/:id'          => 'accounts#backbone'
+  match 'accounts/:id/edit'     => 'accounts#backbone'
+  match 'accounts/:id/sharing'  => 'accounts#backbone'
 
   namespace :api do
-    resources :accounts
-    resources :entries, :only => [:index, :create, :destroy]
+    resources :accounts do
+      resources :entries, :only => [:index, :create, :destroy]
+      resources :invitations, :only => [:index, :create, :destroy]
+    end
   end
 
   resources :accounts do
@@ -32,6 +35,6 @@ Ledger::Application.routes.draw do
     resources :invitations, :only => [:create, :destroy]
     resources :recurring_transactions, :except => [:show]
   end
-  resources :entries, :only => [:index, :create, :destroy]
+
   resources :users, :except => [:edit]
 end

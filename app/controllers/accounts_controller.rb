@@ -6,7 +6,8 @@ class AccountsController < ApplicationController
   end
 
   def backbone
-    @accounts = current_user.accounts.includes(:entries)
+    # @accounts = current_user.accounts.includes(:entries)
+    @accounts = current_user.accounts
   end
 
   def show

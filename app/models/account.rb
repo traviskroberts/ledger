@@ -17,13 +17,7 @@ class Account < ActiveRecord::Base
   def as_json(options={})
     opts = {
       :only => [:id, :url, :name],
-      :methods => [:dollar_balance],
-      :include => {
-        :entries => {
-          :only => [:id, :classification, :description],
-          :methods => [:formatted_amount]
-        }
-      }
+      :methods => [:dollar_balance]
     }
 
     super(options.merge(opts))

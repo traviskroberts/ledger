@@ -1,21 +1,34 @@
 class Ledger.Views.AccountShow extends Support.CompositeView
 
   initialize: ->
-    _.bindAll this, 'render', 'entryAdded'
-    this.entry = new Ledger.Models.Entry
-    this.model.bind('add:entries', this.render);
+    _.bindAll this, 'render', 'renderEntries', 'entryAdded'
+
+    this.model.bind 'add:entries', this.render
+    if this.model.get('entries').length == 0
+      this.entries = new Ledger.Collections.Entries
+    else
+      this.entries = this.model.get('entries')
+
+    this.entries.url = '/api/accounts/' + this.model.get('url') + '/entries'
+    this.entries.bind 'sync', this.renderEntries
+
+    if this.entries.length == 0
+      this.model.set('entries': this.entries)
+      this.entries.fetch()
 
   events:
-    'click #add-entry' : 'addEntry'
+    'submit form' : 'addEntry'
 
   render: ->
     template = JST['backbone/templates/accounts/show']({account: this.model.toJSON()})
     this.$el.html(template)
-    this.renderEntries()
+    if this.entries.length > 0
+      this.renderEntries()
     this
 
   renderEntries: ->
-    this.model.get('entries').each (entry) =>
+    this.$('#entries').html('')
+    this.entries.each (entry) =>
       row = new Ledger.Views.EntryItem({model: entry})
       this.renderChild(row)
       this.$('#entries').append(row.el)
@@ -25,6 +38,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       float_amount: $('#entry_float_amount').val()
       description: $('#entry_description').val()
       account_id: this.model.get('id')
+    this.entry.url = '/api/accounts/' + this.model.get('url') + '/entries'
     this.entry.save({}, {success: this.entryAdded, error: this.onError})
     false
 

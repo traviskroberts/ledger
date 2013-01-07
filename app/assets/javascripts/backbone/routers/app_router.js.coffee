@@ -4,10 +4,11 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     this.accounts = options.accounts
 
   routes:
-    'accounts'          : 'listAccounts'
-    'accounts/new'      : 'newAccount'
-    'accounts/:id'      : 'viewAccount'
-    'accounts/:id/edit' : 'editAccount'
+    'accounts'              : 'listAccounts'
+    'accounts/new'          : 'newAccount'
+    'accounts/:id'          : 'viewAccount'
+    'accounts/:id/edit'     : 'editAccount'
+    'accounts/:id/sharing'  : 'invitations'
 
   listAccounts: ->
     view = new Ledger.Views.AccountsIndex({collection: this.accounts})
@@ -25,4 +26,9 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
   editAccount: (id) ->
     account = this.accounts.get(id)
     view = new Ledger.Views.AccountEdit({model: account})
+    this.swap(view)
+
+  invitations: (id) ->
+    account = this.accounts.get(id)
+    view = new Ledger.Views.InvitationsIndex({account: account})
     this.swap(view)

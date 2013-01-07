@@ -1,11 +1,10 @@
 class Api::EntriesController < ApplicationController
-  before_filter :require_user
+  before_filter :require_user, :load_account
 
   respond_to :json
 
   def index
-    @account = current_user.accounts.find_by_url(params[:account_id])
-    @entries = @account.entries
+    @entries = @account.entries.paginate(:page => params[:page], :per_page => 25)
     respond_with(@entries)
   end
 
@@ -28,4 +27,9 @@ class Api::EntriesController < ApplicationController
       render :json => {:message => 'Error'}, :status => 400
     end
   end
+
+  private
+    def load_account
+      @account = current_user.accounts.find_by_url(params[:account_id])
+    end
 end

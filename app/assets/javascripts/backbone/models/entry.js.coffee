@@ -1,5 +1,5 @@
 Ledger.Models.Entry = Backbone.RelationalModel.extend
-  urlRoot : '/api/entries'
+  urlRoot: '/api/entries'
 
 class Ledger.Collections.Entries extends Backbone.Collection
   model: Ledger.Models.Entry

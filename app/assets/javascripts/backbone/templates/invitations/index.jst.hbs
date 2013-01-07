@@ -1,0 +1,13 @@
+<h1>{{account.name}} - Sharing Settings</h1>
+
+<form action="#" method="post" class="form-inline">
+  <label for="email">Invite a collaborator</label>
+  <input type="email" name="invitation_email" id="invitation_email" placeholder="Email Address" />
+  <input type="submit" value="Send Invitation" class="btn btn-primary" />
+</form>
+
+{{#if invitations}}
+  <h2>Pending Invitations</h2>
+
+  <ul id="invitations-list" class="unstyled"></ul>
+{{/if}}
