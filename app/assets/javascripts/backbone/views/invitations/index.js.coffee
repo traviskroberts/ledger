@@ -36,7 +36,7 @@ class Ledger.Views.InvitationsIndex extends Support.CompositeView
 
   save: (e) ->
     e.preventDefault()
-    this.model = new Ledger.Models.Invitation({account: this.account})
+    this.model = new Ledger.Models.Invitation
     this.model.urlRoot = '/api/accounts/' + this.account.get('url') + '/invitations'
     this.model.set
       email: $('#invitation_email').val()
@@ -44,6 +44,7 @@ class Ledger.Views.InvitationsIndex extends Support.CompositeView
 
   saved: (model, resp, options) ->
     this.model.set(resp)
+    this.model.set({account: this.account})
     this.collection.add(this.model)
 
   onError: ->
