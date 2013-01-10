@@ -20,6 +20,15 @@ Ledger.Models.Account = Backbone.RelationalModel.extend
       reverseRelation:
         key: 'account'
         includeInJSON: 'id'
+    },
+    {
+      type: Backbone.HasMany
+      key: 'recurring_transactions'
+      relatedModel: 'Ledger.Models.RecurringTransaction'
+      collectionType: 'Ledger.Collections.RecurringTransactions'
+      reverseRelation:
+        key: 'account'
+        includeInJSON: 'id'
     }
   ]
 

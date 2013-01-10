@@ -1,7 +1,10 @@
 <script>
   $(document).ready(function() {
     var data = {
-      accounts: <%=raw @accounts.to_json %>
+      accounts: <%=raw @accounts.to_json %>,
+      invitations: {},
+      entries: {},
+      recurring_transactions: {}
     };
 
     Ledger.initialize(data);
