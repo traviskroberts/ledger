@@ -4,6 +4,8 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     _.bindAll this, 'render', 'renderEntries', 'entryAdded'
 
     this.model.bind 'add:entries', this.render
+    this.model.bind 'remove:entries', this.render
+    this.model.bind 'change', this.render
     if this.model.get('entries').length == 0
       this.entries = new Ledger.Collections.Entries
     else
@@ -29,7 +31,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
   renderEntries: ->
     this.$('#entries').html('')
     this.entries.each (entry) =>
-      row = new Ledger.Views.EntryItem({model: entry})
+      row = new Ledger.Views.EntryItem({model: entry, account: this.model})
       this.renderChild(row)
       this.$('#entries').append(row.el)
 

@@ -35,12 +35,5 @@ Ledger::Application.routes.draw do
     resources :users, :only => [:index]
   end
 
-  resources :accounts do
-    get :sharing, :on => :member
-    resources :entries, :only => [:index, :create, :destroy]
-    resources :invitations, :only => [:create, :destroy]
-    resources :recurring_transactions, :except => [:show]
-  end
-
   resources :users, :except => [:edit]
 end

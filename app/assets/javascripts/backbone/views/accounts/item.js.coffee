@@ -13,6 +13,7 @@ class Ledger.Views.AccountItem extends Support.CompositeView
 
   deleteAccount: (e) ->
     e.preventDefault()
-    this.model.destroy
-      error: ->
-        alert 'That account could not be removed.'
+    if confirm('Are you sure you want to delete this account?')
+      this.model.destroy
+        error: ->
+          alert 'That account could not be removed.'
