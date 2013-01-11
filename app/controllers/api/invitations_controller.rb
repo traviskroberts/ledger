@@ -25,7 +25,7 @@ class Api::InvitationsController < ApplicationController
     @invitation = @account.invitations.find(params[:id])
 
     if @invitation.destroy
-      respond_with(@invitation)
+      render :json => @invitation
     else
       render :json => {:message => 'Error'}, :status => 400
     end

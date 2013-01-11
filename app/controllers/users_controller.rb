@@ -1,11 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:edit, :update]
-  before_filter :require_admin, :only => [:index]
-
-  def index
-    @users = User.paginate(:page => params[:page], :per_page => 25)
-  end
+  before_filter :require_user, :only => [:update]
 
   def new
     @user = User.new

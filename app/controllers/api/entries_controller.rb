@@ -9,7 +9,7 @@ class Api::EntriesController < ApplicationController
   end
 
   def create
-    @entry = Entry.new(params[:entry])
+    @entry = @account.entries.new(params[:entry])
 
     if @entry.save
       render :json => {:entry => @entry, :account_balance => @entry.account.dollar_balance}
