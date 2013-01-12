@@ -13,7 +13,8 @@ class Ledger.Views.AccountEdit extends Support.CompositeView
 
   save: (e) ->
     e.preventDefault()
-    this.model.save({name: $('#account_name').val()}, success: this.saved, error: this.onError)
+    if this.$('form').valid()
+      this.model.save({name: $('#account_name').val()}, success: this.saved, error: this.onError)
 
   saved: (model, resp, options) ->
     this.model.set(resp)

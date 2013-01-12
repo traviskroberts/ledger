@@ -4,8 +4,9 @@
 
 <form action="#" method="post" class="form-inline">
   <label for="email">Invite a collaborator</label>
-  <input type="email" name="invitation_email" id="invitation_email" placeholder="Email Address" />
+  <input type="email" name="invitation_email" id="invitation_email" class="required" placeholder="Email Address" />
   <input type="submit" value="Send Invitation" class="btn btn-primary" />
+  <label for="invitation_email" class="error hide invitation-error">This field is required.</label>
 </form>
 
 {{#if invitations}}

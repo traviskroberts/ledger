@@ -14,10 +14,11 @@ class Ledger.Views.AccountNew extends Support.CompositeView
 
   save: (e) ->
     e.preventDefault()
-    this.model.set
-      name: $('#account_name').val()
-      initial_balance: $('#account_initial_balance').val()
-    this.model.save({}, success: this.saved, error: this.onError)
+    if this.$('form').valid()
+      this.model.set
+        name: $('#account_name').val()
+        initial_balance: $('#account_initial_balance').val()
+      this.model.save({}, success: this.saved, error: this.onError)
 
   saved: (model, resp, options) ->
     this.model.set(resp)

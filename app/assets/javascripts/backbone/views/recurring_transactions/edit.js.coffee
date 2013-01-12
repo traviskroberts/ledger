@@ -33,11 +33,12 @@ class Ledger.Views.RecurringTransactionEdit extends Support.CompositeView
 
   save: (e) ->
     e.preventDefault()
-    this.model.set
-      float_amount: $('#float_amount').val()
-      day: $('#day').val()
-      description: $('#description').val()
-    this.model.save({}, success: this.saved, error: this.onError)
+    if this.$('form').valid()
+      this.model.set
+        float_amount: $('#float_amount').val()
+        day: $('#day').val()
+        description: $('#description').val()
+      this.model.save({}, success: this.saved, error: this.onError)
 
   saved: (model, resp, options) ->
     this.model.set(resp)

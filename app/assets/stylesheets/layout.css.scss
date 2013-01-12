@@ -1,5 +1,7 @@
 @import "mixins";
 
+$error_red: #900;
+
 #screen-info {
   background-color: #000;
   color: #fff;
@@ -81,6 +83,28 @@ li.navbar-text {
     background: fade-out(#a95246, .05);
     padding: 23px 15px;
   }
+}
+
+// FORM ERRORS
+input.error,
+select.error {
+  border-color: $error_red;
+}
+
+label.error {
+  color: $error-red;
+}
+
+.help-inline .error {
+  margin: 0;
+}
+
+.entry-fields-error {
+  padding-left: 28px;
+}
+
+.invitation-error {
+  padding-left: 130px;
 }
 
 // AUTH PAGES
