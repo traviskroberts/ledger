@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.validate
 //= require bootstrap-alert
 //= require bootstrap-button
 //= require bootstrap-collapse
@@ -25,15 +26,6 @@
 //= require backbone/ledger
 //= require spin
 //= require site
-
-Handlebars.registerHelper('option_selected', function(val1, val2) {
-  var ret = '';
-  if (val1 == val2) {
-    ret = ' selected="selected"'
-  }
-
-  return new Handlebars.SafeString(ret);
-});
 
 /*
 You can now create a spinner using any of the variants below:
