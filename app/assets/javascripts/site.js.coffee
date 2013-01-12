@@ -6,8 +6,8 @@ $ ->
       win_size = $(window).width()
       $("#screen-info").html(win_size + 'px')
 
-  if $('.alert').length
-    setTimeout("$('.alert').slideUp(500)", 5000)
+  if $('.alert-fixed').length
+    setTimeout("$('.alert-fixed').slideUp(500)", 5000)
 
 Handlebars.registerHelper 'option_selected', (val1, val2) ->
   ret = ''
