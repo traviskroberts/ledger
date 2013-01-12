@@ -5,7 +5,7 @@ class Api::RecurringTransactionsController < ApplicationController
 
   def index
     @recurring_transactions = @account.recurring_transactions
-    respond_with(@recurring_transactions)
+    render :json => @recurring_transactions
   end
 
   def create
@@ -32,7 +32,7 @@ class Api::RecurringTransactionsController < ApplicationController
     @recurring_transaction = @account.recurring_transactions.find(params[:id])
 
     if @recurring_transaction.destroy
-      respond_with(@recurring_transaction)
+      render :json => @recurring_transaction
     else
       render :json => {:message => 'Error'}, :status => 400
     end

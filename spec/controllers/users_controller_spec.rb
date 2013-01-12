@@ -9,23 +9,6 @@ describe UsersController do
     activate_authlogic
   end
 
-  describe 'GET #index' do
-    it 'should redirect unless current user is an admin' do
-      UserSession.create(user)
-
-      get :index
-      expect(response).to redirect_to(root_url)
-    end
-
-    it 'should get a list of user accounts' do
-      UserSession.create(admin)
-      3.times { FactoryGirl.create(:user) }
-
-      get :index
-      expect(assigns(:users).length).to eq(4)
-    end
-  end
-
   describe 'GET #new' do
     it 'should create an instance of User' do
       get :new
