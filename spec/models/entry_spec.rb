@@ -71,6 +71,14 @@ describe Entry do
     end
   end
 
+  describe '#as_json' do
+    it 'json representation should only include the specified fields' do
+      entry = FactoryGirl.create(:entry)
+      json = JSON.parse(entry.to_json, :symbolize_names => true)
+      expect(json.keys).to match_array([:id, :classification, :description, :formatted_amount, :timestamp])
+    end
+  end
+
   describe '#dollar_amount' do
     it 'should return a float' do
       entry = FactoryGirl.create(:entry)
@@ -109,6 +117,30 @@ describe Entry do
     it 'should return false if the classification is debit' do
       entry = FactoryGirl.build(:entry, :classification => 'credit')
       expect(entry.debit?).to eq(false)
+    end
+  end
+
+  describe '#formatted_amount' do
+    it 'should return a positive formatted dollar representation of the dollar amount if it is a credit' do
+      entry = FactoryGirl.create(:entry, :classification => 'credit', :float_amount => '59')
+      expect(entry.formatted_amount).to eq("$59.00")
+    end
+
+    it 'should return a negative formatted dollar representation of the dollar amount if it is a debit' do
+      entry = FactoryGirl.create(:entry, :classification => 'debit', :float_amount => '-14.2')
+      expect(entry.formatted_amount).to eq("-$14.20")
+    end
+  end
+
+  describe '#timestamp' do
+    it 'should return a Fixnum unix timestamp for the entry' do
+      entry = FactoryGirl.create(:entry)
+      expect(entry.timestamp.class).to eq(Fixnum)
+    end
+
+    it 'should return the correct unix timestamp for the entry' do
+      entry = FactoryGirl.create(:entry, :created_at => '2001-03-08')
+      expect(entry.timestamp).to eq(984009600)
     end
   end
 end

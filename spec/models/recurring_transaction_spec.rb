@@ -17,7 +17,7 @@ describe RecurringTransaction do
   end
 
   describe 'callbacks' do
-    describe 'before_validation(:on => :create)' do
+    describe 'before_validation' do
       it 'should set the classification to credit if amount is positive' do
         recurring_transaction = FactoryGirl.create(:recurring_transaction, :float_amount => '12.34')
         expect(recurring_transaction.classification).to eq('credit')
@@ -40,6 +40,14 @@ describe RecurringTransaction do
     end
   end
 
+  describe '#as_json' do
+    it 'json representation should only include the specified fields' do
+      recurring_transaction = FactoryGirl.create(:recurring_transaction)
+      json = JSON.parse(recurring_transaction.to_json, :symbolize_names => true)
+      expect(json.keys).to match_array([:id, :day, :description, :classification, :formatted_amount, :form_amount_value])
+    end
+  end
+
   describe '#dollar_amount' do
     it 'should return a float' do
       recurring_transaction = FactoryGirl.create(:recurring_transaction)
@@ -54,6 +62,30 @@ describe RecurringTransaction do
     it 'should convert a complex integer to a correct dollar amount' do
       recurring_transaction = FactoryGirl.create(:recurring_transaction, :float_amount => "1,234,567.89")
       expect(recurring_transaction.dollar_amount).to eq(1234567.89)
+    end
+  end
+
+  describe '#formatted_amount' do
+    it 'should return a positive formatted dollar representation of the dollar amount if it is a credit' do
+      recurring_transaction = FactoryGirl.create(:recurring_transaction, :float_amount => '59')
+      expect(recurring_transaction.formatted_amount).to eq("$59.00")
+    end
+
+    it 'should return a negative formatted dollar representation of the dollar amount if it is a debit' do
+      recurring_transaction = FactoryGirl.create(:recurring_transaction, :float_amount => '-14.2')
+      expect(recurring_transaction.formatted_amount).to eq("-$14.20")
+    end
+  end
+
+  describe '#form_amount_value' do
+    it 'should return a positive formatted float representation of the dollar amount if it is a credit' do
+      recurring_transaction = FactoryGirl.create(:recurring_transaction, :float_amount => '59')
+      expect(recurring_transaction.form_amount_value).to eq("59.00")
+    end
+
+    it 'should return a negative formatted float representation of the dollar amount if it is a debit' do
+      recurring_transaction = FactoryGirl.create(:recurring_transaction, :float_amount => '-14.2')
+      expect(recurring_transaction.form_amount_value).to eq("-14.20")
     end
   end
 end

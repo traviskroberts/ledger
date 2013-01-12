@@ -9,4 +9,10 @@ class User < ActiveRecord::Base
     # see https://github.com/binarylogic/authlogic/issues/262#issuecomment-1804988
     c.maintain_sessions = false
   end
+
+  def as_json(options={})
+    opts = {:only => [:id, :name, :email]}
+
+    super(options.merge(opts))
+  end
 end

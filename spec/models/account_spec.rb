@@ -37,6 +37,14 @@ describe Account do
     end
   end
 
+  describe '#as_json' do
+    it 'json representation should only include the specified fields' do
+      account = FactoryGirl.create(:account)
+      json = JSON.parse(account.to_json, :symbolize_names => true)
+      expect(json.keys).to match_array([:id, :name, :url, :dollar_balance])
+    end
+  end
+
   describe '#dollar_balance' do
     it 'should convert the integer to a correct dollar value' do
       account = FactoryGirl.create(:account, :balance => 4735)
