@@ -6,6 +6,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def edit
+    @user = current_user
+  end
+
   def create
     @user = User.new(params[:user])
 
