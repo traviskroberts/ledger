@@ -1,4 +1,4 @@
-Ledger.Models.Account = Backbone.RelationalModel.extend
+class Ledger.Models.Account extends Backbone.RelationalModel
   urlRoot : '/api/accounts'
   idAttribute: 'url'
 
@@ -31,6 +31,8 @@ Ledger.Models.Account = Backbone.RelationalModel.extend
         includeInJSON: 'id'
     }
   ]
+
+Ledger.Models.Account.setup() # needed for backbone-relational
 
 class Ledger.Collections.Accounts extends Backbone.Collection
   model: Ledger.Models.Account
