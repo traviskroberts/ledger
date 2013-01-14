@@ -8,6 +8,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     this.model.bind 'change', this.render
     if this.model.get('entries').length == 0
       this.entries = new Ledger.Collections.Entries
+      # this.entries.setSort('id', 'desc')
     else
       this.entries = this.model.get('entries')
 
