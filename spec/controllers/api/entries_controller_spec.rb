@@ -18,6 +18,21 @@ describe Api::EntriesController do
       get :index, :account_id => account
       expect(assigns(:entries)).to match_array(entries)
     end
+
+    it 'should paginate the entries' do
+      26.times { FactoryGirl.create(:entry, :account => account) }
+
+      get :index, :account_id => account
+      expect(assigns(:entries).length).to eq(25)
+    end
+
+    it 'should return a json representation of the entries' do
+      5.times { FactoryGirl.create(:entry, :account => account) }
+
+      get :index, :account_id => account
+      jsr = JSON.parse(response.body, :symbolize_names => true)
+      expect(jsr.keys).to match_array([:page, :total_pages, :total_number, :entries])
+    end
   end
 
   describe 'POST #create' do

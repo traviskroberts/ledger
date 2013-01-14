@@ -11,7 +11,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     else
       this.entries = this.model.get('entries')
 
-    this.entries.url = '/api/accounts/' + this.model.get('url') + '/entries'
+    this.entries.paginator_core.url = '/api/accounts/' + this.model.get('url') + '/entries'
     this.entries.bind 'sync', this.renderEntries
 
     if this.entries.length == 0
@@ -31,10 +31,9 @@ class Ledger.Views.AccountShow extends Support.CompositeView
 
   renderEntries: ->
     this.$('#entries').html('')
-    this.entries.each (entry) =>
-      row = new Ledger.Views.EntryItem({model: entry, account: this.model})
-      this.renderChild(row)
-      this.$('#entries').append(row.el)
+    row = new Ledger.Views.EntryIndex({collection: this.entries, account: this.model})
+    this.renderChild(row)
+    this.$('#entries').append(row.el)
 
   validateEntryForm: ->
     this.$('form').validate

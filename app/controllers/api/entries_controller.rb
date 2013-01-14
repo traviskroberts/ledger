@@ -5,7 +5,12 @@ class Api::EntriesController < ApplicationController
 
   def index
     @entries = @account.entries.paginate(:page => params[:page], :per_page => 25)
-    respond_with(@entries)
+    render :json => {
+      :page => @entries.current_page,
+      :total_pages => @entries.total_pages,
+      :total_number => @entries.count,
+      :entries => @entries
+    }
   end
 
   def create

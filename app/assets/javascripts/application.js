@@ -23,6 +23,7 @@
 //= require backbone
 //= require backbone-support
 //= require backbone-relational
+//= require backbone.paginator
 //= require backbone/ledger
 //= require spin
 //= require site
