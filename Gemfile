@@ -26,6 +26,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'capistrano'
   gem 'capistrano_colors'
+  gem 'rvm-capistrano'
 end
 
 group :development, :test do
