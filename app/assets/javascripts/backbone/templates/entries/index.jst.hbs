@@ -1,4 +1,8 @@
-<ul id="entries-list" class="entry-list unstyled"></ul>
+<!-- <ul id="entries-list" class="entry-list unstyled"></ul> -->
+
+<table class="table table-bordered table-condensed table-striped">
+  <tbody id="entries-list"></tbody>
+</table>
 
 {{#if pagination.totalRecords}}
   <div class="pagination-info pull-right">{{pagination_info pagination.currentPage pagination.perPage pagination.totalRecords}}</div>

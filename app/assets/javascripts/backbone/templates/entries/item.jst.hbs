@@ -1,3 +1,6 @@
-<a href="/accounts/{{account.url}}/entries/{{entry.id}}" class="pull-left delete-entry"><i class="icon-remove"></i></a>
-<span class="pull-right {{entry.classification}}">{{entry.formatted_amount}}</span>
-{{entry.description}}
+<td>
+  <a href="/accounts/{{account.url}}/entries/{{entry.id}}" class="pull-left delete-entry"><i class="icon-remove"></i></a>
+  {{entry.description}}
+</td>
+<td class="date">{{entry.date}}</td>
+<td class="{{entry.classification}}">{{entry.formatted_amount}}</td>

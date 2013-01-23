@@ -75,7 +75,7 @@ describe Entry do
     it 'json representation should only include the specified fields' do
       entry = FactoryGirl.create(:entry)
       json = JSON.parse(entry.to_json, :symbolize_names => true)
-      expect(json.keys).to match_array([:id, :classification, :description, :formatted_amount, :timestamp])
+      expect(json.keys).to match_array([:id, :classification, :description, :formatted_amount, :date, :timestamp])
     end
   end
 
@@ -129,6 +129,14 @@ describe Entry do
     it 'should return a negative formatted dollar representation of the dollar amount if it is a debit' do
       entry = FactoryGirl.create(:entry, :classification => 'debit', :float_amount => '-14.2')
       expect(entry.formatted_amount).to eq("-$14.20")
+    end
+  end
+
+  describe '#date' do
+    it 'should return a formatted representation of the created_at date' do
+      entry = FactoryGirl.create(:entry, :classification => 'credit', :float_amount => '59')
+
+      expect(entry.date).to eq(entry.created_at.strftime("%m/%d/%Y"))
     end
   end
 

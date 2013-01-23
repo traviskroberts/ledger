@@ -9,10 +9,10 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'hashie'
 gem 'lograge'
-gem 'whenever', :require => false
 gem 'rails-backbone'
 gem 'backbone-support'
 gem 'handlebars_assets'
+gem 'backup'
 
 group :assets do
   gem 'sass-rails'

@@ -25,7 +25,7 @@ class Entry < ActiveRecord::Base
   def as_json(options={})
     opts = {
       :only => [:id, :classification, :description],
-      :methods => [:formatted_amount, :timestamp]
+      :methods => [:formatted_amount, :date, :timestamp]
     }
 
     super(options.merge(opts))
@@ -45,6 +45,10 @@ class Entry < ActiveRecord::Base
 
   def formatted_amount
     (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
+  end
+
+  def date
+    created_at.strftime("%m/%d/%Y")
   end
 
   def timestamp

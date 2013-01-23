@@ -44,7 +44,7 @@ describe Api::EntriesController do
     it 'should render a json representation of the entry' do
       post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch'}
       jsr = JSON.parse(response.body, :symbolize_names => true)
-      expect(jsr[:entry].keys).to match_array([:classification, :description, :id, :formatted_amount, :timestamp])
+      expect(jsr[:entry].keys).to match_array([:classification, :description, :id, :formatted_amount, :date, :timestamp])
     end
 
     it 'should render a json representation of the updated account balance' do

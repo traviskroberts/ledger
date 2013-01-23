@@ -1,6 +1,7 @@
 @import "mixins";
 
 $error_red: #900;
+$lightGray: #999;
 
 #screen-info {
   background-color: #000;
@@ -136,30 +137,35 @@ label.error {
 }
 
 // ENTRY PAGES
-.entry-list {
-  border: 1px solid #eee;
-
-  li {
+tr {
+  td {
     font-size: 16px;
-    padding: 5px 10px 5px 0;
 
-    &:nth-child(odd) {
-      background-color: #eee;
+    &.debit,
+    &.credit {
+      text-align: right;
+      width: 115px;
     }
 
-    .delete-entry {
-      display: block;
-      padding: 1px 5px 0 5px;
-      visibility: hidden;
-    }
-
-    &:hover .delete-entry {
-      visibility: visible;
-    }
-
-    .debit {
+    &.debit {
       color: #900;
     }
+
+    &.date {
+      font-size: 14px;
+      text-align: center;
+      width: 85px;
+    }
+  }
+
+  .delete-entry {
+    display: block;
+    padding: 1px 5px 0 5px;
+    visibility: hidden;
+  }
+
+  &:hover .delete-entry {
+    visibility: visible;
   }
 }
 
