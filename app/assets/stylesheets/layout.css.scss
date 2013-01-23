@@ -137,7 +137,7 @@ label.error {
 }
 
 // ENTRY PAGES
-tr {
+.entries tr {
   td {
     font-size: 16px;
 
@@ -170,7 +170,7 @@ tr {
 }
 
 // RECURRING TRANSACTION PAGES
-.table {
+.recurring {
   .day {
     width: 120px;
   }
@@ -210,7 +210,7 @@ tr {
     padding-top: 40px;
   }
 
-  .entry-list li .delete-entry {
+  .entries tr .delete-entry {
     visibility: visible;
   }
 }
@@ -233,7 +233,7 @@ tr {
     }
   }
 
-  .entry-list li .delete-entry {
+  .entries tr .delete-entry {
     visibility: visible;
   }
 }
@@ -276,7 +276,23 @@ tr {
     }
   }
 
-  .entry-list li .delete-entry {
+  .entries tr {
+    td {
+      font-size: 14px;
+
+      &.date {
+        display: none;
+      }
+
+      &.credit,
+      &.debit {
+        font-size: 14px;
+        width: 85px;
+      }
+    }
+  }
+
+  .entries tr .delete-entry {
     visibility: visible;
   }
 
