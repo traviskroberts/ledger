@@ -1,3 +1,7 @@
+window.addEventListener 'load', ->
+  new FastClick document.body
+, false
+
 $ ->
   if $("#screen-info").length
     win_size = $(window).width()
