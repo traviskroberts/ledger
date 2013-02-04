@@ -1,0 +1,12 @@
+<td>
+  <form class="entry-edit-form">
+    <input type="text" name="entry_description" value="{{entry.description}}" class="entry-description-field" />
+  </form>
+  <a href="/accounts/{{account.url}}" class="cancel-edit">cancel</a>
+</td>
+<td class="date">{{entry.date}}</td>
+<td class="{{entry.classification}}">
+  <form class="entry-edit-form">
+    <input type="text" name="entry_float_amount" value="{{entry.form_amount_value}}" class="entry-amount-field" />
+  </form>
+</td>

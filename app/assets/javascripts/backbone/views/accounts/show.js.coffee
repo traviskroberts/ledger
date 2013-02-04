@@ -8,7 +8,6 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     this.model.bind 'change', this.render
     if this.model.get('entries').length == 0
       this.entries = new Ledger.Collections.Entries
-      # this.entries.setSort('id', 'desc')
     else
       this.entries = this.model.get('entries')
 
@@ -20,7 +19,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       this.entries.fetch()
 
   events:
-    'submit form' : 'addEntry'
+    'submit .new-entry' : 'addEntry'
 
   render: ->
     template = JST['backbone/templates/accounts/show']({account: this.model.toJSON()})

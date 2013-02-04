@@ -8,9 +8,9 @@ class Entry < ActiveRecord::Base
   validates :amount, :presence => true, :numericality => true
   validates :classification, :presence => true, :inclusion => { :in => %w(credit debit) }
   validates :description, :presence => true
-  validates :float_amount, :presence => true
+  # validates :float_amount, :presence => true
 
-  before_validation(:on => :create) do
+  before_validation do
     if float_amount.present?
       self.classification = float_amount.include?('-') ? 'debit' : 'credit'
 
@@ -19,13 +19,14 @@ class Entry < ActiveRecord::Base
     end
   end
 
-  after_save :update_account_balance
+  after_create :update_account_balance
+  after_update :adjust_account_balance
   after_destroy :undo_entry
 
   def as_json(options={})
     opts = {
       :only => [:id, :classification, :description],
-      :methods => [:formatted_amount, :date, :timestamp]
+      :methods => [:formatted_amount, :date, :timestamp, :form_amount_value]
     }
 
     super(options.merge(opts))
@@ -47,6 +48,10 @@ class Entry < ActiveRecord::Base
     (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
   end
 
+  def form_amount_value
+    (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_with_precision(dollar_amount, :precision => 2)
+  end
+
   def date
     created_at.strftime("%m/%d/%Y")
   end
@@ -65,6 +70,36 @@ class Entry < ActiveRecord::Base
 
       account.balance = new_balance
       account.save
+    end
+
+    def adjust_account_balance
+      new_balance = nil
+
+      if changes.include?(:amount) && changes.include?(:classification)
+        if changes[:classification].first == 'credit'
+          new_balance = (account.balance - changes[:amount].first) - self.amount
+        else
+          new_balance = (account.balance + changes[:amount].first) + self.amount
+        end
+      elsif changes.include?(:amount)
+        if self.classification == 'credit'
+          new_balance = (account.balance - changes[:amount].first) + self.amount
+        else
+          new_balance = (account.balance + changes[:amount].first) - self.amount
+        end
+      elsif changes.include?(:classification)
+        # reverse the amount
+        if self.classification == 'credit'
+          new_balance = account.balance + (self.amount * 2)
+        else
+          new_balance = account.balance - (self.amount * 2)
+        end
+      end
+
+      if new_balance.present?
+        account.balance = new_balance
+        account.save
+      end
     end
 
     def undo_entry

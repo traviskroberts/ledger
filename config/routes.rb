@@ -28,7 +28,7 @@ Ledger::Application.routes.draw do
 
   namespace :api do
     resources :accounts do
-      resources :entries, :only => [:index, :create, :destroy]
+      resources :entries, :only => [:index, :create, :update, :destroy]
       resources :invitations, :only => [:index, :create, :destroy]
       resources :recurring_transactions, :only => [:index, :create, :update, :destroy]
     end

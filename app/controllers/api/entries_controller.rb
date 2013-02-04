@@ -23,8 +23,18 @@ class Api::EntriesController < ApplicationController
     end
   end
 
+  def update
+    @entry = @account.entries.find(params[:id])
+
+    if @entry.update_attributes(:description => params[:description], :float_amount => params[:float_amount])
+      render :json => {:entry => @entry, :account_balance => @account.reload.dollar_balance}
+    else
+      render :json => {:message => 'Error'}, :status => 400
+    end
+  end
+
   def destroy
-    @entry = Entry.find(params[:id])
+    @entry = @account.entries.find(params[:id])
 
     if @entry.destroy
       render :json => {:balance => @account.reload.dollar_balance}
