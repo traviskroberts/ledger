@@ -8,7 +8,7 @@ class Entry < ActiveRecord::Base
   validates :amount, :presence => true, :numericality => true
   validates :classification, :presence => true, :inclusion => { :in => %w(credit debit) }
   validates :description, :presence => true
-  # validates :float_amount, :presence => true
+  validates :date, :presence => true
 
   before_validation do
     if float_amount.present?

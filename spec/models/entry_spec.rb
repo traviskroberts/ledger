@@ -52,6 +52,61 @@ describe Entry do
       end
     end
 
+    describe 'after_update' do
+      before :each do
+        @account = FactoryGirl.create(:account, :initial_balance => '100.00')
+        @account.reload
+      end
+
+      it 'should correct the account balance if the credit is greater than the previous amount' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '10.00')
+        entry.update_attributes(:float_amount => '15.00')
+        expect(@account.reload.balance).to eq(11500)
+      end
+
+      it 'should correct the account balance if the credit is less than the previous amount' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '10.00')
+        entry.update_attributes(:float_amount => '5.00')
+        expect(@account.reload.balance).to eq(10500)
+      end
+
+      it 'should correct the account balance if the debit is greater than the previous amount' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '-10.00')
+        entry.update_attributes(:float_amount => '-15.00')
+        expect(@account.reload.balance).to eq(8500)
+      end
+
+      it 'should correct the account balance if the debit is less than the previous amount' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '-10.00')
+        entry.update_attributes(:float_amount => '-5.00')
+        expect(@account.reload.balance).to eq(9500)
+      end
+
+      it 'should correct the account balance if the entry was changed from credit to debit' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '10.00')
+        entry.update_attributes(:float_amount => '-10.00')
+        expect(@account.reload.balance).to eq(9000)
+      end
+
+      it 'should correct the account balance if the entry was changed from debit to credit' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '-10.00')
+        entry.update_attributes(:float_amount => '10.00')
+        expect(@account.reload.balance).to eq(11000)
+      end
+
+      it 'should correct the account balance if the entry was changed from credit to debit and the ammount changed' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '10.00')
+        entry.update_attributes(:float_amount => '-15.00')
+        expect(@account.reload.balance).to eq(8500)
+      end
+
+      it 'should correct the account balance if the entry was changed from debit to credit and the ammount changed' do
+        entry = FactoryGirl.create(:entry, :account => @account, :float_amount => '-10.00')
+        entry.update_attributes(:float_amount => '15.00')
+        expect(@account.reload.balance).to eq(11500)
+      end
+    end
+
     describe 'after_destroy' do
       it 'should add a deleted debit entry back to the account' do
         account = FactoryGirl.create(:account, :initial_balance => '$20.00')

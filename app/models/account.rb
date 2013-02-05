@@ -35,7 +35,7 @@ class Account < ActiveRecord::Base
     def populate_balance
       unless initial_balance.blank?
         amount = initial_balance.gsub(/[^\d\.]/, '')
-        entries.create!(:float_amount => amount, :description => 'Initial balance')
+        entries.create!(:float_amount => amount, :description => 'Initial balance', :date => Date.today)
       end
     end
 end
