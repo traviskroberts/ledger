@@ -37,18 +37,18 @@ describe Api::EntriesController do
 
   describe 'POST #create' do
     it 'assign the entry to the specified account' do
-      post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch'}
+      post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch', :date => Date.today}
       expect(account.entries.count).to eq(2)
     end
 
     it 'should render a json representation of the entry' do
-      post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch'}
+      post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch', :date => Date.today}
       jsr = JSON.parse(response.body, :symbolize_names => true)
-      expect(jsr[:entry].keys).to match_array([:classification, :description, :id, :formatted_amount, :date, :timestamp])
+      expect(jsr[:entry].keys).to match_array([:classification, :description, :id, :formatted_amount, :formatted_date, :timestamp, :form_amount_value])
     end
 
     it 'should render a json representation of the updated account balance' do
-      post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch'}
+      post :create, :account_id => account, :entry => {:float_amount => '1.23', :description => 'lunch', :date => Date.today}
       jsr = JSON.parse(response.body, :symbolize_names => true)
       expect(jsr.keys).to include(:account_balance)
     end

@@ -2,5 +2,5 @@
   <a href="/accounts/{{account.url}}/entries/{{entry.id}}" class="pull-left delete-entry"><i class="icon-remove"></i></a>
   <div class="edit-entry" data-id="{{entry.id}}" data-field="description">{{entry.description}}</div>
 </td>
-<td class="date">{{entry.date}}</td>
+<td class="date edit-entry" data-field="date">{{entry.formatted_date}}</td>
 <td class="{{entry.classification}} edit-entry" data-id="{{entry.id}}" data-field="amount">{{entry.formatted_amount}}</td>

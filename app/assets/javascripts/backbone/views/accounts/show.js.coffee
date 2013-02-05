@@ -30,6 +30,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     this
 
   renderEntries: ->
+    this.entries.sort()
     this.$('#entries').html('')
     row = new Ledger.Views.EntryIndex({collection: this.entries, account: this.model})
     this.renderChild(row)

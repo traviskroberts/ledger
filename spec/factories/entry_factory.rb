@@ -5,5 +5,6 @@ FactoryGirl.define do
     account
     description 'Test Entry'
     float_amount '19.37'
+    date Date.today
   end
 end

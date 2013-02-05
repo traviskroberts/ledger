@@ -16,7 +16,7 @@ namespace :recurring_transactions do
 
       transactions.each do |transaction|
         amt = (transaction.classification == 'debit' ? "-" : "") + transaction.dollar_amount.to_s
-        account.entries.create(:float_amount => amt, :description => transaction.description)
+        account.entries.create(:float_amount => amt, :description => transaction.description, :date => Date.today)
       end
     end
   end

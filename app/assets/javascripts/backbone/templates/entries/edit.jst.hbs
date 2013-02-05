@@ -4,7 +4,11 @@
   </form>
   <a href="/accounts/{{account.url}}" class="cancel-edit">cancel</a>
 </td>
-<td class="date">{{entry.date}}</td>
+<td class="date">
+  <form class="entry-edit-form">
+    <input type="text" name="entry_date" value="{{entry.formatted_date}}" class="entry-date-field datepicker" />
+  </form>
+</td>
 <td class="{{entry.classification}}">
   <form class="entry-edit-form">
     <input type="text" name="entry_float_amount" value="{{entry.form_amount_value}}" class="entry-amount-field" />

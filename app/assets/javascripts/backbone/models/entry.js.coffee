@@ -21,4 +21,4 @@ class Ledger.Collections.Entries extends Backbone.Paginator.requestPager
     resp.entries
 
   comparator: (entry) ->
-    -entry.get('id')
+    -entry.get('timestamp')

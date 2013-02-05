@@ -13,6 +13,22 @@ $ ->
   if $('.alert-fixed').length
     setTimeout("$('.alert-fixed').slideUp(500)", 5000)
 
+  # datepicker
+  $('#backbone-container').on
+    'click': ->
+      el = $(this)
+      el.datepicker('show').on 'changeDate', (ev) ->
+        if ev.viewMode == 'days'
+          el.datepicker('hide')
+    'focus': ->
+      el = $(this)
+      el.datepicker('show').on 'changeDate', (ev) ->
+        if ev.viewMode == 'days'
+          el.datepicker('hide')
+    '.datepicker'
+
+
+
 Handlebars.registerHelper 'option_selected', (val1, val2) ->
   ret = ''
   if val1 == val2

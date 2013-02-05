@@ -11,8 +11,8 @@ describe Entry do
     it { should validate_numericality_of(:amount) }
     it { should validate_presence_of(:classification) }
     it { should ensure_inclusion_of(:classification).in_array(['credit', 'debit']) }
+    it { should validate_presence_of(:date) }
     it { should validate_presence_of(:description) }
-    it { should validate_presence_of(:float_amount) }
   end
 
   describe 'callbacks' do
@@ -130,7 +130,7 @@ describe Entry do
     it 'json representation should only include the specified fields' do
       entry = FactoryGirl.create(:entry)
       json = JSON.parse(entry.to_json, :symbolize_names => true)
-      expect(json.keys).to match_array([:id, :classification, :description, :formatted_amount, :date, :timestamp])
+      expect(json.keys).to match_array([:id, :classification, :description, :formatted_amount, :formatted_date, :timestamp, :form_amount_value])
     end
   end
 
@@ -187,23 +187,34 @@ describe Entry do
     end
   end
 
-  describe '#date' do
-    it 'should return a formatted representation of the created_at date' do
+  describe '#form_amount_value' do
+    it 'should return a positive formatted representation of the dollar amount if it is a credit' do
       entry = FactoryGirl.create(:entry, :classification => 'credit', :float_amount => '59')
+      expect(entry.form_amount_value).to eq("59.00")
+    end
 
-      expect(entry.date).to eq(entry.created_at.strftime("%m/%d/%Y"))
+    it 'should return a negative formatted representation of the dollar amount if it is a debit' do
+      entry = FactoryGirl.create(:entry, :classification => 'debit', :float_amount => '-14.2')
+      expect(entry.form_amount_value).to eq("-14.20")
+    end
+  end
+
+  describe '#formatted_date' do
+    it 'should return a formatted representation of the entry date' do
+      entry = FactoryGirl.build(:entry, :date => Date.today)
+      entry.formatted_date.should == Date.today.strftime("%m/%d/%Y")
     end
   end
 
   describe '#timestamp' do
-    it 'should return a Fixnum unix timestamp for the entry' do
+    it 'should return a Fixnum unix timestamp for the entry date' do
       entry = FactoryGirl.create(:entry)
       expect(entry.timestamp.class).to eq(Fixnum)
     end
 
-    it 'should return the correct unix timestamp for the entry' do
-      entry = FactoryGirl.create(:entry, :created_at => '2001-03-08')
-      expect(entry.timestamp).to eq(984009600)
+    it 'should return the correct unix timestamp for the entry date' do
+      entry = FactoryGirl.create(:entry, :date => '2001-03-08')
+      expect(entry.timestamp).to eq(984031200)
     end
   end
 end

@@ -160,7 +160,7 @@ label.error {
     &.date {
       font-size: 14px;
       text-align: center;
-      width: 85px;
+      width: 90px;
     }
   }
 
@@ -188,6 +188,14 @@ label.error {
   .cancel-edit {
     color: #900;
     font-size: 14px;
+  }
+
+  .entry-date-field {
+    margin: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    text-align: right;
+    width: 75px;
   }
 
   .entry-amount-field {

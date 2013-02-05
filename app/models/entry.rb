@@ -1,7 +1,7 @@
 class Entry < ActiveRecord::Base
   belongs_to :account
 
-  attr_accessible :account_id, :description, :float_amount
+  attr_accessible :account_id, :description, :float_amount, :date
   attr_accessor :float_amount
 
   validates :account, :presence => true
@@ -26,7 +26,7 @@ class Entry < ActiveRecord::Base
   def as_json(options={})
     opts = {
       :only => [:id, :classification, :description],
-      :methods => [:formatted_amount, :date, :timestamp, :form_amount_value]
+      :methods => [:formatted_amount, :formatted_date, :timestamp, :form_amount_value]
     }
 
     super(options.merge(opts))
@@ -52,12 +52,12 @@ class Entry < ActiveRecord::Base
     (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_with_precision(dollar_amount, :precision => 2)
   end
 
-  def date
-    created_at.strftime("%m/%d/%Y")
+  def formatted_date
+    date.strftime("%m/%d/%Y")
   end
 
   def timestamp
-    created_at.to_i
+    date.to_time.to_i
   end
 
   private

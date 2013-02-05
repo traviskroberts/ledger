@@ -19,6 +19,8 @@
 //= require bootstrap-collapse
 //= require bootstrap-modal
 //= require bootstrap-transition
+//= require bootstrap-datepicker
+//= require moment
 //= require handlebars.runtime
 //= require underscore
 //= require backbone

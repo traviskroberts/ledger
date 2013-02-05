@@ -15,6 +15,7 @@ class Api::EntriesController < ApplicationController
 
   def create
     @entry = @account.entries.new(params[:entry])
+    @entry.date = Date.today
 
     if @entry.save
       render :json => {:entry => @entry, :account_balance => @entry.account.dollar_balance}
@@ -26,7 +27,7 @@ class Api::EntriesController < ApplicationController
   def update
     @entry = @account.entries.find(params[:id])
 
-    if @entry.update_attributes(:description => params[:description], :float_amount => params[:float_amount])
+    if @entry.update_attributes(:description => params[:description], :float_amount => params[:float_amount], :date => params[:date])
       render :json => {:entry => @entry, :account_balance => @account.reload.dollar_balance}
     else
       render :json => {:message => 'Error'}, :status => 400
