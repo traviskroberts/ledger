@@ -57,7 +57,7 @@ class Entry < ActiveRecord::Base
   end
 
   def timestamp
-    date.to_time.to_i
+    "#{date.to_time.to_i}#{updated_at.to_i}".to_i
   end
 
   private

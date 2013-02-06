@@ -209,12 +209,12 @@ describe Entry do
   describe '#timestamp' do
     it 'should return a Fixnum unix timestamp for the entry date' do
       entry = FactoryGirl.create(:entry)
-      expect(entry.timestamp.class).to eq(Fixnum)
+      expect(entry.timestamp.class).to eq(Bignum)
     end
 
     it 'should return the correct unix timestamp for the entry date' do
       entry = FactoryGirl.create(:entry, :date => '2001-03-08')
-      expect(entry.timestamp).to eq(984031200)
+      expect(entry.timestamp).to eq(9840312001385798400)
     end
   end
 end
