@@ -16,7 +16,7 @@ describe Entry do
   end
 
   describe 'callbacks' do
-    describe 'before_validation(:on => :create)' do
+    describe 'before_validation' do
       it 'should set the classification to credit if amount is positive' do
         entry = FactoryGirl.create(:entry, :float_amount => '12.34')
         expect(entry.classification).to eq('credit')
@@ -38,7 +38,7 @@ describe Entry do
       end
     end
 
-    describe 'after_save' do
+    describe 'after_create' do
       it 'should update the account balance by adding a credit entry' do
         entry = FactoryGirl.create(:entry, :float_amount => '12.34')
         expect(entry.account.balance).to eq(1234)
@@ -209,12 +209,12 @@ describe Entry do
   describe '#timestamp' do
     it 'should return a Fixnum unix timestamp for the entry date' do
       entry = FactoryGirl.create(:entry)
-      expect(entry.timestamp.class).to eq(Bignum)
+      expect(entry.timestamp.class).to eq(Fixnum)
     end
 
     it 'should return the correct unix timestamp for the entry date' do
       entry = FactoryGirl.create(:entry, :date => '2001-03-08')
-      expect(entry.timestamp).to eq(9840312001385798400)
+      expect(entry.timestamp).to eq(984031200)
     end
   end
 end

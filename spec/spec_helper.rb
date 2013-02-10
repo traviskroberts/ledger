@@ -14,6 +14,7 @@ Spork.prefork do
 
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
+  require 'nulldb_rspec'
   require 'authlogic/test_case'
   include Authlogic::TestCase
 

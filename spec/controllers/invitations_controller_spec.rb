@@ -1,37 +1,38 @@
 require 'spec_helper'
 
 describe InvitationsController do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:account) { FactoryGirl.create(:account, :users => [user]) }
-  let(:invite) { FactoryGirl.create(:invitation, :account => account, :user => user) }
+  include NullDB::RSpec::NullifiedDatabase
+
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:account) { FactoryGirl.build_stubbed(:account, :users => [user]) }
+  let(:invite) { FactoryGirl.build_stubbed(:invitation, :account => account, :user => user) }
 
   before :each do
-    activate_authlogic
-    UserSession.create(user)
+    controller.stub(:current_user => user)
+    Invitation.stub(:find_by_token => invite)
+    invite.stub(:account => account)
+    invite.stub(:destroy)
   end
 
   describe 'GET #show' do
     it 'should retrieve the invitation by token' do
       Invitation.should_receive(:find_by_token).with(invite.token).and_return(invite)
+
       get :show, :token => invite.token
     end
 
     it 'should assign the new user to the account' do
-      new_user = FactoryGirl.create(:user)
-      UserSession.create(new_user)
+      new_user = FactoryGirl.build_stubbed(:user)
+      controller.stub(:current_user => new_user)
+      account.should_receive(:add_user).with(new_user)
 
       get :show, :token => invite.token
-      expect(account.reload.users).to include(new_user)
-    end
-
-    it 'should not assign the user if they already have access to the account' do
-      get :show, :token => invite.token
-      expect(account.reload.users.length).to eq(1)
     end
 
     it 'should destroy the invitation' do
+      invite.should_receive(:destroy)
+
       get :show, :token => invite.token
-      expect(Invitation.count).to eq(0)
     end
 
     it 'should set a flash message on success' do
@@ -40,6 +41,8 @@ describe InvitationsController do
     end
 
     it 'should set a flash message on failure' do
+      invite.stub(:present? => false)
+
       get :show, :token => 'bogustoken'
       expect(flash[:error]).to be_present
     end

@@ -27,6 +27,10 @@ class Account < ActiveRecord::Base
     super(options.merge(opts))
   end
 
+  def add_user(user)
+    self.users << user unless users.include?(user)
+  end
+
   def dollar_balance
     ActionController::Base.helpers.number_to_currency(balance.to_f / 100)
   end

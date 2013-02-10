@@ -8,9 +8,9 @@ describe Invitation do
 
   describe 'validations' do
     it { should validate_presence_of(:account) }
-    it { should validate_presence_of(:user) }
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:token) }
+    it { should validate_presence_of(:user) }
   end
 
   describe '#as_json' do

@@ -5,9 +5,9 @@ class Invitation < ActiveRecord::Base
   attr_accessible :email, :token
 
   validates :account, :presence => true
-  validates :user, :presence => true
   validates :email, :presence => true
   validates :token, :presence => true
+  validates :user, :presence => true
 
   def as_json(options={})
     opts = {:only => [:account_id, :user_id, :email, :token]}

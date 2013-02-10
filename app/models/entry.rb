@@ -7,8 +7,8 @@ class Entry < ActiveRecord::Base
   validates :account, :presence => true
   validates :amount, :presence => true, :numericality => true
   validates :classification, :presence => true, :inclusion => { :in => %w(credit debit) }
-  validates :description, :presence => true
   validates :date, :presence => true
+  validates :description, :presence => true
 
   before_validation do
     if float_amount.present?
@@ -57,7 +57,7 @@ class Entry < ActiveRecord::Base
   end
 
   def timestamp
-    "#{date.to_time.to_i}#{updated_at.to_i}".to_i
+    date.to_time.to_i
   end
 
   private

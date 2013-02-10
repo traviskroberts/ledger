@@ -5,7 +5,7 @@ class InvitationsController < ApplicationController
     invitation = Invitation.find_by_token(params[:token])
 
     if invitation.present?
-      invitation.account.users << current_user unless invitation.account.users.include?(current_user)
+      invitation.account.add_user(current_user)
       invitation.destroy
       flash[:success] = "Invitation accepted!"
     else

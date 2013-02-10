@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Account do
-  let(:account) { FactoryGirl.create(:account) }
+  let(:account) { FactoryGirl.build_stubbed(:account) }
 
   describe 'associations' do
     it { should have_and_belong_to_many(:users) }
@@ -39,9 +39,25 @@ describe Account do
 
   describe '#as_json' do
     it 'json representation should only include the specified fields' do
-      account = FactoryGirl.create(:account)
+      account = FactoryGirl.build_stubbed(:account)
       json = JSON.parse(account.to_json, :symbolize_names => true)
       expect(json.keys).to match_array([:id, :name, :url, :dollar_balance])
+    end
+  end
+
+  describe '#add_user' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'should associate the user with the account' do
+      account = FactoryGirl.create(:account)
+      account.add_user(user)
+      expect(account.reload.users).to match_array([user])
+    end
+
+    it 'should not associate the user if they are already associated with the account' do
+      account = FactoryGirl.create(:account, :users => [user])
+      account.add_user(user)
+      expect(account.reload.users).to match_array([user])
     end
   end
 

@@ -1,50 +1,64 @@
 require 'spec_helper'
 
 describe Api::AccountsController do
-  let(:user) { FactoryGirl.create(:user) }
+  include NullDB::RSpec::NullifiedDatabase
+
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:account) { FactoryGirl.build_stubbed(:account, :url => 'test-account', :users => [user]) }
   let(:valid_parameters) { FactoryGirl.attributes_for(:account) }
   let(:updated_parameters) { {:name => 'Changed Account Name'} }
 
   before :each do
-    activate_authlogic
-    UserSession.create(user)
+    controller.stub(:current_user => user)
   end
 
   describe 'GET #index' do
     it 'should retrieve the accounts for the current user' do
-      accounts = []
-      2.times { accounts << FactoryGirl.create(:account, :users => [user]) }
-      FactoryGirl.create(:account)
+      user.should_receive(:accounts)
 
       get :index
-      expect(assigns(:accounts)).to eq(accounts)
     end
   end
 
   describe 'GET #show' do
-    it 'should retrieve the specified account' do
-      account = FactoryGirl.create(:account, :users => [user])
+    before :each do
+      user.stub(:accounts => account)
+      account.stub(:find_by_url => account)
+    end
 
-      get :show, :id => account
-      expect(assigns(:account)).to eq(account)
+    it 'should retrieve the specified account' do
+      account.should_receive(:find_by_url).and_return(account)
+
+      get :show, :id => account, :format => 'json'
     end
 
     it 'should render a json representation of the account' do
-      post :create, :account => valid_parameters, :format => 'json'
+      get :show, :id => account, :format => 'json'
       jsr = JSON.parse(response.body, :symbolize_names => true)
       expect(jsr.keys).to match_array([:id, :name, :url, :dollar_balance])
     end
   end
 
   describe 'POST #create' do
+    before :each do
+      Account.stub(:new => account)
+      account.stub(:save => true)
+      controller.stub(:current_user => user)
+      user.stub(:accounts => account)
+      account.stub(:<<)
+      account.stub(:reload => account)
+    end
+
     it 'should create a new account' do
+      Account.should_receive(:new).with(valid_parameters.stringify_keys).and_return(account)
+
       post :create, :account => valid_parameters
-      expect(Account.count).to eq(1)
     end
 
     it 'should assign the new account to the current user' do
+      account.should_receive(:<<).with(account)
+
       post :create, :account => valid_parameters
-      expect(Account.first.users).to match_array([user])
     end
 
     it 'should render a json representation of the account' do
@@ -54,23 +68,36 @@ describe Api::AccountsController do
     end
 
     it 'should render a 400 error on failure' do
+      account.stub(:save => false)
+
       post :create, :account => {}
       expect(response.status).to eq(400)
     end
   end
 
   describe 'PUT #update' do
+    before :each do
+      controller.stub(:current_user => user)
+      user.stub_chain(:accounts, :find_by_url).and_return(account)
+      account.stub(:reload => account)
+    end
+
     it 'should update the attributes' do
-      account = FactoryGirl.create(:account, :users => [user])
+      account.should_receive(:update_attributes).with(updated_parameters.stringify_keys).and_return(true)
 
       put :update, :id => account, :account => updated_parameters
-      updated_parameters.each do |field, value|
-        expect(assigns(:account).send(field)).to eq(value)
-      end
+    end
+
+    it 'should render a json representation of the account' do
+      account.stub(:update_attributes => true)
+
+      put :update, :id => account, :account => updated_parameters, :format => 'json'
+      jsr = JSON.parse(response.body, :symbolize_names => true)
+      expect(jsr.keys).to match_array([:id, :name, :url, :dollar_balance])
     end
 
     it 'should render a 400 error on failure' do
-      account = FactoryGirl.create(:account, :users => [user])
+      account.stub(:update_attributes => false)
 
       put :update, :id => account, :account => {:name => ''}
       expect(response.status).to eq(400)
@@ -78,22 +105,27 @@ describe Api::AccountsController do
   end
 
   describe 'DELETE #destroy' do
+    before :each do
+      controller.stub(:current_user => user)
+      user.stub_chain(:accounts, :find_by_url).and_return(account)
+    end
+
     it 'should destroy the specified account' do
-      account = FactoryGirl.create(:account, :users => [user])
+      account.should_receive(:destroy).and_return(true)
 
       delete :destroy, :id => account
-      expect(user.reload.accounts).to be_blank
     end
 
     it 'should render a json representation of the account' do
-      post :create, :account => valid_parameters, :format => 'json'
+      account.stub(:destroy => true)
+
+      delete :destroy, :id => account, :format => 'json'
       jsr = JSON.parse(response.body, :symbolize_names => true)
       expect(jsr.keys).to match_array([:id, :name, :url, :dollar_balance])
     end
 
     it 'should render a 400 error on failure' do
-      account = FactoryGirl.create(:account, :users => [user])
-      Account.any_instance.stub(:destroy).and_return(false)
+      account.stub(:destroy => false)
 
       delete :destroy, :id => account
       expect(response.status).to eq(400)

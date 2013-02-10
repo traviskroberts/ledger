@@ -45,4 +45,5 @@ group :test do
   gem 'launchy'
   gem 'fuubar'
   gem 'timecop'
+  gem 'activerecord-nulldb-adapter'
 end

@@ -38,7 +38,7 @@ class Api::AccountsController < ApplicationController
     @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.destroy
-      respond_with(@account)
+      render :json => @account
     else
       render :json => {:message => 'Error'}, :status => 400
     end
