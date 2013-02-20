@@ -1,5 +1,4 @@
 class RecurringTransaction < ActiveRecord::Base
-
   belongs_to :account
 
   attr_accessible :day, :description, :float_amount
