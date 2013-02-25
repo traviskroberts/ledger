@@ -22,8 +22,6 @@ end
 
 group :development do
   gem 'thin'
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'capistrano'
   gem 'capistrano_colors'
   gem 'rvm-capistrano'
@@ -41,9 +39,8 @@ group :test do
   gem 'spork'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
-  gem 'capybara-webkit'
-  gem 'launchy'
   gem 'fuubar'
   gem 'timecop'
   gem 'activerecord-nulldb-adapter'
+  gem 'simplecov'
 end
