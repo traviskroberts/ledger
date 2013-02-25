@@ -10,6 +10,13 @@ describe UserSessionController do
       get :new
       expect(assigns(:user_session).class).to eq(UserSession)
     end
+
+    it 'should redirect an authenticated user to the homepage' do
+      controller.stub(:current_user => user)
+
+      get :new
+      expect(response).to redirect_to(root_url)
+    end
   end
 
   describe 'POST #create' do

@@ -21,7 +21,6 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
-    Capybara.javascript_driver = :webkit
     config.mock_with :rspec
     config.fixture_path = "#{::Rails.root}/spec/factories"
     config.use_transactional_fixtures = false

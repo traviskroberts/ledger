@@ -18,4 +18,32 @@ describe SiteController do
       expect(response).to redirect_to(accounts_url)
     end
   end
+
+  describe 'GET #backbone' do
+    context 'as authenticated user' do
+      before :each do
+        controller.stub(:current_user => user)
+      end
+
+      it 'should load the accounts for the current user' do
+        user.should_receive(:accounts)
+
+        get :backbone
+      end
+
+      it 'should assign the accounts to an instance variable' do
+        user.stub(:accounts => 'bogus accounts')
+
+        get :backbone
+        expect(assigns(:accounts)).to be_present
+      end
+    end
+
+    context 'as unauthenticated user' do
+      it 'should redirect the user to login page' do
+        get :backbone
+        expect(response).to redirect_to(login_url)
+      end
+    end
+  end
 end
