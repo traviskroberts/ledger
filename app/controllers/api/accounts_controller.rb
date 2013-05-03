@@ -1,4 +1,4 @@
-class Api::AccountsController < ApplicationController
+class Api::AccountsController < Api::BaseController
   before_filter :require_user
 
   respond_to :json

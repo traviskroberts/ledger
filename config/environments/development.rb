@@ -34,4 +34,7 @@ Ledger::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Set ember environment
+  config.ember.variant = :development
 end

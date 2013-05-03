@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
-  before_filter :redirect_users, :only => [:index]
+  # before_filter :redirect_users, :only => [:index]
   before_filter :require_user, :only => [:backbone]
 
   def backbone

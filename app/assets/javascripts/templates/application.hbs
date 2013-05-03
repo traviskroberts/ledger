@@ -1,0 +1,51 @@
+<div class="body-wrap">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+
+        <a href="#" class="brand">Ledger</a>
+
+        <div class="nav-collapse collapse">
+          {{#if Ledger.Auth.signedIn}}
+            <ul class="nav">
+              <li>{{#linkTo accounts}}Accounts{{/linkTo}}</li>
+            </ul>
+
+            <ul class="nav pull-right">
+              <li><a href="#">Logged In</a></li>
+              <li class="divider-vertical"></li>
+              <li><a href="#">Users</a></li>
+              <li class="divider-vertical"></li>
+              <li><button {{action signOut}}>Logout</button></li>
+            </ul>
+          {{else}}
+            <ul class="nav pull-right">
+              <li>{{#linkTo sign_in}}Login{{/linkTo}}</li>
+              <li class="divider-vertical"></li>
+              <li><a href="#">Register</a></li>
+            </ul>
+          {{/if}}
+        </div> <!--/nav-collapse -->
+      </div> <!-- /container -->
+    </div> <!-- /navbar-inner -->
+  </div> <!-- /navbar -->
+
+  <div id="backbone-container" class="container main clearfix">
+    {{outlet}}
+  </div> <!-- /container -->
+
+  <div class="footer-push"></div>
+</div> <!-- /body-wrap -->
+
+<footer>
+  <div class="container">
+    <!-- Footer? -->
+  </div>
+</footer>
+
+<!-- <p id="screen-info"></p> -->

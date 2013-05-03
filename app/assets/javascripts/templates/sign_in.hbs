@@ -1,0 +1,18 @@
+<section class="span8 offset2">
+  <form>
+    <h1>Log In</h1>
+
+    <fieldset>
+      <label for="email" class="required">Email</label>
+      {{view Ember.TextField type="email" valueBinding=email placeholder="Email" autocapitalize="off" autocorrect="off" class="span4 required"}}
+
+      <label for="password" class="required">Password</label>
+      {{view Ember.TextField type="password" valueBinding=password placeholder="Password" autocapitalize="off" autocorrect="off" class="span4 required clearfix"}}
+    </fieldset>
+
+    <footer>
+      <button {{action "signIn"}} class="btn btn-primary">Log in</button>
+      {{#linkTo 'register'}}Register{{/linkTo}}
+    </footer>
+  </form>
+</section>
