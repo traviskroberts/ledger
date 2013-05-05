@@ -6,12 +6,10 @@ Ledger.Auth = Ember.Auth.create
   tokenLocation: 'param'
   userModel: 'Ledger.User'
   sessionAdapter: 'cookie'
-  modules: ['emberData', 'rememberable', 'authRedirectable', 'actionRedirectable']
+  modules: ['emberData', 'rememberable', 'authRedirectable']
   rememberable:
     tokenKey: 'remember_token'
     period: 365
     autoRecall: true
   authRedirectable:
     route: 'sign_in'
-  actionRedirectable:
-    signInRoute: 'accounts'

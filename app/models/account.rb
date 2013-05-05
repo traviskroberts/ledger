@@ -18,15 +18,6 @@ class Account < ActiveRecord::Base
     url
   end
 
-  def as_json(options={})
-    opts = {
-      :only => [:id, :url, :name],
-      :methods => [:dollar_balance]
-    }
-
-    super(options.merge(opts))
-  end
-
   def add_user(user)
     self.users << user unless users.include?(user)
   end
