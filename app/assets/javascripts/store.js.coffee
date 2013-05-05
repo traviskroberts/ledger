@@ -3,6 +3,4 @@ DS.RESTAdapter.reopen
 
 Ledger.Store = DS.Store.extend
   revision: 11
-  adapter: DS.RESTAdapter.extend
-    serializer: Ledger.Serializer
-
+  adapter: DS.RESTAdapter.create()
