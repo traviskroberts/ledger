@@ -17,11 +17,11 @@
             </ul>
 
             <ul class="nav pull-right">
-              <li><a href="#">Logged In</a></li>
+              <li>{{#linkTo my_account}}My Account{{/linkTo}}</li>
               <li class="divider-vertical"></li>
               <li><a href="#">Users</a></li>
               <li class="divider-vertical"></li>
-              <li><button {{action signOut}}>Logout</button></li>
+              <li><button {{action signOut}} class="btn btn-link">Logout</button></li>
             </ul>
           {{else}}
             <ul class="nav pull-right">

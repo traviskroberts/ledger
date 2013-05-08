@@ -1,4 +1,4 @@
-{{#linkTo accounts.new class="btn btn-primary btn-large pull-right"}}New Account{{/linkTo}}
+{{#linkTo "accounts.new" class="btn btn-primary btn-large pull-right"}}New Account{{/linkTo}}
 <h1>Accounts</h1>
 
 <div id="accounts-list" class="row clearfix">
@@ -6,11 +6,11 @@
     {{#each content}}
       <div class="span4">
         <div class="well well-small">
-          <h2>{{#linkTo account url}}{{name}}{{/linkTo}}</h2>
+          <h2>{{#linkTo "account" this}}{{name}}{{/linkTo}}</h2>
           <p class="balance-big">{{dollar_balance}}</p>
-          {{#linkTo accounts.edit this class="btn btn-primary btn-mini"}}Edit{{/linkTo}}
-          {{#linkTo accounts.sharing this class="btn btn-mini"}}Sharing{{/linkTo}}
-          <button {{action delete}} class="btn btn-danger btn-mini delete">Delete</button>
+          {{#linkTo "accounts.edit" this class="btn btn-primary btn-mini"}}Edit{{/linkTo}}
+          {{#linkTo "accounts.sharing" this class="btn btn-mini"}}Sharing{{/linkTo}}
+          <button {{action "destroyRecord" this}} class="btn btn-danger btn-mini delete">Delete</button>
         </div>
       </div>
     {{/each}}

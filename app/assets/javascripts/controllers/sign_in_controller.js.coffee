@@ -6,6 +6,6 @@ Ledger.SignInController = Ember.ObjectController.extend
   signIn: ->
     Ledger.Auth.signIn
       data:
-        email:    @get 'email'
-        password: @get 'password'
-        remember_me: @get 'remember_me'
+        email       : @get 'email'
+        password    : @get 'password'
+        remember_me : @get 'remember_me'

@@ -1,0 +1,24 @@
+<section class="span5 offset2">
+  <form>
+    <h1>Update Account</h1>
+
+    <fieldset>
+      <label {{bindAttr for="nameField.elementId"}}>Name</label>
+      {{view Ember.TextField valueBinding="name" class="span4"}}
+
+      <label {{bindAttr for="emailField.elementId"}}>Email</label>
+      {{view Ember.TextField valueBinding="email" class="span4 required"}}
+
+      <label>Password</label>
+      {{view Ember.TextField type="password" class="span4"}}
+
+      <label>Password (again)</label>
+      {{view Ember.TextField type="password" class="span4 clearfix"}}
+    </fieldset>
+
+    <footer>
+      <button {{action save}} class="btn btn-primary">Update</button>
+      <a href="#" {{action cancel}}>Cancel</a>
+    </footer>
+  </form>
+</section>

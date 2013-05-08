@@ -9,12 +9,13 @@ class Api::AccountsController < Api::BaseController
   end
 
   def show
-    @account = current_user.accounts.find_by_url(params[:id])
+    @account = current_user.accounts.find(params[:id])
     respond_with(@account)
   end
 
   def create
-    @account = Account.new(params[:account])
+    account_params = params[:account].except(:url, :dollar_balance, :user_id)
+    @account = Account.new(account_params)
 
     if @account.save
       current_user.accounts << @account
@@ -25,9 +26,10 @@ class Api::AccountsController < Api::BaseController
   end
 
   def update
-    @account = current_user.accounts.find_by_url(params[:id])
+    @account = current_user.accounts.find(params[:id])
 
-    if @account.update_attributes(params[:account])
+    account_params = {:name => params[:account][:name]}
+    if @account.update_attributes(account_params)
       render :json => @account # respond_with is being a lil' bitch
     else
       render :json => {:message => 'Error'}, :status => 400
@@ -35,10 +37,10 @@ class Api::AccountsController < Api::BaseController
   end
 
   def destroy
-    @account = current_user.accounts.find_by_url(params[:id])
+    @account = current_user.accounts.find(params[:id])
 
     if @account.destroy
-      render :json => @account
+      render :json => @account, status: 204
     else
       render :json => {:message => 'Error'}, :status => 400
     end

@@ -1,0 +1,30 @@
+<h1>Add Account</h1>
+
+<form class="form-horizontal">
+  <fieldset>
+    <div class="control-group">
+      <label class="required control-label">Name</label>
+      <div class="controls">
+        {{view Ember.TextField valueBinding="name" tabindex="1" class="required span3"}}
+        <span class="help-inline"><label for="account_name" class="error hide">This field is required.</label></span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Initial Balance (optional)</label>
+      <div class="controls">
+        <div class="input-prepend">
+          <span class="add-on">$</span>
+          {{view Ember.TextField valueBinding="initial_balance" tabindex="2" class="span2"}}
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        <button {{action save}} tabindex="3" class="btn btn-primary">Save</button>
+        <button {{action cancel}} tabindex="4" class="btn">Cancel</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
