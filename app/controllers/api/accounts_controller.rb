@@ -4,7 +4,7 @@ class Api::AccountsController < Api::BaseController
   respond_to :json
 
   def index
-    @accounts = current_user.accounts
+    @accounts = current_user.accounts.includes(:entries)
     respond_with(@accounts)
   end
 
@@ -21,7 +21,7 @@ class Api::AccountsController < Api::BaseController
       current_user.accounts << @account
       render :json => @account.reload
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 
@@ -32,7 +32,7 @@ class Api::AccountsController < Api::BaseController
     if @account.update_attributes(account_params)
       render :json => @account # respond_with is being a lil' bitch
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 

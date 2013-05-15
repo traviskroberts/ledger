@@ -23,6 +23,8 @@ class Api::UserSessionsController < Api::BaseController
         data[:remember_token] = current_user.single_access_token
       end
 
+      user_session.destroy
+
       render :json => data, :status => 201
     else
       render :json => {}, :status => 401

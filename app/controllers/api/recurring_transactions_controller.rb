@@ -14,7 +14,7 @@ class Api::RecurringTransactionsController < Api::BaseController
     if @recurring_transaction.save
       render :json => @recurring_transaction
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 
@@ -24,7 +24,7 @@ class Api::RecurringTransactionsController < Api::BaseController
     if @recurring_transaction.update_attributes(params[:recurring_transaction])
       render :json => @recurring_transaction
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 

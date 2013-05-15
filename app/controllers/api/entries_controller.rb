@@ -21,7 +21,7 @@ class Api::EntriesController < Api::BaseController
     if @entry.save
       render :json => {:entry => @entry, :account_balance => @entry.account.dollar_balance}
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 
@@ -31,7 +31,7 @@ class Api::EntriesController < Api::BaseController
     if @entry.update_attributes(:description => params[:description], :float_amount => params[:float_amount], :date => params[:date])
       render :json => {:entry => @entry, :account_balance => @account.reload.dollar_balance}
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 

@@ -17,7 +17,7 @@ class Api::InvitationsController < Api::BaseController
       SiteMailer.delay.invitation(@invite)
       render :json => @invite
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render :json => {:message => 'Error'}, :status => 422
     end
   end
 
