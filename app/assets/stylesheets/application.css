@@ -8,8 +8,9 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require bootstrap/bootstrap
  *= require cerulean
- *= require responsive
+ *= require bootstrap/responsive
  *= require datepicker
  *= require layout
  */
