@@ -1,3 +1,10 @@
+GIT
+  remote: git@github.com:emberjs/data.git
+  revision: dfeb9e698ab3dfead7b228391173cf6d6fb0c2e5
+  specs:
+    ember-data-source (0.0.5)
+      ember-source
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -70,10 +77,8 @@ GEM
     ember-auth-rails (4.0.1)
       ember-auth-source
       rails
-    ember-auth-source (6.0.1)
+    ember-auth-source (6.0.3)
       ember-source (>= 0.0.2, != 1.0.0.rc1.2, != 1.0.0.rc1.1, != 1.0.0.rc1.0.0, != 1.0.0.pre4.1)
-    ember-data-source (0.0.5)
-      ember-source
     ember-rails (0.12.0)
       active_model_serializers
       barber (>= 0.4.1)
@@ -105,7 +110,7 @@ GEM
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.7.7)
+    json (1.8.0)
     lograge (0.1.2)
       actionpack
       activesupport
@@ -205,7 +210,7 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.18.1)
-    tilt (1.4.0)
+    tilt (1.4.1)
     timecop (0.5.5)
     treetop (1.4.12)
       polyglot
@@ -230,6 +235,7 @@ DEPENDENCIES
   database_cleaner
   delayed_job_active_record
   ember-auth-rails
+  ember-data-source!
   ember-rails
   factory_girl_rails
   fuubar

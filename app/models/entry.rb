@@ -23,15 +23,6 @@ class Entry < ActiveRecord::Base
   after_update :adjust_account_balance
   after_destroy :undo_entry
 
-  def as_json(options={})
-    opts = {
-      :only => [:id, :classification, :description],
-      :methods => [:formatted_amount, :formatted_date, :timestamp, :form_amount_value]
-    }
-
-    super(options.merge(opts))
-  end
-
   def dollar_amount
     amount.to_f / 100
   end

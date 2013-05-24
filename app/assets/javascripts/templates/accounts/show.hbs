@@ -29,10 +29,24 @@
         <a href="/accounts/{{url}}/recurring">Recurring Transactions</a>
       </div>
     </div>
-  {{/with}}
 
-  <p class="edit-hint">Click on a row to edit.</p>
-  <div id="entries">{{outlet}}</div>
+    {{#if entries.length}}
+      <p class="edit-hint">Click on a row to edit.</p>
+      <table class="entries table table-bordered table-condensed table-striped">
+        <tbody id="entries-list">
+          {{#each entry in this.entries}}
+            {{entry}}
+            <td>
+              <a href="/accounts/{{../url}}/entries/{{id}}" class="pull-left delete-entry"><i class="icon-remove"></i></a>
+              <div class="edit-entry" data-id="{{entry.id}}" data-field="description">{{entry.description}}</div>
+            </td>
+            <td class="date edit-entry" data-field="date">{{formatted_date}}</td>
+            <td class="{{classification}} edit-entry" data-id="{{id}}" data-field="amount">{{formatted_amount}}</td>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+  {{/with}}
 {{else}}
   <p class="loading">Loading...</p>
 {{/if}}

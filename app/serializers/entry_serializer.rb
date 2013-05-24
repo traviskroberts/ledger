@@ -1,3 +1,3 @@
 class EntrySerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :classification, :description, :formatted_amount, :formatted_date, :timestamp, :form_amount_value
 end

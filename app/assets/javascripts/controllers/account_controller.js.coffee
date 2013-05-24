@@ -33,9 +33,11 @@ Ledger.AccountsNewController = Ember.ObjectController.extend
 
 Ledger.AccountsEditController = Ember.ObjectController.extend
   save: ->
-    @store.commit()
-    @transitionToRoute('accounts')
+    @get('store').commit()
+    @content.one 'didUpdate', =>
+      @transitionToRoute('accounts')
 
   cancel: ->
-    @content.rollback() if @content.get('isDirty')
-    @transitionTo('accounts')
+    if @content.isDirty
+      @content.rollback()
+    @transitionToRoute('accounts')

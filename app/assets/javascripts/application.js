@@ -10,9 +10,10 @@
 //= require moment
 //= require handlebars
 //= require ember
-//= require ember-data
+//= require ember-data-latest
 //= require ember-auth
 //= require_self
+//= require auth
 //= require ledger
 //= require spin
 //= require site

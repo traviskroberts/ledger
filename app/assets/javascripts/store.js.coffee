@@ -4,8 +4,11 @@ DS.RESTAdapter.reopen
 Ledger.Adapter = DS.RESTAdapter.extend
   bulkCommit: false
 
-# Ledger.Adapter.map 'Ledger.Account',
-#   primaryKey: 'url'
+Ledger.Adapter.configure 'plurals',
+  entry: 'entries'
+
+Ledger.Adapter.map 'Ledger.Account',
+  entries: { embedded: 'always' }
 
 Ledger.Store = DS.Store.extend
   revision: 12
