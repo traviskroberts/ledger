@@ -3,6 +3,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
   routes:
     ''                                      : 'landing'
     'login'                                 : 'login'
+    'logout'                                : 'logout'
     'my-account'                            : 'myAccount'
     'accounts'                              : 'listAccounts'
     'accounts/new'                          : 'newAccount'
@@ -26,6 +27,10 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
 
   login: ->
     view = new Ledger.Views.UserLogin({model: @user})
+    @swap(view)
+
+  logout: ->
+    view = new Ledger.Views.UserLogout({model: @user})
     @swap(view)
 
   myAccount: ->
