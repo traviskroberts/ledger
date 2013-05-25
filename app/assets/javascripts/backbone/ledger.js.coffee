@@ -11,9 +11,10 @@ window.Ledger =
   Views: {}
 
   initialize: (data) ->
-    this.accounts = new Ledger.Collections.Accounts(data.accounts)
+    # @accounts = new Ledger.Collections.Accounts(data.accounts)
 
-    new Ledger.Routers.AppRouter({accounts: this.accounts})
+    new Ledger.Routers.AppRouter(data)
+
     if (!Backbone.history.started)
       Backbone.history.start
         pushState: true

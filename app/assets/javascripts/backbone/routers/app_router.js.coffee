@@ -1,9 +1,9 @@
 class Ledger.Routers.AppRouter extends Support.SwappingRouter
-  initialize: (options) ->
-    this.el = $('#backbone-container')
-    this.accounts = options.accounts
 
   routes:
+    ''                                      : 'landing'
+    'login'                                 : 'login'
+    'my-account'                            : 'myAccount'
     'accounts'                              : 'listAccounts'
     'accounts/new'                          : 'newAccount'
     'accounts/:id'                          : 'viewAccount'
@@ -14,44 +14,77 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     'accounts/:acct_id/recurring/:id/edit'  : 'editRecurring'
     'users'                                 : 'listUsers'
 
+  initialize: (options) ->
+    @el = $('#backbone-container')
+    if options.user?
+      @user = new Ledger.Model.User(options.user)
+      @accounts = new Ledger.Collections.Accounts(options.accounts)
+
+  landing: ->
+    if @authenticated()
+      Backbone.history.navigate('accounts', true)
+
+  login: ->
+    view = new Ledger.Views.UserLogin
+    @swap(view)
+
+  myAccount: ->
+    if @authenticated()
+      view = new Ledger.Views.UserEdit({model: @user})
+      @swap(view)
+
   listAccounts: ->
-    view = new Ledger.Views.AccountsIndex({collection: this.accounts})
-    this.swap(view)
+    if @authenticated()
+      view = new Ledger.Views.AccountsIndex({collection: @accounts})
+      @swap(view)
 
   newAccount: ->
-    view = new Ledger.Views.AccountNew({collection: this.accounts})
-    this.swap(view)
+    if @authenticated()
+      view = new Ledger.Views.AccountNew({collection: @accounts})
+      @swap(view)
 
   viewAccount: (id) ->
-    account = this.accounts.get(id)
-    view = new Ledger.Views.AccountShow({model: account})
-    this.swap(view)
+    if @authenticated()
+      account = @accounts.get(id)
+      view = new Ledger.Views.AccountShow({model: account})
+      @swap(view)
 
   editAccount: (id) ->
-    account = this.accounts.get(id)
-    view = new Ledger.Views.AccountEdit({model: account})
-    this.swap(view)
+    if @authenticated()
+      account = @accounts.get(id)
+      view = new Ledger.Views.AccountEdit({model: account})
+      @swap(view)
 
   listInvitations: (id) ->
-    account = this.accounts.get(id)
-    view = new Ledger.Views.InvitationsIndex({account: account})
-    this.swap(view)
+    if @authenticated()
+      account = @accounts.get(id)
+      view = new Ledger.Views.InvitationsIndex({account: account})
+      @swap(view)
 
   listRecurring: (id) ->
-    account = this.accounts.get(id)
-    view = new Ledger.Views.RecurringTransactionsIndex({account: account})
-    this.swap(view)
+    if @authenticated()
+      account = @accounts.get(id)
+      view = new Ledger.Views.RecurringTransactionsIndex({account: account})
+      @swap(view)
 
   newRecurring: (id) ->
-    account = this.accounts.get(id)
-    view = new Ledger.Views.RecurringTransactionNew({account: account})
-    this.swap(view)
+    if @authenticated()
+      account = @accounts.get(id)
+      view = new Ledger.Views.RecurringTransactionNew({account: account})
+      @swap(view)
 
   editRecurring: (acct_id, id) ->
-    account = this.accounts.get(acct_id)
-    view = new Ledger.Views.RecurringTransactionEdit({account: account, id: id})
-    this.swap(view)
+    if @authenticated()
+      account = @accounts.get(acct_id)
+      view = new Ledger.Views.RecurringTransactionEdit({account: account, id: id})
+      @swap(view)
 
   listUsers: ->
-    view = new Ledger.Views.UsersIndex
-    this.swap(view)
+    if @authenticated()
+      view = new Ledger.Views.UsersIndex
+      @swap(view)
+
+  authenticated: ->
+    unless @user
+      Backbone.history.navigate('login', true) unless @user
+      false

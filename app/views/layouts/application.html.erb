@@ -19,30 +19,30 @@
               <span class="icon-bar"></span>
             </a>
 
-            <%= link_to 'Ledger', root_path, :class => 'brand static' %>
+            <%= link_to 'Ledger', root_path, :class => 'brand' %>
 
             <div class="nav-collapse collapse">
               <ul class="nav">
                 <%- if current_user -%>
-                  <li><%= link_to 'Accounts', accounts_path %></li>
+                  <li><a href="/accounts">Account</a></li>
                 <%- end -%>
               </ul>
 
               <%- if current_user -%>
                 <ul class="nav pull-right">
-                  <li><%= link_to "Logged in as #{current_user.email}", my_account_path, :class => 'static' %></li>
+                  <li><a href="/my-account">Logged in as <%= current_user.email %></a></li>
                   <li class="divider-vertical"></li>
                   <%- if current_user.super_admin? -%>
-                    <li><%= link_to 'Users', users_path %></li>
+                    <li><a href="/users">Users</a></li>
                     <li class="divider-vertical"></li>
                   <%- end -%>
-                  <li><%= link_to 'Logout', logout_path, :class => 'static', :method => :delete %></li>
+                  <li><a href="/logout">Logout</a></li>
                 </ul>
               <%- else -%>
                 <ul class="nav pull-right">
-                  <li><%= link_to 'Login', login_path, :class => 'static' %></li>
+                  <li><a href="/login">Login</a></li>
                   <li class="divider-vertical"></li>
-                  <li><%= link_to 'Register', register_path, :class => 'static' %></li>
+                  <li><a href="/register">Register</a></li>
                 </ul>
               <%- end -%>
             </div> <!--/nav-collapse -->
