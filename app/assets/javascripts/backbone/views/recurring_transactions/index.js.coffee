@@ -2,32 +2,32 @@ class Ledger.Views.RecurringTransactionsIndex extends Support.CompositeView
   tagName: 'span'
 
   initialize: (options) ->
-    _.bindAll this, 'render', 'renderItems'
+    _.bindAll @, 'render', 'renderItems'
 
-    this.account = options.account
-    if this.account.get('recurring_transactions').length == 0
-      this.collection = new Ledger.Collections.RecurringTransactions
+    @account = options.account
+    if @account.get('recurring_transactions').length == 0
+      @collection = new Ledger.Collections.RecurringTransactions
     else
-      this.collection = this.account.get('recurring_transactions')
+      @collection = @account.get('recurring_transactions')
 
-    this.collection.url = '/api/accounts/' + this.account.get('url') + '/recurring_transactions'
-    this.collection.bind 'sync', this.render
-    this.collection.bind 'change', this.render
-    this.collection.bind 'remove', this.render
+    @collection.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions'
+    @collection.bind 'sync', @render
+    @collection.bind 'change', @render
+    @collection.bind 'remove', @render
 
-    if this.collection.length == 0
-      this.account.set('recurring_transactions': this.collection)
-      this.collection.fetch()
+    if @collection.length == 0
+      @account.set('recurring_transactions': @collection)
+      @collection.fetch()
 
   render: ->
-    template = JST['backbone/templates/recurring_transactions/index']({account: this.account.toJSON(), recurring_transactions: this.collection.toJSON()})
-    this.$el.html(template)
-    if this.collection.length > 0
-      this.renderItems()
-    this
+    template = JST['backbone/templates/recurring_transactions/index']({account: @account.toJSON(), recurring_transactions: @collection.toJSON()})
+    @$el.html(template)
+    if @collection.length > 0
+      @renderItems()
+    @
 
   renderItems: ->
-    this.collection.each (recurring_transaction) =>
+    @collection.each (recurring_transaction) =>
       row = new Ledger.Views.RecurringTransactionItem({model: recurring_transaction})
-      this.renderChild(row)
-      this.$('#recurring-transactions-list').append(row.el)
+      @renderChild(row)
+      @$('#recurring-transactions-list').append(row.el)

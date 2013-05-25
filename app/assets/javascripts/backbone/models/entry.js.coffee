@@ -14,10 +14,10 @@ class Ledger.Collections.Entries extends Backbone.Paginator.requestPager
     perPage: 25
   server_api:
     'page': ->
-      this.currentPage
+      @currentPage
   parse: (resp) ->
-    this.totalPages = resp.total_pages
-    this.totalRecords = resp.total_number
+    @totalPages = resp.total_pages
+    @totalRecords = resp.total_number
     resp.entries
 
   comparator: (entry) ->

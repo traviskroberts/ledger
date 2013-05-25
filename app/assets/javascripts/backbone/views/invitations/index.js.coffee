@@ -1,52 +1,52 @@
 class Ledger.Views.InvitationsIndex extends Support.CompositeView
 
   initialize: (options) ->
-    _.bindAll this, 'render', 'renderInvitations', 'save', 'saved'
+    _.bindAll @, 'render', 'renderInvitations', 'save', 'saved'
 
-    this.account = options.account
-    if this.account.get('invitations').length == 0
-      this.collection = new Ledger.Collections.Invitations
+    @account = options.account
+    if @account.get('invitations').length == 0
+      @collection = new Ledger.Collections.Invitations
     else
-      this.collection = this.account.get('invitations')
+      @collection = @account.get('invitations')
 
-    this.collection.url = '/api/accounts/' + this.account.get('url') + '/invitations'
-    this.collection.bind 'sync', this.render
-    this.collection.bind 'change', this.render
-    this.collection.bind 'remove', this.render
+    @collection.url = '/api/accounts/' + @account.get('url') + '/invitations'
+    @collection.bind 'sync', @render
+    @collection.bind 'change', @render
+    @collection.bind 'remove', @render
 
-    if this.collection.length == 0
-      this.account.set('invitations': this.collection)
-      this.collection.fetch()
+    if @collection.length == 0
+      @account.set('invitations': @collection)
+      @collection.fetch()
 
   events:
     'submit form'   : 'save'
 
   render: ->
-    template = JST['backbone/templates/invitations/index']({account: this.account.toJSON(), invitations: this.collection.toJSON()})
-    this.$el.html(template)
-    if this.collection.length > 0
-      this.renderInvitations()
-    this
+    template = JST['backbone/templates/invitations/index']({account: @account.toJSON(), invitations: @collection.toJSON()})
+    @$el.html(template)
+    if @collection.length > 0
+      @renderInvitations()
+    @
 
   renderInvitations: ->
-    this.collection.each (invitation) =>
+    @collection.each (invitation) =>
       row = new Ledger.Views.InvitationItem({model: invitation})
-      this.renderChild(row)
-      this.$('#invitations-list').append(row.el)
+      @renderChild(row)
+      @$('#invitations-list').append(row.el)
 
   save: (e) ->
     e.preventDefault()
-    if this.$('form').valid()
-      this.model = new Ledger.Models.Invitation
-      this.model.urlRoot = '/api/accounts/' + this.account.get('url') + '/invitations'
-      this.model.set
+    if @$('form').valid()
+      @model = new Ledger.Models.Invitation
+      @model.urlRoot = '/api/accounts/' + @account.get('url') + '/invitations'
+      @model.set
         email: $('#invitation_email').val()
-      this.model.save({}, success: this.saved, error: this.onError)
+      @model.save({}, success: @saved, error: @onError)
 
   saved: (model, resp, options) ->
-    this.model.set(resp)
-    this.model.set({account: this.account})
-    this.collection.add(this.model)
+    @model.set(resp)
+    @model.set({account: @account})
+    @collection.add(@model)
 
   onError: ->
     alert 'There was an error sending the invitation.'

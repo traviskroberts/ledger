@@ -2,22 +2,22 @@ class Ledger.Views.RecurringTransactionItem extends Support.CompositeView
   tagName: 'tr'
 
   events:
-    'click .delete' : 'deleteIten'
+    'click .delete' : 'deleteItem'
 
   initialize: ->
-    _.bindAll this, 'render'
-    this.account = this.model.get('account')
-    this.model.url = '/api/accounts/' + this.account.get('url') + '/recurring_transactions/' + this.model.get('id')
+    _.bindAll @, 'render', 'deleteItem'
+    @account = @model.get('account')
+    @model.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions/' + @model.get('id')
 
   render: ->
     template = JST['backbone/templates/recurring_transactions/item']
-      account: this.account.toJSON()
-      recurring_transaction: this.model.toJSON()
-    this.$el.html(template)
-    this
+      account: @account.toJSON()
+      recurring_transaction: @model.toJSON()
+    @$el.html(template)
+    @
 
-  deleteIten: (e) ->
+  deleteItem: (e) ->
     e.preventDefault()
-    this.model.destroy
+    @model.destroy
       error: ->
         alert 'That recurring transaction could not be removed.'

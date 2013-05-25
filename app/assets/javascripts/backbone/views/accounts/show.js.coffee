@@ -1,64 +1,64 @@
 class Ledger.Views.AccountShow extends Support.CompositeView
 
   initialize: ->
-    _.bindAll this, 'render', 'validateEntryForm', 'renderEntries', 'entryAdded'
+    _.bindAll @, 'render', 'renderEntries', 'validateEntryForm', 'addEntry', 'entryAdded'
 
-    this.model.bind 'add:entries', this.render
-    this.model.bind 'remove:entries', this.render
-    this.model.bind 'change', this.render
-    if this.model.get('entries').length == 0
-      this.entries = new Ledger.Collections.Entries
+    @model.bind 'add:entries', @render
+    @model.bind 'remove:entries', @render
+    @model.bind 'change', @render
+    if @model.get('entries').length == 0
+      @entries = new Ledger.Collections.Entries
     else
-      this.entries = this.model.get('entries')
+      @entries = @model.get('entries')
 
-    this.entries.paginator_core.url = '/api/accounts/' + this.model.get('url') + '/entries'
-    this.entries.bind 'sync', this.renderEntries
+    @entries.paginator_core.url = '/api/accounts/' + @model.get('url') + '/entries'
+    @entries.bind 'sync', @renderEntries
 
-    if this.entries.length == 0
-      this.model.set('entries': this.entries)
-      this.entries.fetch()
+    if @entries.length == 0
+      @model.set('entries': @entries)
+      @entries.fetch()
 
   events:
     'submit .new-entry' : 'addEntry'
 
   render: ->
-    template = JST['backbone/templates/accounts/show']({account: this.model.toJSON()})
-    this.$el.html(template)
-    this.validateEntryForm()
-    if this.entries.length > 0
-      this.renderEntries()
-    this
+    template = JST['backbone/templates/accounts/show']({account: @model.toJSON()})
+    @$el.html(template)
+    @validateEntryForm()
+    if @entries.length > 0
+      @renderEntries()
+    @
 
   renderEntries: ->
-    this.entries.sort()
-    this.$('#entries').html('')
-    row = new Ledger.Views.EntryIndex({collection: this.entries, account: this.model})
-    this.renderChild(row)
-    this.$('#entries').append(row.el)
+    @entries.sort()
+    @$('#entries').html('')
+    row = new Ledger.Views.EntryIndex({collection: @entries, account: @model})
+    @renderChild(row)
+    @$('#entries').append(row.el)
 
   validateEntryForm: ->
-    this.$('form').validate
+    @$('form').validate
       groups:
         entry_fields: "entry_float_amount entry_description"
 
   addEntry: ->
-    if this.$('form').valid()
-      this.entry = new Ledger.Models.Entry
+    if @$('form').valid()
+      @entry = new Ledger.Models.Entry
         float_amount: $('#entry_float_amount').val()
         description: $('#entry_description').val()
-        account_id: this.model.get('id')
-      this.entry.url = '/api/accounts/' + this.model.get('url') + '/entries'
-      this.entry.save({}, {success: this.entryAdded, error: this.onError})
+        account_id: @model.get('id')
+      @entry.url = '/api/accounts/' + @model.get('url') + '/entries'
+      @entry.save({}, {success: @entryAdded, error: @onError})
     false
 
   entryAdded: (model, resp, options) ->
     $('#entry_float_amount').val('')
     $('#entry_description').val('')
-    this.model.set
+    @model.set
       dollar_balance: resp.account_balance
-    this.entry.set(resp.entry)
-    this.entry.set
-      account: this.model
+    @entry.set(resp.entry)
+    @entry.set
+      account: @model
 
   onError: ->
     alert 'There was an error adding the entry.'

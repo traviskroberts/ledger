@@ -5,15 +5,15 @@ class Ledger.Views.InvitationItem extends Support.CompositeView
     'click .delete' : 'deleteInvitation'
 
   initialize: ->
-    _.bindAll this, 'render'
-    this.model.url = '/api/accounts/' + this.model.get('account').get('url') + '/invitations/' + this.model.get('id')
+    _.bindAll @, 'render', 'deleteInvitation'
+    @model.url = '/api/accounts/' + @model.get('account').get('url') + '/invitations/' + @model.get('id')
 
   render: ->
-    this.$el.html(JST['backbone/templates/invitations/item'](invitation: this.model.toJSON()))
-    this
+    @$el.html(JST['backbone/templates/invitations/item'](invitation: @model.toJSON()))
+    @
 
   deleteInvitation: (e) ->
     e.preventDefault()
-    this.model.destroy
+    @model.destroy
       error: ->
         alert 'That invitation could not be removed.'

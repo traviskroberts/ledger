@@ -1,28 +1,28 @@
 class Ledger.Views.AccountNew extends Support.CompositeView
 
   initialize: ->
-    _.bindAll this, 'render', 'save', 'saved'
-    this.model = new Ledger.Models.Account
+    _.bindAll @, 'render', 'save', 'saved'
+    @model = new Ledger.Models.Account
 
   events:
     'submit form' : 'save'
 
   render: ->
     template = JST['backbone/templates/accounts/new']
-    this.$el.html(template)
-    this
+    @$el.html(template)
+    @
 
   save: (e) ->
     e.preventDefault()
-    if this.$('form').valid()
-      this.model.set
+    if @$('form').valid()
+      @model.set
         name: $('#account_name').val()
         initial_balance: $('#account_initial_balance').val()
-      this.model.save({}, success: this.saved, error: this.onError)
+      @model.save({}, success: @saved, error: @onError)
 
   saved: (model, resp, options) ->
-    this.model.set(resp)
-    this.collection.add(this.model)
+    @model.set(resp)
+    @collection.add(@model)
     Backbone.history.navigate('/accounts', true)
 
   onError: ->

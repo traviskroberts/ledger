@@ -1,48 +1,48 @@
 class Ledger.Views.RecurringTransactionEdit extends Support.CompositeView
 
   initialize: (options) ->
-    _.bindAll this, 'render', 'save', 'saved'
-    this.account = options.account
-    this.id = options.id
-    if this.account.get('recurring_transactions').length == 0
-      this.collection = new Ledger.Collections.RecurringTransactions
+    _.bindAll @, 'render', 'save', 'saved'
+    @account = options.account
+    @id = options.id
+    if @account.get('recurring_transactions').length == 0
+      @collection = new Ledger.Collections.RecurringTransactions
     else
-      this.collection = this.account.get('recurring_transactions')
+      @collection = @account.get('recurring_transactions')
 
-    this.collection.url = '/api/accounts/' + this.account.get('url') + '/recurring_transactions'
-    this.collection.bind 'sync', this.render
+    @collection.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions'
+    @collection.bind 'sync', @render
 
-    if this.collection.length == 0
-      this.account.set('recurring_transactions': this.collection)
-      this.collection.fetch()
+    if @collection.length == 0
+      @account.set('recurring_transactions': @collection)
+      @collection.fetch()
 
   events:
     'submit form' : 'save'
 
   render: ->
-    this.model = this.collection.get(this.id)
+    @model = @collection.get(@id)
 
-    if this.model
-      this.model.url = '/api/accounts/' + this.account.get('url') + '/recurring_transactions/' + this.id
+    if @model
+      @model.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions/' + @id
       template = JST['backbone/templates/recurring_transactions/edit']
-        account: this.account.toJSON(),
-        recurring_transaction: this.model.toJSON()
-      this.$el.html(template)
+        account: @account.toJSON(),
+        recurring_transaction: @model.toJSON()
+      @$el.html(template)
 
-    this
+    @
 
   save: (e) ->
     e.preventDefault()
-    if this.$('form').valid()
-      this.model.set
+    if @$('form').valid()
+      @model.set
         float_amount: $('#float_amount').val()
         day: $('#day').val()
         description: $('#description').val()
-      this.model.save({}, success: this.saved, error: this.onError)
+      @model.save({}, success: @saved, error: @onError)
 
   saved: (model, resp, options) ->
-    this.model.set(resp)
-    Backbone.history.navigate('/accounts/' + this.account.get('url') + '/recurring', true)
+    @model.set(resp)
+    Backbone.history.navigate('/accounts/' + @account.get('url') + '/recurring', true)
 
   onError: ->
     alert 'There was an error updating the recurring transaction.'
