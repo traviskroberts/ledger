@@ -1,12 +1,5 @@
 <script>
   $(document).ready(function() {
-    var data = {
-      <%- if current_user -%>
-        user: <%=raw current_user.to_json %>,
-        accounts: <%=raw @accounts.to_json %>
-      <%- end -%>
-    };
-
-    Ledger.initialize(data);
+    Ledger.initialize();
   });
 </script>

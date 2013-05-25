@@ -15,10 +15,14 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     'accounts/:acct_id/recurring/:id/edit'  : 'editRecurring'
     'users'                                 : 'listUsers'
 
-  initialize: (options) ->
+  initialize: ->
     @el = $('#backbone-container')
+
+    # memoize certain objects
     @user = new Ledger.Models.User()
     @accounts = new Ledger.Collections.Accounts()
+
+    # show proper navigation
     @renderNav()
 
   landing: ->

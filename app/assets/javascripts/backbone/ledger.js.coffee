@@ -10,10 +10,8 @@ window.Ledger =
   Routers: {}
   Views: {}
 
-  initialize: (data) ->
-    # @accounts = new Ledger.Collections.Accounts(data.accounts)
-
-    new Ledger.Routers.AppRouter(data)
+  initialize: ->
+    new Ledger.Routers.AppRouter()
 
     if (!Backbone.history.started)
       Backbone.history.start
@@ -24,6 +22,6 @@ window.Ledger =
 $ ->
   # make sure to route links to backbone
   $('body').on 'click', 'a', (e) ->
-    if !$(this).hasClass('static') && Backbone.history.started
+    if Backbone.history.started
       e.preventDefault()
       Backbone.history.navigate($(this).attr('href'), true)
