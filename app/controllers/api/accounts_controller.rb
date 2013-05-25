@@ -1,6 +1,4 @@
-class Api::AccountsController < ApplicationController
-  before_filter :require_user
-
+class Api::AccountsController < Api::BaseController
   respond_to :json
 
   def index

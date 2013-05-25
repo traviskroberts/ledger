@@ -1,5 +1,5 @@
-class Api::EntriesController < ApplicationController
-  before_filter :require_user, :load_account
+class Api::EntriesController < Api::BaseController
+  before_filter :load_account
 
   respond_to :json
 

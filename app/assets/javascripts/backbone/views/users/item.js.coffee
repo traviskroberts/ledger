@@ -5,14 +5,15 @@ class Ledger.Views.UserItem extends Support.CompositeView
     'click .delete' : 'deleteUser'
 
   initialize: ->
-    _.bindAll this, 'render'
+    _.bindAll @, 'render', 'deleteUser'
 
   render: ->
-    this.$el.html(JST['backbone/templates/users/item'](user: this.model.toJSON()))
-    this
+    template = JST['backbone/templates/users/item']({user: @model.toJSON()})
+    @$el.html(template)
+    @
 
   deleteUser: (e) ->
     e.preventDefault()
-    this.model.destroy
+    @model.destroy
       error: ->
         alert 'That user could not be deleted.'

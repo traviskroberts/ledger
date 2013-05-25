@@ -17,10 +17,9 @@ Ledger::Application.routes.draw do
       resources :recurring_transactions, :only => [:index, :create, :update, :destroy]
     end
     resource :user_session, :only => [:create, :destroy]
-    resources :users, :only => [:index]
+    resources :users, :only => [:index, :create]
+    resource :user, :only => [:update]
   end
-
-  resources :users, :except => [:edit]
 
   match '*backbone' => 'site#backbone'
 end

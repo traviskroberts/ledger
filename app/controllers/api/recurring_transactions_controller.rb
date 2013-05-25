@@ -1,5 +1,5 @@
-class Api::RecurringTransactionsController < ApplicationController
-  before_filter :require_user, :load_account
+class Api::RecurringTransactionsController < Api::BaseController
+  before_filter :load_account
 
   respond_to :json
 

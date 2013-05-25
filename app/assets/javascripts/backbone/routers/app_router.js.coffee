@@ -16,16 +16,16 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
 
   initialize: (options) ->
     @el = $('#backbone-container')
-    if options.user?
-      @user = new Ledger.Model.User(options.user)
-      @accounts = new Ledger.Collections.Accounts(options.accounts)
+    @user = new Ledger.Models.User()
+    @accounts = new Ledger.Collections.Accounts()
+    @renderNav()
 
   landing: ->
     if @authenticated()
       Backbone.history.navigate('accounts', true)
 
   login: ->
-    view = new Ledger.Views.UserLogin
+    view = new Ledger.Views.UserLogin({model: @user})
     @swap(view)
 
   myAccount: ->
@@ -85,6 +85,16 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
       @swap(view)
 
   authenticated: ->
-    unless @user
-      Backbone.history.navigate('login', true) unless @user
-      false
+    if @user.get('id')?
+      return true
+    else
+      Backbone.history.navigate('login', true)
+      return false
+
+  renderNav: ->
+    if @authenticated()
+      template = JST['backbone/templates/nav/authenticated']({user: @user.toJSON()})
+    else
+      template = JST['backbone/templates/nav/unauthenticated']
+
+    $('#main-nav').html(template)
