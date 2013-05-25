@@ -5,6 +5,17 @@ class Api::UsersController < Api::BaseController
     render :json => User.all
   end
 
+  def create
+    user = User.new(params[:user])
+
+    if user.save
+      UserSession.create(user)
+      render :json => user
+    else
+      render :json => {:errors => user.errors.full_messages}, :status => 400
+    end
+  end
+
   def update
     user = current_user
     if user.update_attributes(params[:user])
