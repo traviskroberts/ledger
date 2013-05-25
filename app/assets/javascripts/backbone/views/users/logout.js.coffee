@@ -15,6 +15,7 @@ class Ledger.Views.UserLogout extends Support.CompositeView
 
   onComplete: ->
     @model.clear()
+    @collection.reset()
     template = JST['backbone/templates/nav/unauthenticated']
     $('#main-nav').html(template)
     Backbone.history.navigate('login', true)

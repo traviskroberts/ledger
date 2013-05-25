@@ -35,7 +35,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     @swap(view)
 
   logout: ->
-    view = new Ledger.Views.UserLogout({model: @user})
+    view = new Ledger.Views.UserLogout({model: @user, collection: @accounts})
     @swap(view)
 
   register: ->
