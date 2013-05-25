@@ -13,7 +13,8 @@ class Ledger.Views.UserLogin extends Support.CompositeView
 
   authenticate: (e) ->
     e.preventDefault()
-    @$el.find('.btn-primary').button('loading')
+    @$el.find('.alert').remove()
+    @$el.find('.btn-primary').attr('disabled', 'disabled')
 
     login_params = {
       user_session: {
@@ -28,9 +29,15 @@ class Ledger.Views.UserLogin extends Support.CompositeView
       type: 'post'
       dataType: 'json'
       data: login_params
-      success: (data) ->
-        console.log 'Success!'
-      error: (xhr, status, errorText) ->
-        console.log 'Error:', errorText
-    # if failure, show errors
-    # if success, redirect to accounts
+      success: @onSuccess
+      error: @onError
+
+  onSuccess: (data) =>
+    Backbone.history.navigate('accounts', true)
+
+  onError: (xhr, status, errorText) =>
+    @$el.find('.btn-primary').attr('disabled', false)
+    data = JSON.parse(xhr.responseText)
+    console.log data.errors
+    template = JST['backbone/templates/shared/validation_errors']({errors: data.errors})
+    @$el.find('form').prepend(template)
