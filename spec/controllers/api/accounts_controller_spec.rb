@@ -18,6 +18,13 @@ describe Api::AccountsController do
 
       get :index
     end
+
+    it 'should return a 401 error if the user is not authenticated' do
+      controller.stub(:current_user => false)
+
+      get :index
+      expect(response.status).to eq(401)
+    end
   end
 
   describe 'GET #show' do

@@ -1,11 +1,5 @@
 Ledger::Application.routes.draw do
-  root :to => 'site#backbone'
-
-  # Users
-  # match 'register',  :to => 'users#new',     :as => :register,       :via => :get
-  # match 'register',  :to => 'users#create',  :as => :register,       :via => :post
-  # match 'my-account', :to => 'users#edit',    :as => :my_account,     :via => :get
-  # match 'my-account', :to => 'users#update',  :as => :update_account, :via => :put
+  root :to => 'site#index'
 
   # Invitations
   match 'accept-invite/:token', :to => 'invitations#show', :as => :accept_invite
@@ -21,5 +15,6 @@ Ledger::Application.routes.draw do
     resource :user, :only => [:update]
   end
 
-  match '*backbone' => 'site#backbone'
+  # catch-all route
+  match '*backbone' => 'site#index'
 end

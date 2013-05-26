@@ -49,7 +49,7 @@ describe InvitationsController do
 
     it 'should redirect the user to the accounts page' do
       get :show, :token => invite.token
-      expect(response).to redirect_to(accounts_url)
+      expect(response).to redirect_to(root_url)
     end
   end
 end

@@ -13,6 +13,6 @@ class Api::UserSessionsController < Api::BaseController
 
   def destroy
     current_user_session.destroy
-    render :json => {}, :status => 200
+    render :json => {}
   end
 end

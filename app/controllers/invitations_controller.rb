@@ -12,6 +12,6 @@ class InvitationsController < ApplicationController
       flash[:error] = 'The invitation was not found. It might not be valid anymore.'
     end
 
-    redirect_to accounts_url
+    redirect_to root_url
   end
 end
