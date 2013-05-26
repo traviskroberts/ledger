@@ -1,11 +1,17 @@
 class Ledger.Views.AccountShow extends Support.CompositeView
 
-  initialize: ->
+  initialize: (options) ->
     _.bindAll @, 'render', 'renderEntries', 'validateEntryForm', 'addEntry', 'entryAdded'
+
+    unless @model?
+      @model = new Ledger.Models.Account({url: options.url})
+      @model.fetch()
 
     @model.bind 'add:entries', @render
     @model.bind 'remove:entries', @render
     @model.bind 'change', @render
+    @model.bind 'sync', @render
+
     if @model.get('entries').length == 0
       @entries = new Ledger.Collections.Entries
     else

@@ -1,20 +1,20 @@
 class Ledger.Routers.AppRouter extends Support.SwappingRouter
 
   routes:
-    ''                                      : 'landing'
-    'login'                                 : 'login'
-    'logout'                                : 'logout'
-    'register'                              : 'register'
-    'my-account'                            : 'myAccount'
-    'accounts'                              : 'listAccounts'
-    'accounts/new'                          : 'newAccount'
-    'accounts/:id'                          : 'viewAccount'
-    'accounts/:id/edit'                     : 'editAccount'
-    'accounts/:id/sharing'                  : 'listInvitations'
-    'accounts/:id/recurring'                : 'listRecurring'
-    'accounts/:id/recurring/new'            : 'newRecurring'
-    'accounts/:acct_id/recurring/:id/edit'  : 'editRecurring'
-    'users'                                 : 'listUsers'
+    ''                                  : 'landing'
+    'login'                             : 'login'
+    'logout'                            : 'logout'
+    'register'                          : 'register'
+    'my-account'                        : 'myAccount'
+    'accounts'                          : 'listAccounts'
+    'accounts/new'                      : 'newAccount'
+    'accounts/:url'                     : 'viewAccount'
+    'accounts/:url/edit'                : 'editAccount'
+    'accounts/:url/sharing'             : 'listInvitations'
+    'accounts/:url/recurring'           : 'listRecurring'
+    'accounts/:url/recurring/new'       : 'newRecurring'
+    'accounts/:url/recurring/:id/edit'  : 'editRecurring'
+    'users'                             : 'listUsers'
 
   initialize: ->
     @el = $('#backbone-container')
@@ -22,6 +22,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     # memoize certain objects
     @user = new Ledger.Models.User()
     @accounts = new Ledger.Collections.Accounts()
+    @accounts.fetch() if @authenticated()
 
     # see if the user is still authed
     if lscache.get('ledger_user')
@@ -61,40 +62,40 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
       view = new Ledger.Views.AccountNew({collection: @accounts})
       @swap(view)
 
-  viewAccount: (id) ->
+  viewAccount: (url) ->
     if @authenticated()
-      account = @accounts.get(id)
-      view = new Ledger.Views.AccountShow({model: account})
+      account = @accounts.get(url)
+      view = new Ledger.Views.AccountShow({model: account, url: url})
       @swap(view)
 
-  editAccount: (id) ->
+  editAccount: (url) ->
     if @authenticated()
-      account = @accounts.get(id)
-      view = new Ledger.Views.AccountEdit({model: account})
+      account = @accounts.get(url)
+      view = new Ledger.Views.AccountEdit({model: account, url: url})
       @swap(view)
 
-  listInvitations: (id) ->
+  listInvitations: (url) ->
     if @authenticated()
-      account = @accounts.get(id)
-      view = new Ledger.Views.InvitationsIndex({account: account})
+      account = @accounts.get(url)
+      view = new Ledger.Views.InvitationsIndex({account: account, url: url})
       @swap(view)
 
-  listRecurring: (id) ->
+  listRecurring: (url) ->
     if @authenticated()
-      account = @accounts.get(id)
-      view = new Ledger.Views.RecurringTransactionsIndex({account: account})
+      account = @accounts.get(url)
+      view = new Ledger.Views.RecurringTransactionsIndex({account: account, url: url})
       @swap(view)
 
-  newRecurring: (id) ->
+  newRecurring: (url) ->
     if @authenticated()
-      account = @accounts.get(id)
-      view = new Ledger.Views.RecurringTransactionNew({account: account})
+      account = @accounts.get(url)
+      view = new Ledger.Views.RecurringTransactionNew({account: account, url: id})
       @swap(view)
 
-  editRecurring: (acct_id, id) ->
+  editRecurring: (url, id) ->
     if @authenticated()
-      account = @accounts.get(acct_id)
-      view = new Ledger.Views.RecurringTransactionEdit({account: account, id: id})
+      account = @accounts.get(url)
+      view = new Ledger.Views.RecurringTransactionEdit({account: account, url: url, id: id})
       @swap(view)
 
   listUsers: ->

@@ -1,7 +1,12 @@
 class Ledger.Views.AccountEdit extends Support.CompositeView
 
-  initialize: ->
+  initialize: (options) ->
     _.bindAll @, 'render', 'save', 'saved'
+
+    unless @model?
+      @model = new Ledger.Models.Account({url: options.url})
+      @model.bind 'sync', @render
+      @model.fetch()
 
   events:
     'submit form' : 'save'

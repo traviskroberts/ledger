@@ -4,6 +4,11 @@ class Ledger.Views.InvitationsIndex extends Support.CompositeView
     _.bindAll @, 'render', 'renderInvitations', 'save', 'saved'
 
     @account = options.account
+    unless @account?
+      @account = new Ledger.Models.Account({url: options.url})
+      @account.bind 'sync', @render
+      @account.fetch()
+
     if @account.get('invitations').length == 0
       @collection = new Ledger.Collections.Invitations
     else

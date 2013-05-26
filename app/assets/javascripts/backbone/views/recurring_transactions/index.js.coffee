@@ -5,6 +5,11 @@ class Ledger.Views.RecurringTransactionsIndex extends Support.CompositeView
     _.bindAll @, 'render', 'renderItems'
 
     @account = options.account
+    unless @account?
+      @account = new Ledger.Models.Account({url: options.url})
+      @account.bind 'sync', @render
+      @account.fetch()
+
     if @account.get('recurring_transactions').length == 0
       @collection = new Ledger.Collections.RecurringTransactions
     else

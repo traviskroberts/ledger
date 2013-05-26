@@ -2,7 +2,13 @@ class Ledger.Views.RecurringTransactionEdit extends Support.CompositeView
 
   initialize: (options) ->
     _.bindAll @, 'render', 'save', 'saved'
+
     @account = options.account
+    unless @account?
+      @account = new Ledger.Models.Account({url: options.url})
+      @account.bind 'sync', @render
+      @account.fetch()
+
     @id = options.id
     if @account.get('recurring_transactions').length == 0
       @collection = new Ledger.Collections.RecurringTransactions
