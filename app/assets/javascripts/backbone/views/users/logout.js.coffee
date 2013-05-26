@@ -15,6 +15,7 @@ class Ledger.Views.UserLogout extends Support.CompositeView
 
   onComplete: ->
     @model.clear()
+    lscache.remove('ledger_user')
     @collection.reset()
     template = JST['backbone/templates/nav/unauthenticated']
     $('#main-nav').html(template)

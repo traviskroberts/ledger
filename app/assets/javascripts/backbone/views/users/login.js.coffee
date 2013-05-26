@@ -34,6 +34,7 @@ class Ledger.Views.UserLogin extends Support.CompositeView
 
   onSuccess: (data) ->
     @model.set(data)
+    lscache.set('ledger_user', @model.attributes, 43200) # save the user
     template = JST['backbone/templates/nav/authenticated']({user: @model.toJSON()})
     $('#main-nav').html(template)
     Backbone.history.navigate('accounts', true)

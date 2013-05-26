@@ -23,6 +23,10 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     @user = new Ledger.Models.User()
     @accounts = new Ledger.Collections.Accounts()
 
+    # see if the user is still authed
+    if lscache.get('ledger_user')
+      @user.set(lscache.get('ledger_user'))
+
     # show proper navigation
     @renderNav()
 
