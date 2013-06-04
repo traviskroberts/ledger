@@ -13,6 +13,15 @@ $lightGray: #999;
   left: 0;
 }
 
+// BOOTSTRAP/FLAT-UI OVERRIDES
+.btn-mini {
+  padding: 1px 6px;
+  font-size: 10.5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
 // HTML ELEMENTS
 html,
 body {

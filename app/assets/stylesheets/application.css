@@ -12,5 +12,6 @@
  *= require cerulean
  *= require bootstrap/responsive
  *= require datepicker
+ *= require flat-ui-buttons
  *= require layout
  */
