@@ -1,7 +1,8 @@
 class Ledger.Views.AccountShow extends Support.CompositeView
 
   initialize: (options) ->
-    _.bindAll @, 'render', 'renderEntries', 'validateEntryForm', 'addEntry', 'entryAdded'
+    _.bindAll @, 'render', 'renderEntries', 'setupAutocomplete', 'validateEntryForm', 'addEntry', 'entryAdded'
+    @autocompleteStarted = false
 
     unless @model?
       @model = new Ledger.Models.Account({url: options.url})
@@ -25,7 +26,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       @entries.fetch()
 
   events:
-    'submit .new-entry' : 'addEntry'
+    'submit .new-entry'         : 'addEntry'
 
   render: ->
     template = JST['backbone/templates/accounts/show']({account: @model.toJSON()})
@@ -33,6 +34,8 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     @validateEntryForm()
     if @entries.length > 0
       @renderEntries()
+    @$('#entry_float_amount').focus() unless Ledger.isMobile()
+    @setupAutocomplete()
     @
 
   renderEntries: ->
@@ -42,8 +45,25 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     @renderChild(row)
     @$('#entries').append(row.el)
 
+  setupAutocomplete: ->
+    if @$('#entry_description').length
+      request_url = @entries.url() + '/values'
+      @$('#entry_description').autocomplete
+        minLength: 2
+        source: (req, resp) ->
+          $.ajax
+            url: request_url
+            dataType: 'json'
+            data:
+              term: req.term
+            success: (data) ->
+              resp(data.values)
+
   validateEntryForm: ->
     @$('form').validate
+      onfocusout: false
+      onkeyup: false
+      onclick: false
       groups:
         entry_fields: "entry_float_amount entry_description"
 

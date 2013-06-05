@@ -45,6 +45,11 @@ class Api::EntriesController < Api::BaseController
     end
   end
 
+  def values
+    entries = @account.entries.where('description LIKE ?', "#{params[:term]}%").pluck(:description).uniq
+    render :json => {:values => entries}
+  end
+
   private
     def load_account
       @account = current_user.accounts.find_by_url(params[:account_id])

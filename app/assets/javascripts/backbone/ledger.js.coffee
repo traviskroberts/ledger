@@ -19,6 +19,12 @@ window.Ledger =
 
       Backbone.history.started = true
 
+  isMobile: ->
+    if navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone|iPad|iPod/i)
+      true
+    else
+      false
+
 $ ->
   # make sure to route links to backbone
   $('body').on 'click', 'a', (e) ->

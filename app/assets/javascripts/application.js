@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.validate
+//= require jquery-ui
 //= require fastclick
 //= require bootstrap-alert
 //= require bootstrap-button
