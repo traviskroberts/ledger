@@ -14,13 +14,11 @@ class Ledger.Views.EntryItem extends Support.CompositeView
 
   render: (e) ->
     e.preventDefault() if e
-    account = @model.get('account')
-    @$el.html(JST['backbone/templates/entries/item']({entry: @model.toJSON(), account: account.toJSON()}))
+    @$el.html(JST['backbone/templates/entries/item']({entry: @model.toJSON(), account: @account.toJSON()}))
     @
 
   editEntry: (e) ->
-    account = @model.get('account')
-    @$el.html(JST['backbone/templates/entries/edit']({entry: @model.toJSON(), account: account.toJSON()}))
+    @$el.html(JST['backbone/templates/entries/edit']({entry: @model.toJSON(), account: @account.toJSON()}))
     if $(e.currentTarget).attr('data-field') == 'description'
       @$el.find('.entry-description-field').focus()
     else if $(e.currentTarget).attr('data-field') == 'date'
