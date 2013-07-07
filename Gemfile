@@ -1,37 +1,31 @@
 source 'https://rubygems.org'
-gem 'rails', '3.2.12'
-gem 'mysql2'
+gem 'rails', '3.2.13'
+gem 'pg'
 gem 'jquery-rails'
 gem 'authlogic'
 gem 'stringex'
 gem 'will_paginate'
 gem 'delayed_job_active_record'
+gem 'workless'
 gem 'daemons'
 gem 'hashie'
-gem 'lograge'
 gem 'rails-backbone'
 gem 'backbone-support'
 gem 'handlebars_assets'
-gem 'backup'
+gem 'unicorn'
+gem 'newrelic_rpm'
 
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-end
-
-group :development do
-  gem 'thin'
-  gem 'capistrano'
-  gem 'capistrano_colors'
-  gem 'rvm-capistrano'
+  gem 'turbo-sprockets-rails3'
 end
 
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'awesome_print'
-  gem 'quiet_assets'
   gem 'rspec-rails'
 end
 
