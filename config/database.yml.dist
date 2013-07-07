@@ -1,26 +1,17 @@
 development:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  adapter: postgresql
   database: ledger_development
-  pool: 5
-  username: root
+  username:
   password:
 
 test:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  adapter: postgresql
   database: ledger_test
-  pool: 5
-  username: root
+  username:
   password:
 
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
+  adapter: postgresql
   database: ledger_production
-  pool: 5
-  username: root
+  username:
   password:
