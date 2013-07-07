@@ -23,9 +23,15 @@ group :assets do
   gem 'turbo-sprockets-rails3'
 end
 
+group :production do
+  gem 'heroku_rails_deflate'
+end
+
 group :development, :test do
-  gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'foreman'
+  gem 'dotenv-rails'
+  gem 'factory_girl_rails'
   gem 'awesome_print'
   gem 'rspec-rails'
 end

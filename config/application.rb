@@ -63,5 +63,15 @@ module Ledger
     config.assets.version = '1.0'
 
     config.assets.initialize_on_precompile = false
+
+    ActionMailer::Base.smtp_settings = {
+        :port =>           '587',
+        :address =>        'smtp.mandrillapp.com',
+        :user_name =>      ENV['MANDRILL_USERNAME'],
+        :password =>       ENV['MANDRILL_APIKEY'],
+        :domain =>         'heroku.com',
+        :authentication => :plain
+    }
+    ActionMailer::Base.delivery_method = :smtp
   end
 end
