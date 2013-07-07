@@ -34,4 +34,9 @@ Ledger::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # workless job scaling
+  config.after_initialize do
+    Delayed::Job.scaler = :local
+  end
 end
