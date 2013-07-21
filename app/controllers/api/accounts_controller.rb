@@ -2,7 +2,7 @@ class Api::AccountsController < Api::BaseController
   respond_to :json
 
   def index
-    @accounts = current_user.accounts
+    @accounts = current_user.accounts.order(:id)
     respond_with(@accounts)
   end
 
