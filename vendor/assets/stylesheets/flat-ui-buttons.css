@@ -268,3 +268,7 @@
 .navbar .nav > li > a:hover {
   background-color: #34495E;
 }
+
+.navbar .btn-navbar {
+  background: #2980B9;
+}
