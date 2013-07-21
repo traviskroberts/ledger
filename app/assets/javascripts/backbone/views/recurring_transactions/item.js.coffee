@@ -4,9 +4,9 @@ class Ledger.Views.RecurringTransactionItem extends Support.CompositeView
   events:
     'click .delete' : 'deleteItem'
 
-  initialize: ->
+  initialize: (options) ->
     _.bindAll @, 'render', 'deleteItem'
-    @account = @model.get('account')
+    @account = options.account
     @model.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions/' + @model.get('id')
 
   render: ->

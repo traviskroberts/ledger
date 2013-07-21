@@ -33,6 +33,6 @@ class Ledger.Views.RecurringTransactionsIndex extends Support.CompositeView
 
   renderItems: ->
     @collection.each (recurring_transaction) =>
-      row = new Ledger.Views.RecurringTransactionItem({model: recurring_transaction})
+      row = new Ledger.Views.RecurringTransactionItem({model: recurring_transaction, account: @account})
       @renderChild(row)
       @$('#recurring-transactions-list').append(row.el)

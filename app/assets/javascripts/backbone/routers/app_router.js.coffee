@@ -89,7 +89,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
   newRecurring: (url) ->
     if @authenticated()
       account = @accounts.get(url)
-      view = new Ledger.Views.RecurringTransactionNew({account: account, url: id})
+      view = new Ledger.Views.RecurringTransactionNew({account: account, url: url})
       @swap(view)
 
   editRecurring: (url, id) ->
