@@ -26,7 +26,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       @entries.fetch()
 
   events:
-    'submit .new-entry'         : 'addEntry'
+    'submit .new-entry': 'addEntry'
 
   render: ->
     template = JST['backbone/templates/accounts/show']({account: @model.toJSON()})
