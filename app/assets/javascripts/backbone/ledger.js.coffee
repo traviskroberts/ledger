@@ -28,6 +28,6 @@ window.Ledger =
 $ ->
   # make sure to route links to backbone
   $('body').on 'click', 'a', (e) ->
-    if Backbone.history.started
+    if Backbone.history.started && !$(e.target).hasClass('ui-corner-all') # don't hijack jquery-ui autocomplete
       e.preventDefault()
       Backbone.history.navigate($(this).attr('href'), true)

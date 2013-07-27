@@ -27,6 +27,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
 
   events:
     'submit .new-entry': 'addEntry'
+    'click body .ui-autocomplete a': 'clickAutoComplete'
 
   render: ->
     template = JST['backbone/templates/accounts/show']({account: @model.toJSON()})
@@ -58,6 +59,9 @@ class Ledger.Views.AccountShow extends Support.CompositeView
               term: req.term
             success: (data) ->
               resp(data.values)
+
+  clickAutoComplete: (e) ->
+    debugger
 
   validateEntryForm: ->
     @$('form').validate
