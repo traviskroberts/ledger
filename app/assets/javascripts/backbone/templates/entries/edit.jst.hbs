@@ -1,6 +1,6 @@
 <td>
   <form class="entry-edit-form">
-    <input type="text" name="entry_description" value="{{entry.description}}" class="entry-description-field" />
+    <input type="text" name="entry_description" value="{{entry.description}}" class="entry-description-field" autocorrect="off" />
   </form>
   <a href="/accounts/{{account.url}}" class="cancel-edit">cancel</a>
 </td>
@@ -11,6 +11,6 @@
 </td>
 <td class="{{entry.classification}}">
   <form class="entry-edit-form">
-    <input type="text" name="entry_float_amount" value="{{entry.form_amount_value}}" class="entry-amount-field" />
+    <input type="text" name="entry_float_amount" value="{{entry.form_amount_value}}" class="entry-amount-field" pattern="\d*" novalidate />
   </form>
 </td>
