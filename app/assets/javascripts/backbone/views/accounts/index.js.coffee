@@ -3,20 +3,24 @@ class Ledger.Views.AccountsIndex extends Support.CompositeView
 
   initialize: ->
     _.bindAll @, 'render', 'renderAccounts'
-    @collection.bind 'change', @render
-    @collection.bind 'remove', @render
-    @collection.bind 'sync', @render
+    @collection.bind 'change', @renderAccounts
+    @collection.bind 'remove', @renderAccounts
+    @collection.bind 'sync', @renderAccounts
 
     if @collection.length == 0
       @collection.fetch()
 
   render: ->
     @$el.html(JST['backbone/templates/accounts/index'])
-    @renderAccounts()
+    @renderAccounts() unless @collection.length == 0
     @
 
   renderAccounts: ->
-    @collection.each (account) =>
-      row = new Ledger.Views.AccountItem({ model: account })
-      @renderChild(row)
-      @$('#accounts-list').append(row.el)
+    if @collection.length == 0
+      @$('#accounts-list').html("<p>You don't have any accounts yet.</p>")
+    else
+      @$('#accounts-list').html('')
+      @collection.each (account) =>
+        row = new Ledger.Views.AccountItem({ model: account })
+        @renderChild(row)
+        @$('#accounts-list').append(row.el)

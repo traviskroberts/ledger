@@ -1,5 +1,6 @@
 class Api::UsersController < Api::BaseController
   before_filter :require_admin, :only => [:index]
+  skip_before_filter :require_user, :only => [:create]
 
   def index
     render :json => User.all
