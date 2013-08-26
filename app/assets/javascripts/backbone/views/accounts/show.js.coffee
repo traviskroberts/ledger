@@ -8,8 +8,8 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       @model = new Ledger.Models.Account({url: options.url})
       @model.fetch()
 
-    @model.bind 'add:entries', @render
-    @model.bind 'remove:entries', @render
+    @model.bind 'add:entries', @renderEntries
+    @model.bind 'remove:entries', @renderEntries
     @model.bind 'change', @render
     @model.bind 'sync', @render
 
