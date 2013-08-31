@@ -1,5 +1,5 @@
 class Ledger.Views.AccountItem extends Support.CompositeView
-  className: 'span4'
+  className: 'span12'
 
   events:
     'click .delete' : 'deleteAccount'

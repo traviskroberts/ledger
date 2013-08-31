@@ -1,6 +1,9 @@
 <div class="well well-small">
-  <h2><a href="/accounts/{{account.url}}" class="backbone-link">{{account.name}}</a></h2>
-  <p class="balance-big">{{account.dollar_balance}}</p>
+  <div class="clearfix">
+    <h2 class="pull-left"><a href="/accounts/{{account.url}}" class="backbone-link">{{account.name}}</a></h2>
+    <p class="balance-big pull-right">{{account.dollar_balance}}</p>
+  </div>
+
   <a href="/accounts/{{account.url}}/edit" class="btn btn-primary btn-mini">Edit</a>
   <a href="/accounts/{{account.url}}/sharing" class="btn btn-mini">Sharing</a>
   <a href="#" class="btn btn-danger btn-mini delete">Delete</a>
