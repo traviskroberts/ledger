@@ -2,6 +2,12 @@ window.addEventListener 'load', ->
   new FastClick document.body
 , false
 
+# handle authentication denied errors
+$.ajaxSetup
+  statusCode:
+    401: ->
+      window.location.replace '/login'
+
 $ ->
   if $("#screen-info").length
     win_size = $(window).width()
@@ -26,8 +32,6 @@ $ ->
         if ev.viewMode == 'days'
           el.datepicker('hide')
     '.datepicker'
-
-
 
 Handlebars.registerHelper 'option_selected', (val1, val2) ->
   ret = ''

@@ -36,6 +36,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
       Backbone.history.navigate('accounts', true)
 
   login: ->
+    @cleanUp()
     view = new Ledger.Views.UserLogin({model: @user})
     @swap(view)
 
@@ -104,7 +105,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
       @swap(view)
 
   authenticated: ->
-    if @user.get('id')?
+    if @user.get('id')
       return true
     else
       Backbone.history.navigate('login', true)
@@ -117,3 +118,10 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
       template = JST['backbone/templates/nav/unauthenticated']
 
     $('#main-nav').html(template)
+
+  cleanUp: ->
+    if @authenticated()
+      lscache.remove('ledger_user')
+      @user.clear()
+      @accounts = new Ledger.Collections.Accounts() # reset() throws a validation error for some reason
+      @renderNav()
