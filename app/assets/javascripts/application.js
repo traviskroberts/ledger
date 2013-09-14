@@ -7,15 +7,15 @@
 //= require bootstrap-modal
 //= require bootstrap-transition
 //= require bootstrap-datepicker
+//= require spin
 //= require moment
 //= require handlebars
 //= require ember
-//= require ember-data-latest
+//= require ember-data
 //= require ember-auth
 //= require_self
 //= require auth
 //= require ledger
-//= require spin
 //= require site
 
 window.Ledger = Ember.Application.create({

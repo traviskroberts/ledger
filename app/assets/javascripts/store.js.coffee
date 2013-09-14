@@ -1,15 +1,18 @@
-DS.RESTAdapter.reopen
+Ledger.ApplicationAdapter = DS.RESTAdapter.extend
   namespace: 'api'
 
-Ledger.Adapter = DS.RESTAdapter.extend
-  bulkCommit: false
+# DS.RESTAdapter.reopen
+#   namespace: 'api'
 
-Ledger.Adapter.configure 'plurals',
-  entry: 'entries'
+# Ledger.Adapter = DS.RESTAdapter.extend
+#   bulkCommit: false
 
-Ledger.Adapter.map 'Ledger.Account',
-  entries: { embedded: 'always' }
+# Ledger.Adapter.configure 'plurals',
+#   entry: 'entries'
 
-Ledger.Store = DS.Store.extend
-  revision: 12
-  adapter:  Ledger.Adapter.create()
+# Ledger.Adapter.map 'Ledger.Account',
+#   entries: { embedded: 'always' }
+
+# Ledger.Store = DS.Store.extend
+#   revision: 12
+#   adapter:  Ledger.Adapter.create()

@@ -1,3 +1,3 @@
 Ledger.User = DS.Model.extend
-  name      : DS.attr('string')
-  email     : DS.attr('string')
+  name  : DS.attr()
+  email : DS.attr()

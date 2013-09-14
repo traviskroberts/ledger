@@ -5,6 +5,7 @@
 **.orig
 .bundle
 .DS_Store
+.env
 .rspec
 .rvmrc
 .ruby-gemset

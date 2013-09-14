@@ -1,4 +1,4 @@
-@import "mixins";
+@import "bootstrap/mixins";
 
 $error_red: #900;
 $lightGray: #999;
@@ -11,6 +11,15 @@ $lightGray: #999;
   position: fixed;
   bottom: 0;
   left: 0;
+}
+
+// BOOTSTRAP/FLAT-UI OVERRIDES
+.btn-mini {
+  padding: 1px 6px;
+  font-size: 10.5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 // HTML ELEMENTS
@@ -86,6 +95,18 @@ li.navbar-text {
   }
 }
 
+.data-loading {
+  height: 75px;
+  margin: 0 auto;
+  text-align: center;
+  width: 200px;
+
+  img {
+    display: block;
+    margin: 0 auto 10px auto;
+  }
+}
+
 // FORM ERRORS
 input.error,
 select.error {
@@ -116,7 +137,7 @@ label.error {
 // ACCOUNT PAGES
 .balance-big {
   font-size: 46px;
-  line-height: 150%;
+  line-height: 125%;
   text-align: right;
 }
 

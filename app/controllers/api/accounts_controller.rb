@@ -1,15 +1,16 @@
 class Api::AccountsController < Api::BaseController
-  before_filter :require_user
+  # before_filter :require_user
 
   respond_to :json
 
   def index
-    @accounts = current_user.accounts.includes(:entries)
+    # @accounts = current_user.accounts.includes(:entries)
+    @accounts = current_user.accounts
     respond_with(@accounts)
   end
 
   def show
-    @account = current_user.accounts.find(params[:id])
+    @account = current_user.accounts.find_by_url(params[:id])
     respond_with(@account)
   end
 

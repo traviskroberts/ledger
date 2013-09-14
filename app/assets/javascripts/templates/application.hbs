@@ -8,25 +8,22 @@
           <span class="icon-bar"></span>
         </a>
 
-        <a href="#" class="brand">Ledger</a>
+        {{#link-to index class="brand"}}Ledger{{/link-to}}
 
         <div class="nav-collapse collapse">
           {{#if Ledger.Auth.signedIn}}
             <ul class="nav">
-              <li>{{#linkTo accounts}}Accounts{{/linkTo}}</li>
+              <li>{{#link-to accounts}}Accounts{{/link-to}}</li>
             </ul>
 
             <ul class="nav pull-right">
-              <li>{{#linkTo my_account}}My Account{{/linkTo}}</li>
-              <li class="divider-vertical"></li>
+              <li>{{#link-to my_account}}My Account{{/link-to}}</li>
               <li><a href="#">Users</a></li>
-              <li class="divider-vertical"></li>
               <li><button {{action signOut}} class="btn btn-link">Logout</button></li>
             </ul>
           {{else}}
             <ul class="nav pull-right">
-              <li>{{#linkTo sign_in}}Login{{/linkTo}}</li>
-              <li class="divider-vertical"></li>
+              <li>{{#link-to sign_in}}Login{{/link-to}}</li>
               <li><a href="#">Register</a></li>
             </ul>
           {{/if}}
