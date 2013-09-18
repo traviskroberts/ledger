@@ -5,7 +5,7 @@ class Ledger.Views.AccountEdit extends Support.CompositeView
 
     unless @model?
       @model = new Ledger.Models.Account({url: options.url})
-      @model.bind 'sync', @render
+      @bindTo @model, 'sync', @render
       @model.fetch()
 
   events:

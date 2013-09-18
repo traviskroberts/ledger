@@ -8,10 +8,10 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       @model = new Ledger.Models.Account({url: options.url})
       @model.fetch()
 
-    @model.bind 'add:entries', @renderEntries
-    @model.bind 'remove:entries', @renderEntries
-    @model.bind 'change', @render
-    @model.bind 'sync', @render
+    @bindTo @model, 'add:entries', @renderEntries
+    @bindTo @model, 'remove:entries', @renderEntries
+    @bindTo @model, 'change', @render
+    @bindTo @model, 'sync', @render
 
     if @model.get('entries').length == 0
       @entries = new Ledger.Collections.Entries
@@ -19,7 +19,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
       @entries = @model.get('entries')
 
     @entries.paginator_core.url = '/api/accounts/' + @model.get('url') + '/entries'
-    @entries.bind 'sync', @renderEntries
+    @bindTo @entries, 'sync', @renderEntries
 
     if @entries.length == 0
       @model.set('entries': @entries)

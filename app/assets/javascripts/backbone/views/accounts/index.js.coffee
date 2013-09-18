@@ -4,9 +4,9 @@ class Ledger.Views.AccountsIndex extends Support.CompositeView
   initialize: ->
     _.bindAll @, 'render', 'renderAccounts'
 
-    @collection.bind 'change', @renderAccounts
-    @collection.bind 'remove', @renderAccounts
-    @collection.bind 'sync', @renderAccounts
+    @bindTo @collection, 'change', @renderAccounts
+    @bindTo @collection, 'remove', @renderAccounts
+    @bindTo @collection, 'sync', @renderAccounts
 
     if @collection.length == 0
       @collection.fetch()

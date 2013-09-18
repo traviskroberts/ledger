@@ -6,7 +6,7 @@ class Ledger.Views.InvitationsIndex extends Support.CompositeView
     @account = options.account
     unless @account?
       @account = new Ledger.Models.Account({url: options.url})
-      @account.bind 'sync', @render
+      @bindTo @account, 'sync', @render
       @account.fetch()
 
     if @account.get('invitations').length == 0
@@ -15,9 +15,9 @@ class Ledger.Views.InvitationsIndex extends Support.CompositeView
       @collection = @account.get('invitations')
 
     @collection.url = '/api/accounts/' + @account.get('url') + '/invitations'
-    @collection.bind 'sync', @render
-    @collection.bind 'change', @render
-    @collection.bind 'remove', @render
+    @bindTo @collection, 'sync', @render
+    @bindTo @collection, 'change', @render
+    @bindTo @collection, 'remove', @render
 
     if @collection.length == 0
       @account.set('invitations': @collection)

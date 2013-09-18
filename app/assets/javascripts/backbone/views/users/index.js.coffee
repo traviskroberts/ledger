@@ -4,8 +4,8 @@ class Ledger.Views.UsersIndex extends Support.CompositeView
     _.bindAll @, 'render', 'renderUsers'
 
     @collection = new Ledger.Collections.Users
-    @collection.bind 'sync', @render
-    @collection.bind 'remove', @render
+    @bindTo @collection, 'sync', @render
+    @bindTo @collection, 'remove', @render
     @collection.fetch()
 
   render: ->

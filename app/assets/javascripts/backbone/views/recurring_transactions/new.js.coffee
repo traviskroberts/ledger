@@ -6,7 +6,7 @@ class Ledger.Views.RecurringTransactionNew extends Support.CompositeView
     @account = options.account
     unless @account?
       @account = new Ledger.Models.Account({url: options.url})
-      @account.bind 'sync', @render
+      @bindTo @account, 'sync', @render
       @account.fetch()
 
     @collection = @account.get('recurring_transactions')
