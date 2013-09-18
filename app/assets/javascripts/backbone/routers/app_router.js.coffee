@@ -19,14 +19,15 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
   initialize: ->
     @el = $('#backbone-container')
 
-    # memoize certain objects
+    # cache certain objects
     @user = new Ledger.Models.User()
     @accounts = new Ledger.Collections.Accounts()
-    @accounts.fetch() if @authenticated()
 
     # see if the user is still authed
     if lscache.get('ledger_user')
       @user.set(lscache.get('ledger_user'))
+
+    @accounts.fetch() if @authenticated()
 
     # show proper navigation
     @renderNav()
