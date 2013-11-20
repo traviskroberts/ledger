@@ -17,6 +17,8 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
     'users'                             : 'listUsers'
 
   initialize: ->
+    @bind 'route', @_pageView
+
     @el = $('#backbone-container')
 
     # cache certain objects
@@ -126,3 +128,7 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
       @user.clear()
       @accounts = new Ledger.Collections.Accounts() # reset() throws a validation error for some reason
       @renderNav()
+
+  _pageView: ->
+    url = Backbone.history.getFragment()
+    ga('send', 'pageview', {page: url})
