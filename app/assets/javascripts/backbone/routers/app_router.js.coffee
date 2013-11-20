@@ -131,4 +131,4 @@ class Ledger.Routers.AppRouter extends Support.SwappingRouter
 
   _pageView: ->
     url = Backbone.history.getFragment()
-    ga('send', 'pageview', {page: url})
+    ga('send', 'pageview', {page: "/#{url}"})
