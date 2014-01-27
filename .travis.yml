@@ -6,6 +6,4 @@ before_script:
   - cp config/database.yml.dist config/database.yml
   - psql -c 'create database ledger_test' -U postgres
 script:
-  - RAILS_ENV=test bundle exec rake db:migrate
-  - bundle exec rake db:test:prepare
-  - bundle exec rake
+  - RAILS_ENV=test bundle exec rake --trace db:migrate rspec
