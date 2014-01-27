@@ -214,7 +214,7 @@ describe Entry do
 
     it 'should return the correct unix timestamp for the entry date' do
       entry = FactoryGirl.create(:entry, :date => '2001-03-08')
-      expect(entry.timestamp).to eq(984031200)
+      expect(entry.timestamp).to eq(Date.parse('2001-03-08').to_time.to_i)
     end
   end
 end
