@@ -7,7 +7,7 @@ class Api::UserSessionsController < Api::BaseController
     if user_session.save
       render :json => current_user
     else
-      render :json => {:errors => user_session.errors.full_messages}, :status => 401
+      render :json => {:errors => user_session.errors.full_messages}, :status => 400
     end
   end
 

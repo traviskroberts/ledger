@@ -44,7 +44,7 @@ describe Api::UserSessionsController do
       it 'should render a 400 status' do
         UserSession.any_instance.stub(:save => false)
         post :create, :user_session => valid_params
-        expect(response.status).to eq(401)
+        expect(response.status).to eq(400)
       end
     end
   end
