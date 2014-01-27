@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 gem 'rails', '3.2.16'
 gem 'pg'
@@ -13,8 +14,6 @@ gem 'hashie'
 gem 'rails-backbone'
 gem 'backbone-support'
 gem 'handlebars_assets'
-gem 'unicorn'
-gem 'newrelic_rpm'
 
 group :assets do
   gem 'sass-rails'
@@ -24,6 +23,8 @@ group :assets do
 end
 
 group :production do
+  gem 'unicorn'
+  gem 'newrelic_rpm'
   gem 'heroku_rails_deflate'
 end
 
@@ -38,6 +39,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'rake' # for Travis-CI
   gem 'spork'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
