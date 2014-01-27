@@ -14,7 +14,8 @@ describe Api::AccountsController do
 
   describe 'GET #index' do
     it 'should retrieve the accounts for the current user' do
-      user.should_receive(:accounts)
+      user.should_receive(:accounts).and_return(account)
+      account.should_receive(:order).with(:id)
 
       get :index
     end
