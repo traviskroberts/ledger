@@ -69,6 +69,7 @@ class Ledger.Views.AccountShow extends Support.CompositeView
 
   addEntry: ->
     if @$('form').valid()
+      @$('#btn-new-entry').button('loading')
       @entry = new Ledger.Models.Entry
         float_amount: $('#entry_float_amount').val()
         description: $('#entry_description').val()
@@ -78,8 +79,9 @@ class Ledger.Views.AccountShow extends Support.CompositeView
     false
 
   entryAdded: (model, resp, options) ->
-    $('#entry_float_amount').val('')
-    $('#entry_description').val('')
+    @$('#entry_float_amount').val('')
+    @$('#entry_description').val('')
+    @$('#btn-new-entry').button('reset')
     @model.set
       dollar_balance: resp.account_balance
     @entry.set(resp.entry)
