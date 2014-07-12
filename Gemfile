@@ -26,6 +26,7 @@ group :production do
   gem 'unicorn'
   gem 'newrelic_rpm'
   gem 'heroku_rails_deflate'
+  gem 'rails_12factor'
 end
 
 group :development, :test do
