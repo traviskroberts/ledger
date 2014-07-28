@@ -1,4 +1,6 @@
-<a href="/accounts">&larr; Back to Accounts</a>
+<a href="/accounts">&larr; All Accounts</a>
+&nbsp;|&nbsp;
+<a href="/accounts/{{account.url}}/recurring">Recurring Transactions &rarr;</a>
 
 {{#with account}}
   <div class="row account-header">
@@ -13,7 +15,7 @@
 
   <div class="row">
     <div class="span9">
-      <form method="post" action="#" class="form-inline new-entry">
+      <form class="form-inline new-entry">
         <label for="entry_fields" class="error hide entry-fields-error">Both fields are required.</label>
         <div class="input-prepend">
           <span class="add-on">$</span>
@@ -24,9 +26,11 @@
       </form>
     </div>
 
-    <div class="recurring-link span3">
-      <a href="/accounts/{{url}}/recurring">Recurring Transactions</a>
-    </div>
+    <form class="search-form span3">
+      <input type="text" name="search" id="search" placeholder="Search" autocorrect="off">
+      <button type="button" class="btn btn-link btn-clear"><i class="icon-remove"></i></button>
+    </form>
+  </div>
   </div>
 {{/with}}
 

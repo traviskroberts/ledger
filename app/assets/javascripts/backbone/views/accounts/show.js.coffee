@@ -27,6 +27,8 @@ class Ledger.Views.AccountShow extends Support.CompositeView
 
   events:
     'submit .new-entry': 'addEntry'
+    "keyup #search": "liveSearch"
+    "click .btn-clear": "resetSearch"
 
   render: ->
     template = JST['backbone/templates/accounts/show']({account: @model.toJSON()})
@@ -90,3 +92,30 @@ class Ledger.Views.AccountShow extends Support.CompositeView
 
   onError: ->
     alert 'There was an error adding the entry.'
+
+  liveSearch: (e) ->
+    clearTimeout(@timeout)
+    queryString = $(e.currentTarget).val()
+    return if queryString.length < 3
+
+    @$(".btn-clear").show()
+    @timeout = setTimeout =>
+      @searchEntries(queryString)
+    , 150
+
+  searchEntries: (queryString) ->
+    $.ajax
+      url: @entries.url() + "/search"
+      type: "post"
+      dataType: "json"
+      data:
+        query: queryString
+      success: (data) =>
+        @entries.reset(data)
+        @renderEntries()
+        @$(".pagination, .pagination-info").hide()
+
+  resetSearch: ->
+    @$("#search").val("")
+    @$(".btn-clear").hide()
+    @entries.fetch()

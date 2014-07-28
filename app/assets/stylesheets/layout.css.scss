@@ -22,6 +22,10 @@ $lightGray: #999;
   border-radius: 3px;
 }
 
+.btn-clear {
+  background: none;
+}
+
 // HTML ELEMENTS
 html,
 body {
@@ -145,16 +149,31 @@ label.error {
   margin-bottom: 25px;
 }
 
-.recurring-link {
-  text-align: right;
-}
-
 .balance {
   @include border-radius(6px);
   background-color: #eee;
   font-size: 46px;
   line-height: 125%;
   padding: 0 15px;
+}
+
+.search-form {
+  margin-bottom: 0;
+  position: relative;
+  text-align: right;
+
+  .btn-clear {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: -3px;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: none;
+    }
+  }
 }
 
 .edit-hint {
@@ -353,10 +372,5 @@ label.error {
 
   .entries tr .delete-entry {
     visibility: visible;
-  }
-
-  .recurring-link {
-    margin-bottom: 10px;
-    text-align: left;
   }
 }

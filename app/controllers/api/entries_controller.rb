@@ -50,6 +50,12 @@ class Api::EntriesController < Api::BaseController
     render :json => {:values => entries}
   end
 
+  def search
+    @entries = @account.entries.where("description LIKE ?", "#{params[:query]}%")
+
+    render :json => @entries
+  end
+
   private
     def load_account
       @account = current_user.accounts.find_by_url(params[:account_id])
