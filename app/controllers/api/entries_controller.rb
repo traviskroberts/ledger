@@ -51,7 +51,7 @@ class Api::EntriesController < Api::BaseController
   end
 
   def search
-    @entries = @account.entries.where("description LIKE ?", "#{params[:query]}%")
+    @entries = @account.entries.where("LOWER(description) LIKE LOWER(?)", "#{params[:query]}%")
 
     render :json => @entries
   end
