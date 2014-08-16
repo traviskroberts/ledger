@@ -7,7 +7,7 @@
     <div class="control-group">
       <label for="float_amount" class="required control-label">Amount</label>
       <div class="controls">
-        <input type="text" name="float_amount" id="float_amount" class="required span2" value="{{recurring_transaction.form_amount_value}}" />
+        <input type="text" name="float_amount" id="float_amount" class="required span2" value="{{recurring_transaction.form_amount_value}}">
         <span class="help-inline"><label for="float_amount" class="error hide">This field is required.</label></span>
       </div>
     </div>
@@ -56,13 +56,13 @@
     <div class="control-group">
       <label for="description" class="required control-label">Description</label>
       <div class="controls">
-        <input type="text" name="description" id="description" class="span8" value="{{recurring_transaction.description}}" />
+        <input type="text" name="description" id="description" class="span8" value="{{recurring_transaction.description}}">
       </div>
     </div>
 
     <div class="control-group">
       <div class="controls">
-        <input type="submit" value="Update" class="btn btn-primary" />
+        <button type="submit" class="btn btn-primary">Update</button>
         <a href="/accounts/{{account.url}}/recurring" class="btn">Cancel</a>
       </div>
     </div>
