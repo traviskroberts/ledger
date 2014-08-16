@@ -46,7 +46,7 @@ class Api::EntriesController < Api::BaseController
   end
 
   def values
-    entries = @account.entries.where('description LIKE ?', "#{params[:term]}%").pluck(:description).uniq
+    entries = @account.entries.where('LOWER(description) LIKE LOWER(?)', "#{params[:term]}%").pluck(:description).uniq
     render :json => {:values => entries}
   end
 
