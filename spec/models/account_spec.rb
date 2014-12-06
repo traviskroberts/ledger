@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe Account do
   let(:account) { FactoryGirl.build_stubbed(:account) }

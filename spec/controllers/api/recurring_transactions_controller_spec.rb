@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe Api::RecurringTransactionsController do
   include NullDB::RSpec::NullifiedDatabase
