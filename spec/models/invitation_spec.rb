@@ -17,7 +17,7 @@ describe Invitation do
     it 'json representation should only include the specified fields' do
       invitation = FactoryGirl.create(:invitation)
       json = JSON.parse(invitation.to_json, :symbolize_names => true)
-      expect(json.keys).to match_array([:account_id, :user_id, :email, :token])
+      expect(json.keys).to match_array([:id, :account_id, :user_id, :email, :token, :account_url])
     end
   end
 end

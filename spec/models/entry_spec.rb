@@ -130,7 +130,7 @@ describe Entry do
     it 'json representation should only include the specified fields' do
       entry = FactoryGirl.create(:entry)
       json = JSON.parse(entry.to_json, :symbolize_names => true)
-      expect(json.keys).to match_array([:id, :classification, :description, :formatted_amount, :formatted_date, :timestamp, :form_amount_value])
+      expect(json.keys).to match_array([:id, :classification, :description, :account_url, :formatted_amount, :formatted_date, :timestamp, :form_amount_value])
     end
   end
 
@@ -207,14 +207,9 @@ describe Entry do
   end
 
   describe '#timestamp' do
-    it 'should return a Fixnum unix timestamp for the entry date' do
-      entry = FactoryGirl.create(:entry)
-      expect(entry.timestamp.class).to eq(Fixnum)
-    end
-
-    it 'should return the correct unix timestamp for the entry date' do
+    it 'should return a formatted timestamp for the entry date' do
       entry = FactoryGirl.create(:entry, :date => '2001-03-08')
-      expect(entry.timestamp).to eq(Date.parse('2001-03-08').to_time.to_i)
+      expect(entry.timestamp).to eq(Date.parse('2001-03-08').strftime("%Y%m%d#{entry.id}"))
     end
   end
 end
