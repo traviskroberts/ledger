@@ -2,8 +2,8 @@
   <tbody id="entries-list"></tbody>
 </table>
 
-{{#if pagination.totalRecords}}
-  <div class="pagination-info pull-right">{{pagination_info pagination.currentPage pagination.perPage pagination.totalRecords}}</div>
+{{#if totalRecords}}
+  <div class="pagination-info pull-right">{{pagination_info currentPage perPage totalRecords}}</div>
 {{/if}}
 
 <div class="pagination">

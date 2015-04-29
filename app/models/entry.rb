@@ -10,11 +10,13 @@ class Entry < ActiveRecord::Base
   validates :date, :presence => true
   validates :description, :presence => true
 
+  delegate :url, to: :account, prefix: true
+
   before_validation do
     if float_amount.present?
-      self.classification = float_amount.include?('-') ? 'debit' : 'credit'
+      self.classification = float_amount.include?("-") ? "debit" : "credit"
 
-      amt = float_amount.gsub(/[^\d\.]/, '').to_f
+      amt = float_amount.gsub(/[^\d\.]/, "").to_f
       self.amount = (amt * 100).round.to_i
     end
   end
@@ -26,7 +28,7 @@ class Entry < ActiveRecord::Base
   def as_json(options={})
     opts = {
       :only => [:id, :classification, :description],
-      :methods => [:formatted_amount, :formatted_date, :timestamp, :form_amount_value]
+      :methods => [:account_url, :formatted_amount, :form_amount_value, :formatted_date, :timestamp]
     }
 
     super(options.merge(opts))
@@ -37,19 +39,19 @@ class Entry < ActiveRecord::Base
   end
 
   def credit?
-    classification == 'credit'
+    classification == "credit"
   end
 
   def debit?
-    classification == 'debit'
+    classification == "debit"
   end
 
   def formatted_amount
-    (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
+    (classification == "debit" ? "-" : "") + ActionController::Base.helpers.number_to_currency(dollar_amount).to_s
   end
 
   def form_amount_value
-    (classification == 'debit' ? '-' : '') + ActionController::Base.helpers.number_with_precision(dollar_amount, :precision => 2)
+    (classification == "debit" ? "-" : "") + ActionController::Base.helpers.number_with_precision(dollar_amount, :precision => 2)
   end
 
   def formatted_date
@@ -57,7 +59,7 @@ class Entry < ActiveRecord::Base
   end
 
   def timestamp
-    date.to_time.to_i
+    date.strftime("%Y%m%d#{id}")
   end
 
   private
@@ -76,20 +78,20 @@ class Entry < ActiveRecord::Base
       new_balance = nil
 
       if changes.include?(:amount) && changes.include?(:classification)
-        if changes[:classification].first == 'credit'
+        if changes[:classification].first == "credit"
           new_balance = (account.balance - changes[:amount].first) - self.amount
         else
           new_balance = (account.balance + changes[:amount].first) + self.amount
         end
       elsif changes.include?(:amount)
-        if self.classification == 'credit'
+        if self.classification == "credit"
           new_balance = (account.balance - changes[:amount].first) + self.amount
         else
           new_balance = (account.balance + changes[:amount].first) - self.amount
         end
       elsif changes.include?(:classification)
         # reverse the amount
-        if self.classification == 'credit'
+        if self.classification == "credit"
           new_balance = account.balance + (self.amount * 2)
         else
           new_balance = account.balance - (self.amount * 2)

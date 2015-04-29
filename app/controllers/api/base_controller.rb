@@ -3,7 +3,7 @@ class Api::BaseController < ApplicationController
 
   def require_user
     unless current_user
-      render(:json => {}, :status => 401) and return false
+      render json: {}, status: 401
     end
   end
 end

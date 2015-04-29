@@ -1,16 +1,13 @@
-<a href="/accounts">&larr; Back to Accounts</a>
+<a href="/accounts" class="js-accounts">&larr; Back to Accounts</a>
 
-<h1>{{account.name}} - Sharing Settings</h1>
+<h1>{{account_name}} - Sharing Settings</h1>
 
 <form action="#" method="post" class="form-inline">
   <label for="email">Invite a collaborator</label>
   <input type="email" name="invitation_email" id="invitation_email" class="required" placeholder="Email Address">
-  <button type="submit" class="btn btn-primary">Send Invitation</button>
+  <button type="submit" class="btn btn-primary js-submit" data-loading-text="sending...">Send Invitation</button>
   <label for="invitation_email" class="error hide invitation-error">This field is required.</label>
 </form>
 
-{{#if invitations}}
-  <h2>Pending Invitations</h2>
-
-  <ul id="invitations-list" class="unstyled"></ul>
-{{/if}}
+<h2>Pending Invitations</h2>
+<ul id="invitations-list" class="unstyled"></ul>

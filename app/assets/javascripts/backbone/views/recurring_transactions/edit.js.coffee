@@ -1,54 +1,38 @@
-class Ledger.Views.RecurringTransactionEdit extends Support.CompositeView
+class Ledger.Views.RecurringTransactionEdit extends Marionette.ItemView
+  template: JST["backbone/templates/recurring_transactions/edit"]
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'save', 'saved'
-
-    @account = options.account
-    unless @account?
-      @account = new Ledger.Models.Account({url: options.url})
-      @bindTo @account, 'sync', @render
-      @account.fetch()
-
-    @id = options.id
-    if @account.get('recurring_transactions').length == 0
-      @collection = new Ledger.Collections.RecurringTransactions
-    else
-      @collection = @account.get('recurring_transactions')
-
-    @collection.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions'
-    @bindTo @collection, 'sync', @render
-
-    if @collection.length == 0
-      @account.set('recurring_transactions': @collection)
-      @collection.fetch()
+  ui:
+    form: "form"
+    cancelBtn: ".js-cancel"
 
   events:
-    'submit form' : 'save'
+    "click @ui.cancelBtn" : "navigateAccount"
+    "submit @ui.form"     : "save"
 
-  render: ->
-    @model = @collection.get(@id)
+  initialize: (opts) ->
+    @account = opts.account
+    @account_url = @account.get("url")
 
-    if @model
-      @model.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions/' + @id
-      template = JST['backbone/templates/recurring_transactions/edit']
-        account: @account.toJSON(),
-        recurring_transaction: @model.toJSON()
-      @$el.html(template)
+  serializeData: ->
+    data = Marionette.ItemView.prototype.serializeData.apply(@)
+    data.account = @account.toJSON()
 
-    @
+    data
+
+  navigateAccount: ->
+    Backbone.history.navigate("accounts/#{@account_url}/recurring", true)
 
   save: (e) ->
     e.preventDefault()
-    if @$('form').valid()
+    if @ui.form.valid()
       @model.set
         float_amount: $('#float_amount').val()
         day: $('#day').val()
         description: $('#description').val()
-      @model.save({}, success: @saved, error: @onError)
+      @model.save({}, success: @onSave, error: @onError)
 
-  saved: (model, resp, options) ->
-    @model.set(resp)
-    Backbone.history.navigate('/accounts/' + @account.get('url') + '/recurring', true)
+  onSave: =>
+    Backbone.history.navigate("/accounts/#{@account_url}/recurring", true)
 
   onError: ->
-    alert 'There was an error updating the recurring transaction.'
+    alert "There was an error updating the recurring transaction."

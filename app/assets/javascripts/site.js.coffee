@@ -1,4 +1,4 @@
-window.addEventListener 'load', ->
+window.addEventListener "load", ->
   new FastClick document.body
 , false
 
@@ -6,41 +6,41 @@ window.addEventListener 'load', ->
 $.ajaxSetup
   statusCode:
     401: ->
-      window.location.replace '/login'
+      window.location.replace "/login"
 
 $ ->
   if $("#screen-info").length
     win_size = $(window).width()
-    $("#screen-info").html(win_size + 'px')
+    $("#screen-info").html(win_size + "px")
     $(window).resize ->
       win_size = $(window).width()
-      $("#screen-info").html(win_size + 'px')
+      $("#screen-info").html(win_size + "px")
 
-  if $('.alert-fixed').length
+  if $(".alert-fixed").length
     setTimeout("$('.alert-fixed').slideUp(500)", 5000)
 
   # datepicker
-  $('#backbone-container').on
-    'click': ->
+  $("#region-main").on
+    "click": ->
       el = $(this)
-      el.datepicker('show').on 'changeDate', (ev) ->
-        if ev.viewMode == 'days'
-          el.datepicker('hide')
-    'focus': ->
+      el.datepicker("show").on "changeDate", (ev) ->
+        if ev.viewMode == "days"
+          el.datepicker("hide")
+    "focus": ->
       el = $(this)
-      el.datepicker('show').on 'changeDate', (ev) ->
-        if ev.viewMode == 'days'
-          el.datepicker('hide')
-    '.datepicker'
+      el.datepicker("show").on "changeDate", (ev) ->
+        if ev.viewMode == "days"
+          el.datepicker("hide")
+    ".datepicker"
 
-Handlebars.registerHelper 'option_selected', (val1, val2) ->
-  ret = ''
+Handlebars.registerHelper "option_selected", (val1, val2) ->
+  ret = ""
   if val1 == val2
     ret = ' selected="selected"'
 
   new Handlebars.SafeString(ret)
 
-Handlebars.registerHelper 'pagination_info', (page, perpage, total) ->
+Handlebars.registerHelper "pagination_info", (page, perpage, total) ->
   if page == 1
     start = 1
     end = perpage
@@ -51,5 +51,5 @@ Handlebars.registerHelper 'pagination_info', (page, perpage, total) ->
   if end > total
     end = total
 
-  ret = start + ' - ' + end + ' of ' + total
+  ret = start + " - " + end + " of " + total
   new Handlebars.SafeString(ret)

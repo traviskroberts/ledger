@@ -4,13 +4,13 @@ class Api::EntriesController < Api::BaseController
   respond_to :json
 
   def index
-    @entries = @account.entries.paginate(:page => params[:page], :per_page => 25)
+    @entries = @account.entries.paginate(page: params[:page], per_page: 25)
 
-    render :json => {
-      :page => @entries.current_page,
-      :total_pages => @entries.total_pages,
-      :total_number => @entries.count,
-      :entries => @entries
+    render json: {
+      page: @entries.current_page,
+      total_pages: @entries.total_pages,
+      total_number: @entries.count,
+      entries: @entries
     }
   end
 
@@ -19,19 +19,19 @@ class Api::EntriesController < Api::BaseController
     @entry.date = Date.today
 
     if @entry.save
-      render :json => {:entry => @entry, :account_balance => @entry.account.dollar_balance}
+      render json: { entry: @entry, account_balance: @entry.account.dollar_balance }
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 
   def update
     @entry = @account.entries.find(params[:id])
 
-    if @entry.update_attributes(:description => params[:description], :float_amount => params[:float_amount], :date => params[:date])
-      render :json => {:entry => @entry, :account_balance => @account.reload.dollar_balance}
+    if @entry.update_attributes(description: params[:description], float_amount: params[:float_amount], date: params[:date])
+      render json: { entry: @entry, account_balance: @account.reload.dollar_balance }
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 
@@ -39,21 +39,22 @@ class Api::EntriesController < Api::BaseController
     @entry = @account.entries.find(params[:id])
 
     if @entry.destroy
-      render :json => {:balance => @account.reload.dollar_balance}
+      render json: { balance: @account.reload.dollar_balance }
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 
   def values
-    entries = @account.entries.where('LOWER(description) LIKE LOWER(?)', "#{params[:term]}%").pluck(:description).uniq
-    render :json => {:values => entries}
+    entries = @account.entries.where("LOWER(description) LIKE LOWER(?)", "#{params[:term]}%").pluck(:description).uniq
+
+    render json: { values: entries }
   end
 
   def search
     @entries = @account.entries.where("LOWER(description) LIKE LOWER(?)", "#{params[:query]}%")
 
-    render :json => @entries
+    render json: @entries
   end
 
   private

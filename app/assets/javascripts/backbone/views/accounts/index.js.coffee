@@ -1,27 +1,58 @@
-class Ledger.Views.AccountsIndex extends Support.CompositeView
-  tagName: 'span'
+class Ledger.Views.AccountItem extends Marionette.ItemView
+  className: "span12"
+  template: JST["backbone/templates/accounts/item"]
 
-  initialize: ->
-    _.bindAll @, 'render', 'renderAccounts'
+  ui:
+    showLink: ".js-show"
+    editButton: ".js-edit"
+    sharingButton: ".js-sharing"
+    deleteButton: ".js-delete"
 
-    @bindTo @collection, 'change', @renderAccounts
-    @bindTo @collection, 'remove', @renderAccounts
-    @bindTo @collection, 'sync', @renderAccounts
+  events:
+    "click @ui.showLink": "showAccount"
+    "click @ui.editButton" : "editAccount"
+    "click @ui.sharingButton" : "sharingSettings"
+    "click @ui.deleteButton" : "deleteAccount"
 
-    if @collection.length == 0
-      @collection.fetch()
+  showAccount: (e) ->
+    e.preventDefault()
+    url = @model.get("url")
+    Backbone.history.navigate("accounts/#{url}", true)
 
-  render: ->
-    @$el.html(JST['backbone/templates/accounts/index'])
-    @renderAccounts() unless @collection.length == 0
-    @
+  editAccount: ->
+    url = @model.get("url")
+    Backbone.history.navigate("accounts/#{url}/edit", true)
 
-  renderAccounts: ->
-    if @collection.length == 0
-      @$('#accounts-list').html("<p>You don't have any accounts yet.</p>")
-    else
-      @$('#accounts-list').html('')
-      @collection.each (account) =>
-        row = new Ledger.Views.AccountItem({ model: account })
-        @renderChild(row)
-        @$('#accounts-list').append(row.el)
+  sharingSettings: ->
+    url = @model.get("url")
+    Backbone.history.navigate("accounts/#{url}/sharing", true)
+
+  deleteAccount: ->
+    if confirm("Are you sure you want to delete this account?")
+      @model.destroy
+        error: ->
+          alert "That account could not be removed."
+
+# ==============================================================================
+
+class Ledger.Views.AccountsEmpty extends Marionette.ItemView
+  template: JST["backbone/templates/accounts/empty"]
+
+# ==============================================================================
+
+class Ledger.Views.AccountsIndex extends Marionette.CompositeView
+  tagName: "span"
+  template: JST["backbone/templates/accounts/index"]
+
+  childView: Ledger.Views.AccountItem
+  childViewContainer: "#accounts-list"
+
+  ui:
+    newAccountButton: "#js-new-account"
+
+  events:
+    "click @ui.newAccountButton": "newAccount"
+
+  newAccount: (e) ->
+    e.preventDefault()
+    Backbone.history.navigate("accounts/new", true)

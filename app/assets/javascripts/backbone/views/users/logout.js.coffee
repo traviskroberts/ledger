@@ -1,18 +1,17 @@
-class Ledger.Views.UserLogout extends Support.CompositeView
+class Ledger.Views.UserLogout extends Marionette.ItemView
 
-  initialize: (options) ->
-    _.bindAll @, 'logUserOut', 'onComplete'
+  initialize: ->
     @logUserOut()
 
   logUserOut: ->
     $.ajax
-      url: '/api/user_session'
-      type: 'post'
-      dataType: 'json'
+      url: "/api/user_session"
+      type: "post"
+      dataType: "json"
       data:
-        _method: 'delete'
+        _method: "delete"
       complete: @onComplete
 
   onComplete: ->
     # all logout logic is handled in router
-    Backbone.history.navigate('login', true)
+    Backbone.history.navigate("login", true)

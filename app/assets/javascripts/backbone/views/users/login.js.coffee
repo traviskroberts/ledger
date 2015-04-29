@@ -1,46 +1,47 @@
-class Ledger.Views.UserLogin extends Support.CompositeView
+class Ledger.Views.UserLogin extends Marionette.ItemView
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'authenticate', 'onSuccess', 'onError'
+  template: JST["backbone/templates/users/login"]
+
+  ui:
+    submitButton: ".btn-primary"
+    registerButton: "#js-register"
+    emailField: "#login_email"
+    passwordField: "#login_password"
+    rememberField: "#login_remember_me"
 
   events:
-    'submit form' : 'authenticate'
-
-  render: ->
-    template = JST['backbone/templates/users/login']
-    @$el.html(template)
-    @
+    "click @ui.registerButton": "navigateRegister"
+    "submit form" : "authenticate"
 
   authenticate: (e) ->
     e.preventDefault()
-    @$el.find('.alert').remove()
-    @$el.find('.btn-primary').attr('disabled', 'disabled')
-
-    login_params = {
-      user_session: {
-        email       : $('#login_email').val()
-        password    : $('#login_password').val()
-        remember_me : $('#login_remember_me').prop('checked')
-      }
-    }
+    @$el.find(".alert").remove()
+    @ui.submitButton.attr("disabled", "disabled")
 
     $.ajax
-      url: '/api/user_session'
-      type: 'post'
-      dataType: 'json'
-      data: login_params
+      url: "/api/user_session"
+      type: "post"
+      dataType: "json"
+      data:
+        user_session:
+          email       : @ui.emailField.val()
+          password    : @ui.passwordField.val()
+          remember_me : @ui.rememberField.prop("checked")
       success: @onSuccess
       error: @onError
 
-  onSuccess: (data) ->
+  onSuccess: (data) =>
     @model.set(data)
-    lscache.set('ledger_user', @model.attributes, 43200) # save the user
-    template = JST['backbone/templates/nav/authenticated']({user: @model.toJSON()})
-    $('#main-nav').html(template)
-    Backbone.history.navigate('accounts', true)
+    lscache.set("ledger_user", @model.attributes, 43200) # save the user
+    Ledger.router.renderNav()
+    Backbone.history.navigate("accounts", true)
 
-  onError: (xhr, status, errorText) ->
-    @$el.find('.btn-primary').attr('disabled', false)
+  onError: (xhr) =>
+    @ui.submitButton.attr("disabled", false)
     data = JSON.parse(xhr.responseText)
-    template = JST['backbone/templates/shared/validation_errors']({errors: data.errors})
-    @$el.find('form').prepend(template)
+    template = JST["backbone/templates/shared/validation_errors"]({ errors: data.errors })
+    @$el.find("form").prepend(template)
+
+  navigateRegister: (e) ->
+    e.preventDefault()
+    Backbone.history.navigate("register", true)

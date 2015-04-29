@@ -1,22 +1,11 @@
-class Ledger.Views.UsersIndex extends Support.CompositeView
+class Ledger.Views.UserItem extends Marionette.ItemView
+  tagName: "tr"
+  template: JST["backbone/templates/users/item"]
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'renderUsers'
+# ==============================================================================
 
-    @collection = new Ledger.Collections.Users
-    @bindTo @collection, 'sync', @render
-    @bindTo @collection, 'remove', @render
-    @collection.fetch()
+class Ledger.Views.UsersIndex extends Marionette.CompositeView
+  template: JST["backbone/templates/users/index"]
 
-  render: ->
-    template = JST['backbone/templates/users/index']
-    @$el.html(template)
-    if @collection.length > 0
-      @renderUsers()
-    @
-
-  renderUsers: ->
-    @collection.each (user) =>
-      row = new Ledger.Views.UserItem({model: user})
-      @renderChild(row)
-      @$('#users-list').append(row.el)
+  childView: Ledger.Views.UserItem
+  childViewContainer: "#users-list"
