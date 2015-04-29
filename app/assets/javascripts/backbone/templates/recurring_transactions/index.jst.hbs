@@ -1,6 +1,6 @@
-<a href="/accounts/{{account.url}}">&larr; Back to Account</a>
+<a href="/accounts/{{account.url}}" class="js-account">&larr; Back to Account</a>
 
-<a href="/accounts/{{account.url}}/recurring/new" class="btn btn-primary btn-large pull-right">New Recurring Transaction</a>
+<button class="btn btn-primary btn-large pull-right js-new-recurring-transaction">New Recurring Transaction</button>
 <h1>Recurring Transactions</h1>
 
 {{#if recurring_transactions}}
@@ -16,5 +16,5 @@
     <tbody id="recurring-transactions-list"></tbody>
   </table>
 {{else}}
-  <p>You don't have any recurring transactions yet! Why not <a href="/accounts/{{account.url}}/recurring/new">add one</a> now?</p>
+  <p>You don't have any recurring transactions yet!</p>
 {{/if}}

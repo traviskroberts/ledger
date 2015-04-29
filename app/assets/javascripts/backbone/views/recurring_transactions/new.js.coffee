@@ -1,39 +1,36 @@
-class Ledger.Views.RecurringTransactionNew extends Support.CompositeView
+class Ledger.Views.RecurringTransactionNew extends Marionette.ItemView
+  template: JST["backbone/templates/recurring_transactions/new"]
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'save', 'saved'
-
-    @account = options.account
-    unless @account?
-      @account = new Ledger.Models.Account({url: options.url})
-      @bindTo @account, 'sync', @render
-      @account.fetch()
-
-    @collection = @account.get('recurring_transactions')
-    @model = new Ledger.Models.RecurringTransaction
+  ui:
+    cancelBtn : ".js-cancel"
+    form      : "form"
 
   events:
-    'submit form' : 'save'
+    "click @ui.cancelBtn" : "navigateAccount"
+    "submit @ui.form"     : "save"
 
-  render: ->
-    template = JST['backbone/templates/recurring_transactions/new']({account: @account.toJSON()})
-    @$el.html(template)
-    @
+  initialize: (options) ->
+    @account = options.account
+    @account_url = @account.get("url")
+    @model = new Ledger.Models.RecurringTransaction
+
+  navigateAccount: ->
+    Backbone.history.navigate("/accounts/#{@account_url}/recurring", true)
 
   save: (e) ->
     e.preventDefault()
-    if @$('form').valid()
-      @model.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions'
+    if @ui.form.valid()
+      @model.url = "/api/accounts/#{@account_url}/recurring_transactions"
       @model.set
-        float_amount: $('#float_amount').val()
-        day: $('#day').val()
-        description: $('#description').val()
-      @model.save({}, success: @saved, error: @onError)
+        float_amount: $("#float_amount").val()
+        day: $("#day").val()
+        description: $("#description").val()
+      @model.save({}, success: @onSave, error: @onError)
 
-  saved: (model, resp, options) ->
+  onSave: (model, resp, options) =>
     @model.set(resp)
     @collection.add(@model)
-    Backbone.history.navigate('/accounts/' + @account.get('url') + '/recurring', true)
+    Backbone.history.navigate("/accounts/#{@account_url}/recurring", true)
 
   onError: ->
-    alert 'There was an error creating the recurring transaction.'
+    alert "There was an error creating the recurring transaction."

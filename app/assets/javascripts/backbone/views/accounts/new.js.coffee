@@ -1,29 +1,34 @@
-class Ledger.Views.AccountNew extends Support.CompositeView
+class Ledger.Views.AccountNew extends Marionette.ItemView
+  template: JST["backbone/templates/accounts/new"]
 
-  initialize: ->
-    _.bindAll @, 'render', 'save', 'saved'
-    @model = new Ledger.Models.Account
+  ui:
+    form: "form"
+    nameField: "#account_name"
+    balanceField: "#account_initial_balance"
+    backButton: ".js-back-to-accounts"
 
   events:
-    'submit form' : 'save'
-
-  render: ->
-    template = JST['backbone/templates/accounts/new']
-    @$el.html(template)
-    @
+    "submit @ui.form" : "save"
+    "click @ui.backButton": "navigateAccounts"
 
   save: (e) ->
     e.preventDefault()
-    if @$('form').valid()
+    if @ui.form.valid()
       @model.set
-        name: $('#account_name').val()
-        initial_balance: $('#account_initial_balance').val()
-      @model.save({}, success: @saved, error: @onError)
+        name: @ui.nameField.val()
+        initial_balance: @ui.balanceField.val()
+      @model.save {},
+        success: @saved,
+        error: @onError
 
-  saved: (model, resp, options) ->
+  saved: (model, resp, options) =>
     @model.set(resp)
     @collection.add(@model)
-    Backbone.history.navigate('/accounts', true)
+    @navigateAccounts()
 
   onError: ->
-    alert 'There was an error creating the account.'
+    alert "There was an error creating the account."
+
+  navigateAccounts: (e) ->
+    e.preventDefault() if e
+    Backbone.history.navigate("accounts", true)

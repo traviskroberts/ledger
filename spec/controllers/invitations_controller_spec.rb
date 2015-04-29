@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "rails_helper"
 
 describe InvitationsController do
   include NullDB::RSpec::NullifiedDatabase
@@ -16,9 +16,9 @@ describe InvitationsController do
 
   describe 'GET #show' do
     it 'should retrieve the invitation by token' do
-      Invitation.should_receive(:find_by_token).with(invite.token).and_return(invite)
-
       get :show, :token => invite.token
+
+      expect(Invitation).to have_received(:find_by_token).with(invite.token)
     end
 
     it 'should assign the new user to the account' do

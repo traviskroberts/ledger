@@ -1,24 +1,20 @@
 class Ledger.Models.Entry extends Backbone.RelationalModel
-  urlRoot: '/api/entries'
+  urlRoot: ->
+    "/api/accounts/#{@get("account_url")}/entries"
 
 Ledger.Models.Entry.setup() # needed for backbone-relational
 
-class Ledger.Collections.Entries extends Backbone.Paginator.requestPager
+class Ledger.Collections.Entries extends Backbone.PageableCollection
   model: Ledger.Models.Entry
-  paginator_core:
-    url: '/api/entries'
-    dataType: 'json'
-  paginator_ui:
+
+  state:
     firstPage: 1
     currentPage: 1
-    perPage: 25
-  server_api:
-    'page': ->
-      @currentPage
-  parse: (resp) ->
-    @totalPages = resp.total_pages
-    @totalRecords = resp.total_number
+
+  parseRecords: (resp) ->
+    @state.totalPages = resp.total_pages
+    @state.totalRecords = resp.total_number
     resp.entries
 
   comparator: (entry) ->
-    -entry.get('timestamp')
+    -entry.get("timestamp")

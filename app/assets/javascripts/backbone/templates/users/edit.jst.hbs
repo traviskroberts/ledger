@@ -2,11 +2,11 @@
   <form class="login-form">
     <h1>My Account</h1>
 
-    {{> backbone/templates/users/_form}}
+    {{> users/_form}}
 
     <footer>
-      <button type="submit" class="btn btn-primary">Update</button>
-      <a href="/accounts">Cancel</a>
+      <button type="submit" class="btn btn-primary js-submit">Update</button>
+      <button type="button" class="btn js-cancel">Cancel</button>
     </footer>
   </form>
 </section>

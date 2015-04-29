@@ -3,7 +3,7 @@ describe 'recurring_transactions:process' do
 
   let(:account) { FactoryGirl.create(:account, :initial_balance => '100.00') }
 
-  its(:prerequisites) { should include('environment') }
+  let(:prerequisites) { should include('environment') }
 
   it 'should create an entry on the specified day(1)' do
     trans = FactoryGirl.create(:recurring_transaction, :account => account, :day => 1, :float_amount => '5.95')

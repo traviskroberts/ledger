@@ -9,7 +9,6 @@
     <link rel="apple-touch-icon" sizes="72x72" href="/assets/apple-touch-icon-ipad.png" />
     <link rel="apple-touch-icon" sizes="144x144" href="/assets/apple-touch-icon-ipad-retina.png" />
     <%= stylesheet_link_tag 'application', :media => 'all' %>
-    <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -24,36 +23,10 @@
     </script>
 
     <div class="body-wrap">
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </a>
+      <div id="region-header" class="navbar navbar-fixed-top"></div>
+      <div id="region-main" class="container main clearfix"></div>
+    </div>
 
-            <a href="/" class="brand">Ledger</a>
-
-            <div id="main-nav" class="nav-collapse collapse"></div>
-          </div> <!-- /container -->
-        </div> <!-- /navbar-inner -->
-      </div> <!-- /navbar -->
-
-      <div id="backbone-container" class="container main clearfix">
-        <%= render 'shared/flash' %>
-        <%= yield %>
-      </div> <!-- /container -->
-
-      <div class="footer-push"></div>
-    </div> <!-- /body-wrap -->
-
-    <footer>
-      <div class="container">
-        <!-- Footer? -->
-      </div>
-    </footer>
-
-    <!-- <p id="screen-info"></p> -->
+    <%= javascript_include_tag "application" %>
   </body>
 </html>

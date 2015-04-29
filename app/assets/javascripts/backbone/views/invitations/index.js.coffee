@@ -1,57 +1,75 @@
-class Ledger.Views.InvitationsIndex extends Support.CompositeView
+class Ledger.Views.InvitationItem extends Marionette.ItemView
+  tagName: "li"
+  template: JST["backbone/templates/invitations/item"]
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'renderInvitations', 'save', 'saved'
-
-    @account = options.account
-    unless @account?
-      @account = new Ledger.Models.Account({url: options.url})
-      @bindTo @account, 'sync', @render
-      @account.fetch()
-
-    if @account.get('invitations').length == 0
-      @collection = new Ledger.Collections.Invitations
-    else
-      @collection = @account.get('invitations')
-
-    @collection.url = '/api/accounts/' + @account.get('url') + '/invitations'
-    @bindTo @collection, 'sync', @render
-    @bindTo @collection, 'change', @render
-    @bindTo @collection, 'remove', @render
-
-    if @collection.length == 0
-      @account.set('invitations': @collection)
-      @collection.fetch()
+  ui:
+    deleteButton: ".js-delete"
 
   events:
-    'submit form'   : 'save'
+    "click @ui.deleteButton": "deleteInvitation"
 
-  render: ->
-    template = JST['backbone/templates/invitations/index']({account: @account.toJSON(), invitations: @collection.toJSON()})
-    @$el.html(template)
-    if @collection.length > 0
-      @renderInvitations()
-    @
+  deleteInvitation: ->
+    if confirm("Are you sure you want to revoke this invitation?")
+      @model.destroy
+        error: ->
+          alert "That invitation could not be revoked."
 
-  renderInvitations: ->
-    @collection.each (invitation) =>
-      row = new Ledger.Views.InvitationItem({model: invitation})
-      @renderChild(row)
-      @$('#invitations-list').append(row.el)
+# ==============================================================================
+
+class Ledger.Views.InvitationsEmpty extends Marionette.ItemView
+  tagName: "li"
+  template: JST["backbone/templates/invitations/empty"]
+
+# ==============================================================================
+
+class Ledger.Views.InvitationsIndex extends Marionette.CompositeView
+  template: JST["backbone/templates/invitations/index"]
+
+  emptyView: Ledger.Views.InvitationsEmpty
+  childView: Ledger.Views.InvitationItem
+  childViewContainer: "#invitations-list"
+
+  ui:
+    form: "form"
+    submitBtn: ".js-submit"
+    email: "#invitation_email"
+    backToAccounts: ".js-accounts"
+
+  events:
+    "submit @ui.form": "save"
+    "click @ui.backToAccounts": "navigateAccounts"
+
+  initialize: (options) ->
+    @account = options.account
+
+  serializeData: ->
+    data =
+      pending_invitations: @collection.length > 0
+      account_name: @account.get("name")
 
   save: (e) ->
     e.preventDefault()
-    if @$('form').valid()
+    if @ui.form.valid()
+      @ui.submitBtn.button("loading")
       @model = new Ledger.Models.Invitation
-      @model.urlRoot = '/api/accounts/' + @account.get('url') + '/invitations'
+      @model.urlRoot = "/api/accounts/" + @account.get("url") + "/invitations"
       @model.set
-        email: $('#invitation_email').val()
-      @model.save({}, success: @saved, error: @onError)
+        email: @ui.email.val()
+      @model.save {},
+        success: @onSave
+        error: @onError
 
-  saved: (model, resp, options) ->
+  onSave: (model, resp, options) =>
+    @ui.submitBtn.button("reset")
+    @ui.email.val("")
     @model.set(resp)
-    @model.set({account: @account})
+    @model.set({ account: @account })
     @collection.add(@model)
 
   onError: ->
-    alert 'There was an error sending the invitation.'
+    @ui.submitBtn.button("reset")
+    alert "There was an error sending the invitation."
+
+  navigateAccounts: (e) ->
+    e.preventDefault()
+    Backbone.history.navigate("accounts", true)

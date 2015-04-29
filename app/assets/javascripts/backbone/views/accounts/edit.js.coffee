@@ -1,29 +1,27 @@
-class Ledger.Views.AccountEdit extends Support.CompositeView
+class Ledger.Views.AccountEdit extends Marionette.ItemView
+  template: JST['backbone/templates/accounts/edit']
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'save', 'saved'
-
-    unless @model?
-      @model = new Ledger.Models.Account({url: options.url})
-      @bindTo @model, 'sync', @render
-      @model.fetch()
+  ui:
+    form: "form"
+    backToAccounts: ".js-accounts"
 
   events:
-    'submit form' : 'save'
-
-  render: ->
-    template = JST['backbone/templates/accounts/edit']({account: @model.toJSON()})
-    @$el.html(template)
-    @
+    "submit @ui.form" : "save"
+    "click @ui.backToAccounts": "navigateAccounts"
 
   save: (e) ->
     e.preventDefault()
-    if @$('form').valid()
-      @model.save({name: $('#account_name').val()}, success: @saved, error: @onError)
 
-  saved: (model, resp, options) ->
+    if @ui.form.valid()
+      @model.save({ name: $("#account_name").val() }, success: @saved, error: @onError)
+
+  saved: (model, resp, options) =>
     @model.set(resp)
-    Backbone.history.navigate('/accounts', true)
+    Backbone.history.navigate("accounts", true)
 
   onError: ->
-    alert 'There was an error updating the account.'
+    alert "There was an error updating that account."
+
+  navigateAccounts: (e) ->
+    e.preventDefault() if e
+    Backbone.history.navigate("accounts", true)

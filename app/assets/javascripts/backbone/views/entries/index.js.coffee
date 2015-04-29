@@ -1,4 +1,4 @@
-class Ledger.Views.EntryIndex extends Support.CompositeView
+class Ledger.Views.EntryIndex extends Marionette.ItemView
 
   initialize: (options) ->
     _.bindAll @, 'render', 'renderEntries', 'goToPage'

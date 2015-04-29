@@ -4,30 +4,24 @@
 #= require_tree ./views
 #= require_tree ./routers
 
-window.Ledger =
-  Models: {}
-  Collections: {}
-  Routers: {}
-  Views: {}
+@Ledger = new Marionette.Application
 
-  initialize: ->
-    new Ledger.Routers.AppRouter()
+Ledger.module "Models"
+Ledger.module "Collections"
+Ledger.module "Views"
+Ledger.module "Controllers"
+Ledger.module "Routers"
 
-    if (!Backbone.history.started)
-      Backbone.history.start
-        pushState: true
+Ledger.addRegions
+  header: "#region-header"
+  main: "#region-main"
 
-      Backbone.history.started = true
+Ledger.addInitializer ->
+  @router = new Ledger.Routers.AppRouter
 
-  isMobile: ->
-    if navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone|iPad|iPod/i)
-      true
-    else
-      false
+  unless Backbone.history.started
+    Backbone.history.start({ pushState: true })
+    Backbone.history.started = true
 
 $ ->
-  # make sure to route links to backbone
-  $('body').on 'click', 'a', (e) ->
-    if Backbone.history.started && !$(e.target).hasClass('ui-corner-all') # don't hijack jquery-ui autocomplete
-      e.preventDefault()
-      Backbone.history.navigate($(this).attr('href'), true)
+  Ledger.start()

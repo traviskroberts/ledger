@@ -1,68 +1,83 @@
-class Ledger.Views.AccountShow extends Support.CompositeView
+class Ledger.Views.AccountShow extends Marionette.CompositeView
+  template: JST["backbone/templates/accounts/show"]
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'renderEntries', 'setupAutocomplete', 'validateEntryForm', 'addEntry', 'entryAdded'
-    @autocompleteStarted = false
-
-    unless @model?
-      @model = new Ledger.Models.Account({url: options.url})
-      @model.fetch()
-
-    @bindTo @model, 'add:entries', @renderEntries
-    @bindTo @model, 'remove:entries', @renderEntries
-    @bindTo @model, 'change', @render
-    @bindTo @model, 'sync', @render
-
-    if @model.get('entries').length == 0
-      @entries = new Ledger.Collections.Entries
-    else
-      @entries = @model.get('entries')
-
-    @entries.paginator_core.url = '/api/accounts/' + @model.get('url') + '/entries'
-    @bindTo @entries, 'sync', @renderEntries
-
-    if @entries.length == 0
-      @model.set('entries': @entries)
-      @entries.fetch()
+  ui:
+    accountsLink: ".js-accounts"
+    recurringTransactionsLink: ".js-recurring-transactions"
+    newEntryForm: ".new-entry"
+    entryAmountField: "#entry_float_amount"
+    entryDescriptionField: "#entry_description"
+    newEntryButton: ".js-new-entry"
+    searchField: "#search"
+    clearButton: ".btn-clear"
+    paginationLink: ".js-pagination"
 
   events:
-    'submit .new-entry': 'addEntry'
-    "keyup #search": "liveSearch"
-    "click .btn-clear": "resetSearch"
+    "click @ui.accountsLink": "navigateAccounts"
+    "click @ui.recurringTransactionsLink": "navigateRecurringTransactions"
+    "submit @ui.newEntryForm": "addEntry"
+    "keyup @ui.searchField": "liveSearch"
+    "click @ui.clearButton": "resetSearch"
+    "click @ui.paginationLink": "goToPage"
 
-  render: ->
-    template = JST['backbone/templates/accounts/show']({account: @model.toJSON()})
-    @$el.html(template)
-    @validateEntryForm()
-    if @entries.length > 0
-      @renderEntries()
-    @$('#entry_float_amount').focus() unless Ledger.isMobile()
+  initialize: (options) ->
+    @modelBinder = new Backbone.ModelBinder
+    @childView = Ledger.Views.EntryItem
+    @childViewContainer = "#entries-list"
+    @autocompleteStarted = false
+
+  serializeData: ->
+    data = @model.attributes
+    data.currentPage = @collection.state.currentPage
+    data.pageSize = @collection.state.pageSize
+    data.totalRecords = @collection.state.totalRecords
+
+    if @collection.state.currentPage < @collection.state.totalPages
+      data.nextPage = @collection.state.currentPage + 1
+    else
+      data.nextPage = null
+
+    if @collection.state.currentPage > 1
+      data.previousPage = @collection.state.currentPage - 1
+    else
+      data.previousPage = null
+
+    data
+
+  onRender: ->
+    @modelBinder.bind(@model, @el)
+
+  onShow: ->
     @setupAutocomplete()
-    @
 
-  renderEntries: ->
-    @entries.sort()
-    @$('#entries').html('')
-    row = new Ledger.Views.EntryIndex({collection: @entries, account: @model})
-    @renderChild(row)
-    @$('#entries').append(row.el)
+  onClose: ->
+    @modelBinder.unbind()
 
   setupAutocomplete: ->
-    if @$('#entry_description').length
-      request_url = @entries.url() + '/values'
-      @$('#entry_description').autocomplete
+    if @ui.entryDescriptionField.length
+      request_url = @collection.url + "/values"
+      @ui.entryDescriptionField.autocomplete
         minLength: 2
         source: (req, resp) ->
           $.ajax
             url: request_url
-            dataType: 'json'
+            dataType: "json"
             data:
               term: req.term
             success: (data) ->
               resp(data.values)
 
+  navigateAccounts: (e) ->
+    e.preventDefault()
+    Backbone.history.navigate("accounts", true)
+
+  navigateRecurringTransactions: (e) ->
+    e.preventDefault()
+    url = $(e.currentTarget).attr("href")
+    Backbone.history.navigate(url, true)
+
   validateEntryForm: ->
-    @$('form').validate
+    @ui.newEntryForm.validate
       onfocusout: false
       onkeyup: false
       onclick: false
@@ -70,52 +85,57 @@ class Ledger.Views.AccountShow extends Support.CompositeView
         entry_fields: "entry_float_amount entry_description"
 
   addEntry: ->
-    if @$('form').valid()
-      @$('#btn-new-entry').button('loading')
+    if @ui.newEntryForm.valid()
+      @ui.newEntryButton.button("loading")
       @entry = new Ledger.Models.Entry
-        float_amount: $('#entry_float_amount').val()
-        description: $('#entry_description').val()
-        account_id: @model.get('id')
-      @entry.url = '/api/accounts/' + @model.get('url') + '/entries'
-      @entry.save({}, {success: @entryAdded, error: @onError})
+        float_amount: @ui.entryAmountField.val()
+        description: @ui.entryDescriptionField.val()
+        account_id: @model.get("id")
+      @entry.url = "/api/accounts/" + @model.get("url") + "/entries"
+      @entry.save({}, { success: @entryAdded, error: @onError })
     false
 
-  entryAdded: (model, resp, options) ->
-    @$('#entry_float_amount').val('')
-    @$('#entry_description').val('')
-    @$('#btn-new-entry').button('reset')
+  entryAdded: (model, resp, options) =>
+    @ui.entryAmountField.val("")
+    @ui.entryDescriptionField.val("")
+    @ui.newEntryButton.button("reset")
     @model.set
       dollar_balance: resp.account_balance
     @entry.set(resp.entry)
     @entry.set
       account: @model
 
-  onError: ->
-    alert 'There was an error adding the entry.'
+  onError: =>
+    alert "There was an error adding the entry."
 
   liveSearch: (e) ->
     clearTimeout(@timeout)
     queryString = $(e.currentTarget).val()
     return if queryString.length < 3
 
-    @$(".btn-clear").show()
+    @ui.clearButton.show()
     @timeout = setTimeout =>
       @searchEntries(queryString)
     , 150
 
   searchEntries: (queryString) ->
     $.ajax
-      url: @entries.url() + "/search"
+      url: @collection.url + "/search"
       type: "post"
       dataType: "json"
       data:
         query: queryString
       success: (data) =>
-        @entries.reset(data)
-        @renderEntries()
+        @collection.reset(data)
         @$(".pagination, .pagination-info").hide()
 
   resetSearch: ->
-    @$("#search").val("")
-    @$(".btn-clear").hide()
-    @entries.fetch()
+    @ui.searchField.val("")
+    @ui.clearButton.hide()
+    @collection.fetch()
+
+  goToPage: (e) ->
+    e.preventDefault()
+    page = $(e.currentTarget).data("page")
+    if page
+      @collection.getPage(page)

@@ -1,38 +1,58 @@
-class Ledger.Views.RecurringTransactionsIndex extends Support.CompositeView
-  tagName: 'span'
+class Ledger.Views.RecurringTransactionItem extends Marionette.ItemView
+  tagName: "tr"
+  template: JST["backbone/templates/recurring_transactions/item"]
 
-  initialize: (options) ->
-    _.bindAll @, 'render', 'renderItems'
+  ui:
+    editBtn: ".js-edit"
+    deleteBtn: ".js-delete"
 
-    @account = options.account
-    unless @account?
-      @account = new Ledger.Models.Account({url: options.url})
-      @bindTo @account, 'sync', @render
-      @account.fetch()
+  events:
+    "click @ui.editBtn" : "editItem"
+    "click @ui.deleteBtn" : "deleteItem"
 
-    if @account.get('recurring_transactions').length == 0
-      @collection = new Ledger.Collections.RecurringTransactions
-    else
-      @collection = @account.get('recurring_transactions')
+  editItem: ->
+    url = "accounts/#{@options.accountUrl}/recurring/#{@model.id}/edit"
+    Backbone.history.navigate(url, true)
 
-    @collection.url = '/api/accounts/' + @account.get('url') + '/recurring_transactions'
-    @bindTo @collection, 'sync', @render
-    @bindTo @collection, 'change', @render
-    @bindTo @collection, 'remove', @render
+  deleteItem: ->
+    @model.destroy
+      error: ->
+        alert "That recurring transaction could not be removed."
 
-    if @collection.length == 0
-      @account.set('recurring_transactions': @collection)
-      @collection.fetch()
+# ==============================================================================
 
-  render: ->
-    template = JST['backbone/templates/recurring_transactions/index']({account: @account.toJSON(), recurring_transactions: @collection.toJSON()})
-    @$el.html(template)
-    if @collection.length > 0
-      @renderItems()
-    @
+class Ledger.Views.RecurringTransactionsIndex extends Marionette.CompositeView
+  tagName: "span"
+  template: JST["backbone/templates/recurring_transactions/index"]
 
-  renderItems: ->
-    @collection.each (recurring_transaction) =>
-      row = new Ledger.Views.RecurringTransactionItem({model: recurring_transaction, account: @account})
-      @renderChild(row)
-      @$('#recurring-transactions-list').append(row.el)
+  childView: Ledger.Views.RecurringTransactionItem
+  childViewContainer: "#recurring-transactions-list"
+  childViewOptions: ->
+    accountUrl: @account_url
+
+  ui:
+    accountLink: ".js-account"
+    newBtn: ".js-new-recurring-transaction"
+
+  events:
+    "click @ui.accountLink": "navigateAccount"
+    "click @ui.newBtn": "newRecurringTransaction"
+
+  initialize: (opts) ->
+    @account = opts.account
+    @account_url = @account.get("url")
+
+  serializeData: ->
+    data = Marionette.CompositeView.prototype.serializeData.apply(@)
+    data.account = @account.toJSON()
+    data.recurring_transactions = @collection.length
+
+    data
+
+  navigateAccount: (e) ->
+    e.preventDefault()
+    Backbone.history.navigate("accounts/#{@account_url}", true)
+
+  newRecurringTransaction: (e) ->
+    e.preventDefault()
+    Backbone.history.navigate("accounts/#{@account_url}/recurring/new", true)
