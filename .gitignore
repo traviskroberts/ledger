@@ -6,6 +6,7 @@
 .ruby-version
 config/database.yml
 config/deploy.rb
+config/deploy.yml
 log/*
 spec/tmp/*
 tmp/*
