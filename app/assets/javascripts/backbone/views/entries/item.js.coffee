@@ -35,6 +35,7 @@ class Ledger.Views.EntryItem extends Marionette.ItemView
     e.preventDefault()
 
     form_date = @$el.find(".entry-date-field").val()
+    @model.url = "/api/accounts/#{@account.get("url")}/entries/#{@model.id}"
     @model.set
       description: @$el.find(".entry-description-field").val()
       date: moment(form_date).format("YYYY-MM-DD")
@@ -61,7 +62,8 @@ class Ledger.Views.EntryItem extends Marionette.ItemView
 
   deleteEntry: (e) ->
     e.preventDefault()
+    @model.url = "/api/accounts/#{@account.get("url")}/entries/#{@model.id}"
     @model.destroy(success: @onDelete)
 
-  onDelete: (model, resp, options) ->
+  onDelete: (model, resp, options) =>
     @account.set(dollar_balance: resp.balance)
