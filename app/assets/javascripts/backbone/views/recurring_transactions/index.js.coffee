@@ -15,6 +15,7 @@ class Ledger.Views.RecurringTransactionItem extends Marionette.ItemView
     Backbone.history.navigate(url, true)
 
   deleteItem: ->
+    @model.url = "/api/accounts/#{@options.accountUrl}/recurring_transactions/#{@model.id}"
     @model.destroy
       error: ->
         alert "That recurring transaction could not be removed."
