@@ -33,6 +33,7 @@ group :development, :test do
   gem "capistrano-bundler", "~> 1.1.2"
   gem "capistrano-rbenv", "~> 2.0"
   gem "capistrano-rails", "~> 1.1"
+  gem "capistrano3-unicorn", "~> 0.2.1"
   gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "foreman"
