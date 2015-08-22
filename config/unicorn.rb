@@ -1,34 +1,25 @@
-# Set environment to development unless something else is specified
-env = ENV["RAILS_ENV"] || "development"
+# paths
+app_path = "/var/www/ledger"
+working_directory "#{app_path}/current"
+pid               "#{app_path}/current/tmp/pids/unicorn.pid"
 
-# Production specific settings
-if env == "production"
-  app_dir = "ledger"
-  worker_processes 2
+# listen
+listen "/tmp/unicorn.ledger.socket", :backlog => 64
+
+# logging
+stderr_path "log/unicorn.stderr.log"
+stdout_path "log/unicorn.stdout.log"
+
+# workers
+worker_processes 3
+
+# use correct Gemfile on restarts
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = "#{app_path}/current/Gemfile"
 end
 
-# listen on both a Unix domain socket and a TCP port,
-# we use a shorter backlog for quicker failover when busy
-listen "/tmp/unicorn.#{app_dir}.socket", :backlog => 64
-
-# Preload our app for more speed
+# preload
 preload_app true
-
-# nuke workers after 30 seconds instead of 60 seconds (the default)
-timeout 30
-
-# Help ensure your application will always spawn in the symlinked
-# "current" directory that Capistrano sets up.
-working_directory "/var/www/#{app_dir}/current"
-
-# feel free to point this anywhere accessible on the filesystem
-user 'deploy', 'deploy'
-shared_path = "/var/www/#{app_dir}/shared"
-
-stderr_path "#{shared_path}/log/unicorn.stderr.log"
-stdout_path "#{shared_path}/log/unicorn.stdout.log"
-
-pid "#{shared_path}/tmp/pids/unicorn.pid"
 
 before_fork do |server, worker|
   # the following is highly recomended for Rails + "preload_app true"
@@ -39,7 +30,7 @@ before_fork do |server, worker|
 
   # Before forking, kill the master process that belongs to the .oldbin PID.
   # This enables 0 downtime deploys.
-  old_pid = "#{shared_path}/pids/unicorn.pid.oldbin"
+  old_pid = "#{server.config[:pid]}.oldbin"
   if File.exists?(old_pid) && server.pid != old_pid
     begin
       Process.kill("QUIT", File.read(old_pid).to_i)
@@ -50,7 +41,6 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
-  # the following is *required* for Rails + "preload_app true",
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.establish_connection
   end
