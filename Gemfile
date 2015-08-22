@@ -22,7 +22,6 @@ group :assets do
 end
 
 group :production do
-  gem "heroku_rails_deflate"
   gem "newrelic_rpm"
   gem "rails_12factor"
   gem "unicorn"
