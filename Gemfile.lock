@@ -224,6 +224,9 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    turbo-sprockets-rails3 (0.3.14)
+      railties (> 3.2.8, < 4.0.0)
+      sprockets (>= 2.2.0)
     tzinfo (0.3.43)
     uglifier (2.6.0)
       execjs (>= 0.3.0)
@@ -280,6 +283,7 @@ DEPENDENCIES
   stringex
   thin
   timecop
+  turbo-sprockets-rails3
   uglifier (>= 1.0.3)
   unicorn
   whenever
