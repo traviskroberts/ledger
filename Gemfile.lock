@@ -53,6 +53,7 @@ GEM
       sshkit (~> 1.3)
     capistrano3-unicorn (0.2.1)
       capistrano (~> 3.1, >= 3.1.0)
+    chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -234,6 +235,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    whenever (0.9.4)
+      chronic (>= 0.6.3)
     will_paginate (3.0.7)
     workless (1.2.3)
       delayed_job (>= 2.0.7)
@@ -282,5 +285,6 @@ DEPENDENCIES
   turbo-sprockets-rails3
   uglifier (>= 1.0.3)
   unicorn
+  whenever
   will_paginate
   workless

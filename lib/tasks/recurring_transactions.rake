@@ -20,5 +20,4 @@ namespace :recurring_transactions do
       end
     end
   end
-
 end

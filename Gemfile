@@ -12,6 +12,7 @@ gem "jquery-rails"
 gem "pg"
 gem "stringex"
 gem "will_paginate"
+gem "whenever", require: false
 gem "workless"
 
 group :assets do
