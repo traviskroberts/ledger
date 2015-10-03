@@ -3,7 +3,7 @@ namespace :recurring_transactions do
   task process: :environment do
     month = Date.today.strftime("%B")
     day = Date.today.strftime("%-d").to_i
-    puts "Processing recurring transactions for #{month} #{day}."
+    puts "Processing recurring transactions for #{month} #{day}." unless Rails.env.test?
 
     Account.all.each do |account|
       # conditions based on days in month

@@ -5,6 +5,7 @@ class Api::InvitationsController < Api::BaseController
 
   def index
     @invitations = @account.invitations
+
     respond_with(@invitations)
   end
 

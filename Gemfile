@@ -39,6 +39,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "foreman"
+  gem "guard-rspec", require: false
   gem "pry-rails"
   gem "quiet_assets"
   gem "rspec-rails"

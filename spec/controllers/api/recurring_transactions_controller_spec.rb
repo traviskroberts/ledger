@@ -1,116 +1,92 @@
 require "rails_helper"
 
 describe Api::RecurringTransactionsController do
-  include NullDB::RSpec::NullifiedDatabase
-
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:account) { FactoryGirl.build_stubbed(:account, :url => 'test-account', :users => [user]) }
-  let(:recurring_transaction) { FactoryGirl.build_stubbed(:recurring_transaction, :account => account) }
+  let(:user) { create(:user) }
+  let(:account) { create(:account, url: "test-account", users: [user]) }
+  let(:recurring_transaction) { create(:recurring_transaction, account: account) }
 
   before :each do
-    controller.stub(:current_user => user)
-    user.stub_chain(:accounts, :find_by_url).and_return(account)
+    allow(controller).to receive(:current_user) { user }
   end
 
-  describe 'GET #index' do
-    it 'should get a list of current recurring transactions' do
-      account.should_receive(:recurring_transactions).and_return(recurring_transaction)
+  describe "GET #index" do
+    let!(:recurring_transaction) { create(:recurring_transaction, account: account) }
 
-      get :index, :account_id => account
+    it "should get a list of current recurring transactions" do
+      get :index, account_id: account
+
+      expect(assigns(:recurring_transactions)).to eq([recurring_transaction])
     end
 
-    it 'should render a json representation of the recurring transactions' do
-      account.stub(:recurring_transactions => [recurring_transaction])
-
-      get :index, :account_id => account
-      jsr = JSON.parse(response.body, :symbolize_names => true)
+    it "should render a json representation of the recurring transactions" do
+      get :index, account_id: account
+      jsr = JSON.parse(response.body, symbolize_names: true)
       expect(jsr.first.keys).to match_array([:classification, :day, :description, :id, :formatted_amount, :form_amount_value])
     end
   end
 
-  describe 'POST #create' do
-    before :each do
-      account.stub_chain(:recurring_transactions, :new).and_return(recurring_transaction)
-      recurring_transaction.stub(:save => true)
+  describe "POST #create" do
+    it "should create a new recurring transaction" do
+      post :create, account_id: account, recurring_transaction: { day: 1, float_amount: 14.52 }
+
+      expect(account.recurring_transactions.count).to eq(1)
     end
 
-    it 'should create a new recurring transaction' do
-      account.stub(:recurring_transactions => recurring_transaction)
-      recurring_transaction.should_receive(:new).with('day' => '1', 'float_amount' => '14.52').and_return(recurring_transaction)
+    it "should render a json representation of the created recurring transaction" do
+      post :create, account_id: account, recurring_transaction: { day: 1, float_amount: 14.52 }
+      jsr = JSON.parse(response.body, symbolize_names: true)
 
-      post :create, :account_id => account, :recurring_transaction => {:day => 1, :float_amount => 14.52}
-    end
-
-    it 'should persiste the recurring transaction' do
-      recurring_transaction.should_receive(:save).and_return(true)
-
-      post :create, :account_id => account, :recurring_transaction => {:day => 1, :float_amount => 14.52}
-    end
-
-    it 'should render a json representation of the created recurring transaction' do
-      post :create, :account_id => account, :recurring_transaction => {:day => 1, :float_amount => 14.52}
-      jsr = JSON.parse(response.body, :symbolize_names => true)
       expect(jsr.keys).to match_array([:classification, :day, :description, :id, :formatted_amount, :form_amount_value])
     end
 
-    it 'should render a 400 status on error' do
-      recurring_transaction.stub(:save => false)
+    it "should render a 400 status on error" do
+      post :create, account_id: account, recurring_transaction: {}
 
-      post :create, :account_id => account, :recurring_transaction => {}
       expect(response.status).to eq(400)
     end
   end
 
-  describe 'PUT #update' do
-    let(:update_params) { {'day' => '15', 'float_amount' => '45.41'} }
+  describe "PUT #update" do
+    let(:update_params) { {day: "15", float_amount: "45.41"} }
 
-    before :each do
-      account.stub_chain(:recurring_transactions, :find).and_return(recurring_transaction)
-      recurring_transaction.stub(:update_attributes => true)
+    it "should update the recurring transaction attributes" do
+      put :update, account_id: account, id: recurring_transaction, recurring_transaction: update_params
+
+      expect(recurring_transaction.reload.day).to eq(15)
     end
 
-    it 'should update the recurring transaction attributes' do
-      recurring_transaction.should_receive(:update_attributes).with(update_params).and_return(true)
+    it "render a json representation of the updated recurring transaction" do
+      put :update, account_id: account, id: recurring_transaction, recurring_transaction: update_params
+      jsr = JSON.parse(response.body, symbolize_names: true)
 
-      put :update, :account_id => account, :id => recurring_transaction, :recurring_transaction => update_params
-    end
-
-    it 'render a json representation of the updated recurring transaction' do
-      put :update, :account_id => account, :id => recurring_transaction, :recurring_transaction => update_params
-      jsr = JSON.parse(response.body, :symbolize_names => true)
       expect(jsr.keys).to match_array([:classification, :day, :description, :id, :formatted_amount, :form_amount_value])
     end
 
-    it 'should return a 400 status on failure' do
-      recurring_transaction.stub(:update_attributes => false)
+    it "should return a 400 status on failure" do
+      put :update, account_id: account, id: recurring_transaction, recurring_transaction: {}
 
-      put :update, :account_id => account, :id => recurring_transaction, :recurring_transaction => {}
       expect(response.status).to eq(400)
     end
   end
 
-  describe 'DELETE #destroy' do
-    before :each do
-      account.stub_chain(:recurring_transactions, :find).and_return(recurring_transaction)
-      recurring_transaction.stub(:destroy => true)
+  describe "DELETE #destroy" do
+    it "should destroy the recurring transaction" do
+      delete :destroy, account_id: account, id: recurring_transaction
+
+      expect(account.recurring_transactions.count).to eq(0)
     end
 
-    it 'should destroy the recurring transaction' do
-      recurring_transaction.should_receive(:destroy).and_return(true)
+    it "render a json representation of the deleted recurring transaction" do
+      delete :destroy, account_id: account, id: recurring_transaction
+      jsr = JSON.parse(response.body, symbolize_names: true)
 
-      delete :destroy, :account_id => account, :id => recurring_transaction
-    end
-
-    it 'render a json representation of the deleted recurring transaction' do
-      delete :destroy, :account_id => account, :id => recurring_transaction
-      jsr = JSON.parse(response.body, :symbolize_names => true)
       expect(jsr.keys).to match_array([:classification, :day, :description, :id, :formatted_amount, :form_amount_value])
     end
 
-    it 'should return a 400 status on failure' do
-      recurring_transaction.stub(:destroy => false)
+    it "should return a 400 status on failure" do
+      allow_any_instance_of(RecurringTransaction).to receive(:destroy).and_return(false)
+      delete :destroy, account_id: account, id: recurring_transaction
 
-      delete :destroy, :account_id => account, :id => recurring_transaction
       expect(response.status).to eq(400)
     end
   end

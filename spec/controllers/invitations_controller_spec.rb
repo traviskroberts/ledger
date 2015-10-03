@@ -1,55 +1,49 @@
 require "rails_helper"
 
 describe InvitationsController do
-  include NullDB::RSpec::NullifiedDatabase
-
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:account) { FactoryGirl.build_stubbed(:account, :users => [user]) }
-  let(:invite) { FactoryGirl.build_stubbed(:invitation, :account => account, :user => user) }
+  let(:user) { create(:user) }
+  let(:account) { create(:account, users: [user]) }
+  let(:invite) { create(:invitation, account: account, user: user) }
 
   before :each do
-    controller.stub(:current_user => user)
-    Invitation.stub(:find_by_token => invite)
-    invite.stub(:account => account)
-    invite.stub(:destroy)
+    allow(controller).to receive(:current_user) { user }
   end
 
-  describe 'GET #show' do
-    it 'should retrieve the invitation by token' do
-      get :show, :token => invite.token
+  describe "GET #show" do
+    context "invitation token is valid" do
+      before do
+        get :show, token: invite.token
+      end
 
-      expect(Invitation).to have_received(:find_by_token).with(invite.token)
+      it "should assign the new user to the account" do
+        expect(account.users).to eq([invite.user])
+      end
+
+      it "should destroy the invitation" do
+        expect(Invitation.count).to eq(0)
+      end
+
+      it "should set a flash message" do
+        expect(flash[:success]).to be_present
+      end
+
+      it "should redirect the user to the home page" do
+        expect(response).to redirect_to(root_url)
+      end
     end
 
-    it 'should assign the new user to the account' do
-      new_user = FactoryGirl.build_stubbed(:user)
-      controller.stub(:current_user => new_user)
-      account.should_receive(:add_user).with(new_user)
+    context "invitation token is invalid" do
+      before do
+        get :show, token: "bogustoken"
+      end
 
-      get :show, :token => invite.token
-    end
+      it "sets a flash error message" do
+        expect(flash[:error]).to be_present
+      end
 
-    it 'should destroy the invitation' do
-      invite.should_receive(:destroy)
-
-      get :show, :token => invite.token
-    end
-
-    it 'should set a flash message on success' do
-      get :show, :token => invite.token
-      expect(flash[:success]).to be_present
-    end
-
-    it 'should set a flash message on failure' do
-      invite.stub(:present? => false)
-
-      get :show, :token => 'bogustoken'
-      expect(flash[:error]).to be_present
-    end
-
-    it 'should redirect the user to the accounts page' do
-      get :show, :token => invite.token
-      expect(response).to redirect_to(root_url)
+      it "should redirect the user to the home page" do
+        expect(response).to redirect_to(root_url)
+      end
     end
   end
 end

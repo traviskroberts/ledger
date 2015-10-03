@@ -1,98 +1,77 @@
 require "rails_helper"
 
 describe Api::InvitationsController do
-  include NullDB::RSpec::NullifiedDatabase
-
-  let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:account) { FactoryGirl.build_stubbed(:account, :url => 'test-account', :users => [user]) }
-  let(:invite) { FactoryGirl.build_stubbed(:invitation, :account => account, :user => user) }
+  let(:user) { create(:user) }
+  let(:account) { create(:account, url: "test-account", users: [user]) }
 
   before :each do
-    controller.stub(:current_user => user)
-    user.stub_chain(:accounts, :find_by_url).and_return(account)
+    allow(controller).to receive(:current_user) { user }
   end
 
-  describe 'GET #index' do
-    it 'should get the invitations for the specified account' do
-      account.should_receive(:invitations).and_return(invite)
+  describe "GET #index" do
+    let!(:invite) { create(:invitation, account: account, user: user) }
 
-      get :index, :account_id => account
+    it "should get the invitations for the specified account" do
+      get :index, account_id: account, format: "json"
+
+      expect(assigns(:invitations)).to eq([invite])
     end
   end
 
-  describe 'POST #create' do
-    before :each do
-      account.stub_chain(:invitations => invite)
-      invite.stub(:new => invite)
-      invite.stub(:save => true)
+  describe "POST #create" do
+    it "should create an invite associated with the account" do
+      post :create, account_id: account, invitation: { email: "user@email.com" }, format: "json"
+
+      expect(account.invitations.count).to eq(1)
     end
 
-    it 'should load the account using the url slug' do
-      post :create, :account_id => account, :invitation => {:email => 'user@email.com'}
-      expect(assigns(:account)).to eq(account)
+    it "should create an invite associated with the current user" do
+      post :create, account_id: account, invitation: { email: "user@email.com" }, format: "json"
+
+      expect(account.invitations.first.user).to eq(user)
     end
 
-    it 'should create an invite associated with the account' do
-      invite.should_receive(:new).with('email' => 'user@email.com')
+    it "should create a unique token for the invitation" do
+      post :create, account_id: account, invitation: { email: "user@email.com" }, format: "json"
 
-      post :create, :account_id => account, :invitation => {:email => 'user@email.com'}
+      expect(account.invitations.first.token).to be_present
     end
 
-    it 'should create an invite associated with the current user' do
-      post :create, :account_id => account, :invitation => {:email => 'user@email.com'}
-      expect(invite.user).to eq(user)
+    it "should render a json representation of the invite on success" do
+      post :create, account_id: account, invitation: { email: "user@email.com" }, format: "json"
+      jsr = JSON.parse(response.body, symbolize_names: true)
+
+      expect(jsr.keys).to match_array([:account_id, :account_url, :email, :id, :token, :user_id])
     end
 
-    it 'should create a unique token for the invitation' do
-      post :create, :account_id => account, :invitation => {:email => 'user@email.com'}
-      expect(invite.token).to be_present
-    end
+    it "should render a 400 error on failure" do
+      allow_any_instance_of(Invitation).to receive(:save).and_return(false)
+      post :create, account_id: account, format: "json"
 
-    it 'should render a json representation of the invite on success' do
-      post :create, :account_id => account, :invitation => {:email => 'user@email.com'}
-      jsr = JSON.parse(response.body, :symbolize_names => true)
-      expect(jsr.keys).to eq([:account_id, :email, :token, :user_id])
-    end
-
-    it 'should render a 400 error on failure' do
-      invite.stub(:save => false)
-
-      post :create, :account_id => account
       expect(response.status).to eq(400)
     end
   end
 
-  describe 'DELETE #destroy' do
-    before :each do
-      account.stub_chain(:invitations, :find).and_return(invite)
-      invite.stub(:destroy => true)
-    end
+  describe "DELETE #destroy" do
+    let(:invite) { create(:invitation, account: account, user: user) }
 
-    it 'should load the account using the url slug' do
-      delete :destroy, :account_id => account, :id => invite
-      expect(assigns(:account)).to eq(account)
-    end
+    it "should destroy the specified invitation" do
+      delete :destroy, account_id: account, id: invite, format: "json"
 
-    it 'should load the specified invitation' do
-      delete :destroy, :account_id => account, :id => invite
-      expect(assigns(:invitation)).to eq(invite)
-    end
-
-    it 'should destroy the specified invitation' do
-      invite.should_receive(:destroy).and_return(true)
-
-      delete :destroy, :account_id => account, :id => invite
+      expect(account.invitations.count).to eq(0)
     end
 
     it 'should render a json representation of the invite on success' do
-      delete :destroy, :account_id => account, :id => invite
-      jsr = JSON.parse(response.body, :symbolize_names => true)
-      expect(jsr.keys).to eq([:account_id, :email, :token, :user_id])
+      delete :destroy, account_id: account, id: invite, format: "json"
+      jsr = JSON.parse(response.body, symbolize_names: true)
+
+      expect(jsr.keys).to match_array([:account_id, :account_url, :email, :id, :token, :user_id])
     end
 
     it 'should render a 400 error on failure' do
-      invite.stub(:destroy => false)
-      delete :destroy, :account_id => account, :id => invite
+      allow_any_instance_of(Invitation).to receive(:destroy).and_return(false)
+      delete :destroy, account_id: account, id: invite, format: "json"
+
       expect(response.status).to eq(400)
     end
   end
