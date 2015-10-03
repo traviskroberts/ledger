@@ -16,9 +16,9 @@ class Api::InvitationsController < Api::BaseController
 
     if @invite.save
       SiteMailer.delay.invitation(@invite)
-      render :json => @invite
+      render json: @invite
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 
@@ -26,9 +26,9 @@ class Api::InvitationsController < Api::BaseController
     @invitation = @account.invitations.find(params[:id])
 
     if @invitation.destroy
-      render :json => @invitation
+      render json: @invitation
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 

@@ -16,9 +16,9 @@ class Api::AccountsController < Api::BaseController
 
     if @account.save
       current_user.accounts << @account
-      render :json => @account.reload
+      render json: @account.reload
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 
@@ -26,9 +26,9 @@ class Api::AccountsController < Api::BaseController
     @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.update_attributes(params[:account])
-      render :json => @account # respond_with is being a lil' bitch
+      render json: @account # respond_with is being a lil' bitch
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 
@@ -36,9 +36,9 @@ class Api::AccountsController < Api::BaseController
     @account = current_user.accounts.find_by_url(params[:id])
 
     if @account.destroy
-      render :json => @account
+      render json: @account
     else
-      render :json => {:message => 'Error'}, :status => 400
+      render json: { message: "Error" }, status: 400
     end
   end
 end

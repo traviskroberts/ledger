@@ -2,4 +2,4 @@ You've been invited to collaborate on an account.
 
 Click the link below to accept the invitation. If you'd prefer not to collaborate on this account, please just disregard this email.
 
-<%= accept_invite_url(:token => @invitation.token, :host => EnvConfig.domain) %>
+<%= accept_invite_url(token: @invitation.token, host: EnvConfig.domain) %>

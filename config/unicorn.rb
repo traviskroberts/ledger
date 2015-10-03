@@ -4,7 +4,7 @@ working_directory "#{app_path}/current"
 pid               "#{app_path}/current/tmp/pids/unicorn.pid"
 
 # listen
-listen "/tmp/unicorn.ledger.socket", :backlog => 64
+listen "/tmp/unicorn.ledger.socket", backlog: 64
 
 # logging
 stderr_path "log/unicorn.stderr.log"

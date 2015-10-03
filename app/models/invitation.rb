@@ -4,10 +4,10 @@ class Invitation < ActiveRecord::Base
 
   attr_accessible :email, :token
 
-  validates :account, :presence => true
-  validates :email, :presence => true
-  validates :token, :presence => true
-  validates :user, :presence => true
+  validates :account, presence: true
+  validates :email, presence: true
+  validates :token, presence: true
+  validates :user, presence: true
 
   delegate :url, to: :account, prefix: true
 

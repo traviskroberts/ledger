@@ -4,11 +4,11 @@ class Entry < ActiveRecord::Base
   attr_accessible :account_id, :description, :float_amount, :date
   attr_accessor :float_amount
 
-  validates :account, :presence => true
-  validates :amount, :presence => true, :numericality => true
-  validates :classification, :presence => true, :inclusion => { :in => %w(credit debit) }
-  validates :date, :presence => true
-  validates :description, :presence => true
+  validates :account, presence: true
+  validates :amount, presence: true, numericality: true
+  validates :classification, presence: true, inclusion: { in: %w(credit debit) }
+  validates :date, presence: true
+  validates :description, presence: true
 
   delegate :url, to: :account, prefix: true
 
@@ -27,8 +27,8 @@ class Entry < ActiveRecord::Base
 
   def as_json(options={})
     opts = {
-      :only => [:id, :classification, :description],
-      :methods => [:account_url, :formatted_amount, :form_amount_value, :formatted_date, :timestamp]
+      only: [:id, :classification, :description],
+      methods: [:account_url, :formatted_amount, :form_amount_value, :formatted_date, :timestamp]
     }
 
     super(options.merge(opts))
@@ -51,7 +51,7 @@ class Entry < ActiveRecord::Base
   end
 
   def form_amount_value
-    (classification == "debit" ? "-" : "") + ActionController::Base.helpers.number_with_precision(dollar_amount, :precision => 2)
+    (classification == "debit" ? "-" : "") + ActionController::Base.helpers.number_with_precision(dollar_amount, precision: 2)
   end
 
   def formatted_date
